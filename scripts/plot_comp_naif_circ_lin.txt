@@ -1,0 +1,9 @@
+plot "../data/naif_lin.txt" using 1:2 with lines title 'Naif'
+replot "../data/circulaire_lin.txt" using 1:2 with lines title 'Circulaire'
+set title "Comparaison linearisee des algorithmes naif et circulaire"
+set xlabel "Longueur de la grille carree"
+set ylabel "Temps (en s)"
+set term postscript eps
+set output "../img/05b_comp_naif_circ_lin.ps"
+set size 1.0, 1.0
+replot

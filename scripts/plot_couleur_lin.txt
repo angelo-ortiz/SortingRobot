@@ -1,0 +1,8 @@
+plot "../data/couleur_lin.txt" using 1:2 with lines title 'Couleur'
+set title "Solution linearisee par l'algorithme par couleur"
+set xlabel "Longueur de la grille carree"
+set ylabel "Temps (en s)"
+set term postscript eps
+set output "../img/03b_algo_couleur_lin.ps"
+set size 1.0, 1.0
+replot

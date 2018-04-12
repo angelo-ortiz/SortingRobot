@@ -1,0 +1,231 @@
+\documentclass[10pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage{siunitx}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\author{Angelo Ortiz}
+\title{Rapport du Projet Sorting Robot}
+
+\begin{document}
+\begin{titlepage}
+  \centering
+  \includegraphics[width=0.30\textwidth]{logo.jpg}\par\vspace{1cm}
+  {\scshape\LARGE Sorbonne Universit\'e\par}
+  \vspace{1cm}
+  {\scshape\Large 2I006 : Algorithmique appliqu\'ee et structures de 
+donn\'ees\par}
+  \vspace{1.5cm}
+  {\Large \bfseries Projet :\par}
+  {\huge\bfseries Sorting Robot\par}
+  \vspace{2cm}
+  {\Large\itshape Kamil Rzeszutko\par}
+  {\Large\itshape Angelo Ortiz\par}
+  \vfill
+  
+  % Bottom of the page
+  {\large Licence d'Informatique\par}
+  {\large Ann\'ee 2017/2018\par}
+\end{titlepage}
+ 
+%\newpage
+\tableofcontents
+  
+\newpage
+  
+\section{Introduction}
+Ici, l'intro
+\newpage
+
+\section{Brouillon}
+\begin{enumerate}
+\item Soient les deux cases $(i,j)$ et $(k,l)$ dans une grille \`a $m$ lignes 
+et $n$ colonnes. 
+Soit la fonction \texttt{dist}$((i,j),(k,l))=|k-i|+|l-j|$. Soit la 
+propri\'et\'e 
+suivante $P(r), r \geq 0$:
+\begin{itemize}
+\item Le $chemin 1$ qui consiste \`a se d\'eplacer de $|k-i|$ cases 
+verticalement vers $(k,j)$, puis de $|l-j|$ cases horizontalement vers $(k,l)$, 
+et
+\item le $chemin 2$ qui consiste \`a se d\'eplacer de $|l-j|$ cases 
+horizontalement vers $(i,l)$, puis de $|k-i|$ cases verticalement vers $(k,l)$,
+\end{itemize}
+sont des plus courts chemins, o\`u $r=$ \texttt{dist}$((i,j),(k,l)) \geq 0$.
+
+Montrons cette propri\'et\'e par r\'ecurrence faible sur $r \geq 0$.
+
+\underline{Base:} Pour $r=0$, $(k,l)=(i,j)$. On se d\'eplace de $0$ 
+case verticalement et horizontalement. Ainsi, on reste dans la m\^eme case. 
+Donc, la propri\'et\'e est v\'erifi\'ee pour $r=0$.
+
+\underline{Induction:} Supposons que la propri\'et\'e soit v\'erifi\'ee pour un 
+$0 \leq r \leq m+n-3$ fix\'e.
+Montrons que la propri\'et\'e est aussi v\'erifi\'ee pour $r+1$.
+
+Soient $p=|k-i|, q=|j-l| \in \mathbb{N}$, tels que $r+1=p+q$. Puisque 
+$r+1 \geq1$, au moins l'une des variables est non nulle. Supposons sans perte 
+de g\'en\'eralit\'e que $p > 0$, i.e.\ $p-1 \geq 0$.
+
+Trois cas sont possibles:
+\begin{enumerate}
+  \item \underline{$i=0$:} 
+
+  Tout d'abord, $p=|k-0|=k$. Puis, pour aller de la case $(0,j)$ vers la case 
+$(k,l)$ avec un premier   d\'eplacement vertical d'une case, il faut passer par 
+la case $(1,j)$. On a que $|k-1|=p-1$ et, en 
+cons\'equence, \texttt{dist}$((1,j),(k,l))=(p-1)+q=r$. Par 
+hypoth\`ese de r\'ecurrence, $P(r)$ est v\'erifi\'ee. De ces deux faits, le 
+chemin se d\'epla\c{c}ant de $|k|$ cases verticalement vers $(k,j)$, puis de 
+$|l-j|$ cases horizontalement vers $(k,l)$ est un plus court chemin.
+  \item \underline{$i=m-1$ :} 
+
+  Tout d'abord, $p=|k-(m-1)|=m-k-1$. Puis, pour aller de la case $(m-1,j)$ vers 
+la case $(k,l)$ avec un premier d\'eplacement vertical d'une case, il faut 
+passer par la case $(m-2,j)$. On a que $|k-(m-2)|=(m-2)-k=p-1$ et, en 
+cons\'equence, \texttt{dist}$((m-2,j),(k,l))=(p-1)+q=r$. Par hypoth\`ese de 
+  r\'ecurrence, $P(r)$ est v\'erifi\'ee. De ces deux faits, le chemin se 
+  d\'epla\c{c}ant de $|k-(m-1)|$ cases verticalement vers $(k,j)$, puis de 
+$|l-j|$ cases horizontalement vers $(k,l)$ est un plus court chemin.
+  \item \underline{$0 < i <  m-1$ :}
+
+  Pour aller de la case $(i,j)$ vers la case $(k,l)$ avec un premier 
+d\'eplacement vertical d'une case, il faut passer par la case $(h,j)$, 
+o\`u $h \in \{i-1, i+1\}$, telle que $0 \leq h < m$ et $|k-h|=p-1$. On a alors 
+que \texttt{dist}$((h,j),(k,l))=(p-1)+q=r$. Par hypoth\`ese de 
+r\'ecurrence, $P(r)$ est v\'erifi\'ee. Donc, en particulier, le chemin se 
+d\'epla\c{c}ant de $|k-h|$ cases verticalement vers $(k,j)$, puis de $|l-j|$ 
+cases horizontalement vers $(k,l)$ est un plus court chemin.
+\end{enumerate}
+On fait de m\^eme pour $q>0$ avec un traitement non plus sur les lignes, mais 
+sur les colonnes de la grille, et on obtient que le chemin se d\'epla\c{c}ant de 
+$|l-j|$ cases horizontalement vers $(i,l)$, puis de $|k-i|$ cases verticalement 
+vers $(k,l)$ est un plus court chemin
+
+\underline{Conclusion} : 
+\begin{equation*}
+  \left .\begin{array}{l}
+	P(0) \text{ vraie } \\
+	\forall r \in \{0,\dotsc, m+n-3\}, [ P(r) \implies P(r+1) 
+	]
+  \end{array} \right \}
+  \left .\begin{array}{l}
+	\forall r \in \{0,\dotsc, m+n-2\}, \\
+	\texttt{tailleMaxRec} \text{ se termine} \\
+	\text{et est valide.}
+  \end{array}\right .
+\end{equation*}
+\item Q1.3
+\begin{itemize}
+  \item La fonction \texttt{estCaseNoire} nous permet de savoir si une case est 
+noire, i.e.\ si elle porte une pi\`ece de m\^eme couleur.
+  \item La fonction \texttt{estPieceNoire} nous permet de savoir si une pi\`ece 
+est non noire, i.e.\ si sa couleur est diff\'erente de $-1$.
+  \item La fonction \texttt{robotPortePiece} nous permet de savoir si le robot 
+porte une pi\`ece, i.e.\ si la couleur de la ``pi\`ece'' du robot est 
+diff\'erente de $-1$.
+  \item La fonction \texttt{couleurPieceRobot} nous permet de savoir dans le 
+cas o\`u le robot porte une pi\`ece, sa couleur.
+\end{itemize}
+
+
+\item Pour l'analyse de la complexit\'e des quatre impl\'ementations, on 
+commence par les morceaux de code communs aux toutes. Dans le pire cas, 
+il n'y a aucune case noire dans la grille, i.e.\ il y a $n^2$ pi\`eces \`a 
+traiter, ce qui appara\^it sous la forme d'une boucle \texttt{while} dans le 
+code fourni, en l'occurrence la boucle principale des fonctions. De 
+plus, la recherche d'une pi\`ece non noire aux alentours du robot est faite au 
+maximum une fois : cela correspond \`a la situation de d\'epart o\`u le robot 
+porte une pi\`ece et il y a ainsi une case qui n'en a pas. Par cons\'equent, 
+l'analyse de la complexit\'e se r\'eduit \`a la recherche de pi\`eces. Par 
+ailleurs, on a un param\`etre $\alpha = \left \lceil \frac{nm}{c} 
+\right \rceil$, o\`u $m$, $n$ et $c$ correspondent respectivement au nombre 
+de lignes, de colonnes et de couleurs de la grille. Ici, $\alpha = \left \lceil 
+\frac{n^2}{c} \right \rceil$.\par
+Les deux premi\`eres impl\'ementations de l'algorithme au plus proche ont une 
+complexit\'e en $O(n^4)$. Pour chaque pi\`ece on cherche la case la plus proche 
+dont la couleur co\"incide avec la sienne. L'impl\'ementation na\"ive de 
+l'algorithme fait une recherche sur toute la grille, ce qui est de l'ordre de 
+$\Theta(n^2)$. Quant \`a la deuxi\`eme, la recherche est circulaire et on a donc 
+une complexit\'e en $O(n^2)$.
+
+Il est imp\'eratif de remarquer que la recherche circulaire est 
+plus rapide au fur et \`a mesure que le param\`etre $\alpha$ augmente. \par
+On a compar\'e les temps d'ex\'ecution des versions na\"ive et circulaire pour 
+des grilles carr\'ees de taille variable : la premi\`ere version met 
+\SI{31,48}{\second} pour une grille de longueur 110, tandis que la deuxi\`eme 
+met \SI{32,25}{\second} pour une grille de longueur 155.
+
+Les exp\'erimentations ont \'et\'e faites avec un nombre de couleurs \'egal \`a 
+$\left \lfloor \frac{n}{2} \right \rfloor$, ce qui donne $\alpha \approx 2n$. 
+Comme dit pr\'ec\'edemment, ce param\`etre est important pour la dur\'ee 
+effective de la recherche circulaire. C'est pourquoi on a obtenu des meilleurs 
+r\'esultats pour la deuxi\`eme version alors que la complexit\'e pire-cas est 
+la m\^eme pour toutes les deux.
+
+\item L'analyse de la complexit\'e de l'impl\'ementation par couleur de 
+l'algorithme au plus proche se fera en deux parties. Dans un premier temps, 
+on d\'etermine une borne sup\'erieure de la complexit\'e. En effet, le 
+robot porte une pi\`ece \`a presque tout moment du jeu et cherche alors la 
+case de m\^eme couleur la plus proche de lui. On a un acc\`es en $\Theta(1)$ \`a 
+la liste cha\^in\'ee correspondant \`a la couleur de la pi\`ece et on est 
+oblig\'e de parcourir toute la liste car il n'y a pas d'ordre d\'efini 
+lors de l'insertion. Soit $l$ la longueur de la liste cha\^in\'ee. On a donc que 
+la complexit\'e de la recherche de ladite case est en $\Theta(l)$. Or on a $l 
+\leq n^2$. On en d\'eduit que le traitement d'une pi\`ece est de l'ordre de 
+$O(n^2)$, ce qui donne une complexit\'e en $O(n^4)$ pour cette version. 
+Nonobstant, on a n\'eglig\'e un facteur cl\'e de cette version : le param\`etre 
+$\alpha$ repr\'esentant le nombre maximal de pi\`eces d'une m\^eme couleur et 
+ainsi celui des cases de m\^eme couleur. \par
+Dans l'\'etape suivante, on tient compte de ce param\`etre dans l'analyse 
+et on remarque qu'il remplace $n^2$ dans le paragraphe ci-dessus. De ce fait, 
+on obtient que la complexit\'e de la recherche dans la liste cha\^in\'ee est en 
+$O(\alpha)$, ce qui donne finalement une complexit\'e en $O(\alpha n^2)$ pour la 
+version par couleur de l'algorithme.
+
+{\bfseries N.B.} L'insertion de chacune des $n^2$ cases dans la liste 
+cha\^in\'ee correspondante est en $\Theta(1)$, ce qui donne une complexit\'e de 
+l'insertion en $\Theta(n^2)$. On remarque ainsi que les complexit\'es donn\'ees 
+ci-dessus l'emportent \`a l'\'egard de celle de l'initialisation des listes.
+\begin{comment}
+  Puisque la m\'emoire allou\'ee est toujours 
+  la m\^eme ($mn$ cellules), on a plut\^ot int\'er\^et \`a diminuer $\alpha$, 
+  i.e.\ augmenter le nombre de couleurs pr\'esentes dans la grille.
+\end{comment}
+
+\item La derni\`ere version de cette algorithme r\'epose sur l'utilisation des 
+arbres AVL. On a rang\'e les cases dans une matrice d'arbres : chaque ligne 
+correspond \`a une couleur distincte et chaque colonne correspond \`a une ligne 
+de la grille du jeu. Etant donn\'e que l'on travaille avec une matrice, 
+l'acc\`es \`a un certain arbre est en $\Theta(1)$. Cependant, la recherche de 
+la case la plus proche dans une ligne donn\'ee est en $O(h(T))$, o\`u $h(T)$ 
+est la hauteur de l'arbre $T$ correspondant. On sait d'ailleurs que $h(T) \leq 
+\left \lceil \log_2 n(T) \right \rceil$, o\`u $n(T)$ est le nombre de 
+n\oe uds dans l'arbre $T$. Or on a $n(T) = \min(n,\alpha)$. 
+Ceci nous donne une complexit\'e en $O(\log \min(n,\alpha))$. On en d\'eduit 
+que la recherche sur les $n$ lignes de la grille est en $O(n\log 
+\min(n,\alpha))$. On obtient finalement une complexit\'e en $O(n^3\log 
+\min(n,\alpha))$ pour cette derni\`ere impl\'ementation de l'algorithme au plus 
+proche.
+
+{\bfseries N.B.} L'insertion de chacune des $n^2$ cases dans l'arbre 
+AVL correspondant est en $O(\log \min(n,\alpha))$, ce qui donne une 
+complexit\'e de l'insertion en $O(n^2\log \min(n,\alpha))$. On remarque ainsi 
+que la complexit\'e donn\'ee ci-dessus l'emporte \`a l'\'egard de celle de 
+l'initialisation des arbres. \par
+Comme mentionn\'e ci-dessus, les exp\'erimentations ont \'et\'e faites avec 
+$\alpha \approx 2n$, ce qui transforme les complexit\'es donn\'ees 
+pr\'ec\'edemment en $O(n^3)$ pour la version par couleur et $O(n^3\log n)$ pour 
+la version par AVL. C'est pourquoi on a obtenu des meilleurs r\'esultats pour 
+la premi\`ere de ces deux versions.
+\todo{Les r\'esultats empiriques ne collent pas \`a l'analyse de la 
+complexit\'e}
+\end{enumerate}
+
+\end{document}

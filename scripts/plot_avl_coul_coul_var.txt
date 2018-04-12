@@ -1,0 +1,9 @@
+plot "../data/avl_couleur_var_300.txt" using 1:2 with lines title 'AVL'
+replot "../data/couleur_couleur_var_300.txt" using 1:2 with lines title 'Couleur'
+set title "Comparaison des algorithmes par couleur et par AVL pour un grille de longueur 300"
+set xlabel "Nombre de couleurs"
+set ylabel "Temps (en s)"
+set term postscript eps
+set output "../img/07_avl_coul_coul_var.ps"
+set size 1.0, 1.0
+replot

@@ -1,0 +1,8 @@
+plot "../data/couleur.txt" using 1:2 with lines title 'Couleur'
+set title "Solution par l'algorithme par couleur"
+set xlabel "Longueur de la grille carree"
+set ylabel "Temps (en s)"
+set term postscript eps
+set output "../img/03_algo_couleur.ps"
+set size 1.0, 1.0
+replot

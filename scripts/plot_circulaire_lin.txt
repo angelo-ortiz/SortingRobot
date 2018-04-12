@@ -1,0 +1,8 @@
+plot "../data/circulaire_lin.txt" using 1:2 with lines title 'Circulaire'
+set title "Solution linearisee par l'algorithme circulaire"
+set xlabel "Longueur de la grille carree"
+set ylabel "Temps (en s)"
+set term postscript eps
+set output "../img/02b_algo_circulaire_lin.ps"
+set size 1.0, 1.0
+replot

@@ -1,0 +1,8 @@
+plot "../data/avl.txt" using 1:2 with lines title 'AVL'
+set title "Solution par l'algorithme par AVL"
+set xlabel "Longueur de la grille carree"
+set ylabel "Temps (en s)"
+set term postscript eps
+set output "../img/04_algo_avl.ps"
+set size 1.0, 1.0
+replot
