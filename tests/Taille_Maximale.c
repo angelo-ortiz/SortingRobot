@@ -5,14 +5,15 @@
 #include "../include/lib/Grille.h"
 #include "../include/lib/Solution.h"
 #include "../include/src/AuPlusProche.h"
+#include "../include/src/UneCaseParCouleur.h"
 #include "../include/lib/API_AffGrille.h"
 
 #define ITER 10
 #define DEB 5
 
-extern app_algorithme algorithmes[NB_APP];
+extern gen_algorithme gen_algorithmes[NB_APP + NB_GRAPHE];
 
-double test_algorithme(FILE *f_algo, app_algorithme algorithme, Grille *G, Solution *S, int n)
+double test_algorithme(FILE *f_algo, gen_algorithme algorithme, Grille *G, Solution *S, int n)
 {
   int graine;
   clock_t temps_initial, temps_final;
@@ -34,14 +35,16 @@ double test_algorithme(FILE *f_algo, app_algorithme algorithme, Grille *G, Solut
 int main (int argc, char** argv)
 {
   int pas, n, i, sol = 1, cpt = 0;
-  int fin_algo[NB_APP] = {0,0,0,0}, sortie_prog = 0;
+  int fin_algo[NB_APP + NB_GRAPHE] = {0,0,0,0,0,0,0}, sortie_prog = 0;
   Grille G;
   //Solution S = NULL;
   int graine;
   char *nomfic;
-  char *res_algo[NB_APP] = {"../data/naif.txt", "../data/circulaire.txt", \
-			     "../data/couleur.txt","../data/avl.txt"};
-  FILE *f_algo[NB_APP];
+  char *res_algo[NB_APP + NB_GRAPHE] = {"../data/naif.txt", "../data/circulaire.txt", \
+					"../data/couleur.txt","../data/avl.txt", \
+					"../data/g_naif.txt", "../data/g_ameliore.txt", \
+					"../data/g_general.txt"};
+  FILE *f_algo[NB_APP + NB_GRAPHE];
   clock_t temps_initial, temps_final;
   double temps_moy = 0., temps_max = 0.;
 
@@ -53,7 +56,7 @@ int main (int argc, char** argv)
 
   pas = 5;
   
-  for (i = 0; i < NB_APP; ++i) {
+  for (i = 0; i < NB_APP + NB_GRAPHE; ++i) {
     f_algo[i] = fopen(res_algo[i], "w");
     if (f_algo[i] == NULL) {
       exit(1);
@@ -66,9 +69,9 @@ int main (int argc, char** argv)
     G.m = n;
     G.nbcoul = n/2;
     Grille_allocation(&G);
-    for (i = 0; i < NB_APP; ++i) {
+    for (i = 0; i < NB_APP + NB_GRAPHE; ++i) {
       if (!fin_algo[i]) {
-	temps_moy = test_algorithme(f_algo[i],algorithmes[i], &G, NULL, n);
+	temps_moy = test_algorithme(f_algo[i],gen_algorithmes[i], &G, NULL, n);
 	if (temps_moy > temps_max) {
 	  fin_algo[i] = 1;
 	  sortie_prog += 1;
@@ -84,7 +87,7 @@ int main (int argc, char** argv)
     }
     fprintf(stderr, "%d %d\n", n, cpt);
     n += pas;
-  } while (sortie_prog != NB_APP);
+  } while (sortie_prog != NB_APP + NB_GRAPHE);
   
   return 0;
 }
