@@ -41,7 +41,7 @@ $(OBJ_LIB_PATH)/%.o: $(LIB_PATH)/%.c $(INCLUDE_LIB)
 
 $(OBJ_BIN_PATH)/%.o: $(TESTS_PATH)/%.c $(INCLUDE_SRC) $(INCLUDE_LIB)
 	@echo "Compilation de " $<
-	gcc -c -o $@ $< -g $(INC_SRC) $(INC_LIB)
+	gcc -c -o $@ $< $(C_FLAGS) $(INC_SRC) $(INC_LIB)
 
 $(BIN_PATH)/%.exe: $(OBJ_BIN_PATH)/%.o $(OBJ_SRC) $(OBJ_LIB)
 	@echo "Compilation de " $<

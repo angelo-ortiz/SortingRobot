@@ -7,7 +7,7 @@
 #include "../include/lib/API_AffGrille.h"
  
  
-int main(int argc,char**argv){
+int main(int argc,char* *argv){
 
   char *filename;
   Grille G;

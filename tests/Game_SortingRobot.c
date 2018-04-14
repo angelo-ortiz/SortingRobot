@@ -7,7 +7,7 @@
 #include "../include/lib/API_AffGrille.h"
 
  
-int main(int argc,char**argv){
+int main(int argc,char* *argv){
   
   Grille G;
   AffGrille AG;
@@ -75,47 +75,48 @@ int main(int argc,char**argv){
     case SDL_KEYDOWN: /* Si appui sur une touche */
 
       switch(event.key.keysym.sym){
-        case SDLK_ESCAPE:
-	  continuer = 0;
-	  break;
-	case SDLK_RIGHT:
-	  if (G.jr<=G.n-2){
-	    Ajout_action(&S,'R');
-	    changement_case(&G, G.ir, G.jr+1);
-	    AffGrille_redessine_case(&AG,&G,G.ir,G.jr-1);
-	    AffGrille_redessine_case(&AG,&G,G.ir,G.jr);
-	  }
-	  break;
-        case SDLK_LEFT:
-	  if (G.jr>=1){
-	    Ajout_action(&S,'L');
-	    changement_case(&G, G.ir, G.jr-1);
-	    AffGrille_redessine_case(&AG,&G,G.ir,G.jr+1);
-	    AffGrille_redessine_case(&AG,&G,G.ir,G.jr);
-	  }
-	  break;
-	case SDLK_UP:
-	  if (G.ir>=1){
-	    Ajout_action(&S,'U');
-	    changement_case(&G, G.ir-1, G.jr);
-	    AffGrille_redessine_case(&AG,&G,G.ir+1,G.jr);
-	    AffGrille_redessine_case(&AG,&G,G.ir,G.jr);
-	  }
-	  break;
-        case SDLK_DOWN:
-	  if (G.ir<=G.m-2){
-	    Ajout_action(&S,'D');
-	    changement_case(&G, G.ir+1, G.jr);
-	    AffGrille_redessine_case(&AG,&G,G.ir-1,G.jr);
-	    AffGrille_redessine_case(&AG,&G,G.ir,G.jr);
-
-	  }
-	  break;
-        case SDLK_SPACE:
-	  Ajout_action(&S,'S');
-	  swap_case(&G);
+      case SDLK_ESCAPE:
+	continuer = 0;
+	break;
+      case SDLK_RIGHT:
+	if (G.jr<=G.n-2){
+	  Ajout_action(&S,'R');
+	  changement_case(&G, G.ir, G.jr+1);
+	  AffGrille_redessine_case(&AG,&G,G.ir,G.jr-1);
 	  AffGrille_redessine_case(&AG,&G,G.ir,G.jr);
-	  break;
+	}
+	break;
+      case SDLK_LEFT:
+	if (G.jr>=1){
+	  Ajout_action(&S,'L');
+	  changement_case(&G, G.ir, G.jr-1);
+	  AffGrille_redessine_case(&AG,&G,G.ir,G.jr+1);
+	  AffGrille_redessine_case(&AG,&G,G.ir,G.jr);
+	}
+	break;
+      case SDLK_UP:
+	if (G.ir>=1){
+	  Ajout_action(&S,'U');
+	  changement_case(&G, G.ir-1, G.jr);
+	  AffGrille_redessine_case(&AG,&G,G.ir+1,G.jr);
+	  AffGrille_redessine_case(&AG,&G,G.ir,G.jr);
+	}
+	break;
+      case SDLK_DOWN:
+	if (G.ir<=G.m-2){
+	  Ajout_action(&S,'D');
+	  changement_case(&G, G.ir+1, G.jr);
+	  AffGrille_redessine_case(&AG,&G,G.ir-1,G.jr);
+	  AffGrille_redessine_case(&AG,&G,G.ir,G.jr); 
+	}
+	break;
+      case SDLK_SPACE:
+	Ajout_action(&S,'S');
+	swap_case(&G);
+	AffGrille_redessine_case(&AG,&G,G.ir,G.jr);
+	break;
+      default:
+	{}
       }
       break;
       

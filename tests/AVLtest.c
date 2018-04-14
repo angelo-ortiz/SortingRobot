@@ -11,7 +11,7 @@ int doit_inserer(double proba)
 int main(int argc, char* *argv)
 {
   int i, el, taille, nb_max;
-  AVL* avl = NULL;
+  AVL *avl = NULL;
 
   if (argc != 3) {
     fprintf(stderr, "Usage: %s <entier_maximum> <nombre_elements>", argv[0]);

@@ -8,7 +8,7 @@
 #include "../include/src/UneCaseParCouleur.h"
 #include "../include/lib/API_AffGrille.h"
 
-extern gen_algorithme gen_algorithmes[NB_APP + NB_GRAPHE];
+extern sr_algorithme gen_algorithmes[NB_APP + NB_GRAPHE];
 
 void menu()
 {
@@ -24,7 +24,7 @@ void menu()
   printf("Entrez votre choix [0-%d] : ", NB_APP + NB_GRAPHE);
 }
 
-int main(int argc,char**argv){
+int main(int argc,char* *argv){
   Grille G;
   Solution S;
   int graine;

@@ -1,7 +1,7 @@
 #include "../include/src/AuPlusProche.h"
 
-app_algorithme algorithmes[NB_APP] = {algorithme_naif, algorithme_circulaire, \
-				      algorithme_parcouleur, algorithme_paravl};
+sr_algorithme app_algorithmes[NB_APP] = {algorithme_naif, algorithme_circulaire, \
+					 algorithme_parcouleur, algorithme_paravl};
 
 int couleurPieceRobot(Grille *G)
 {

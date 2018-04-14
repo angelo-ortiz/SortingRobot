@@ -15,7 +15,7 @@ void menu()
   printf("Entrez votre choix : ");
 }
 
-int main(int argc, char**argv){
+int main(int argc, char* *argv){
   Grille G;
   Solution S;
   Graphe *H;

@@ -6,14 +6,10 @@
 #include "AuPlusProche.h"
 
 /*
- * Le nombre de versions de l'algorithme de resolution par graphe
+ * Le nombre d'algorithmes de resolution par graphe du probleme
+ * du robot trieur
  */
 #define NB_GRAPHE 3
-
-/*
- * Pointeur sur fonction, ici un algorithme de resolution
- */
-typedef void (*gen_algorithme) (Grille* G, Solution* S, int graine);
 
 int Graphe_Rech_Circuit_rec(Graphe *H, int ir, int jr, int i, int j);
 

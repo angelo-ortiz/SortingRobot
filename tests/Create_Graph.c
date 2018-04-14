@@ -6,23 +6,12 @@
 #include "../include/lib/Graphe.h"
 #include "../include/lib/API_AffGrille.h"
 
-void menu()
-{
-  printf("==================== Type de solveur ====================\n");
-  printf("0.- Sortir\n");
-  printf("1.- Naif\n");
-  printf("2.- Circulaire\n");
-  printf("3.- Par couleur\n");
-  printf("4.- Par AVL\n");
-  printf("Entrez votre choix [0-4] : ");
-}
-
-int main(int argc, char**argv){
+int main(int argc, char* *argv){
   Grille G;
   Solution S;
   Graphe *H;
   int graine;
-  int ch;
+
   if(argc!=5){
     printf("usage: %s <nb_lignes nb_colonnes nb_couleur graine>\n",argv[0]);
     return 1;

@@ -9,15 +9,15 @@
 #include "ListeDC.h"
 
 /*
- * Le nombre de versions de l'algorithme au plu proche
+ * Le nombre de versions implementees de l'algorithme au plu proche
  */
 #define NB_APP 4
 
 /*
- * Pointeur sur fonction, ici une version de l'algorithme 
- * au plus proche
+ * Pointeur sur fonction, ici une procedure resolvant le
+ * probleme du robot trieur
  */
-typedef void (*app_algorithme) (Grille* G, Solution* S, int graine);
+typedef void (*sr_algorithme) (Grille* G, Solution* S, int graine);
 
 /*
  * Fonction qui renvoie
