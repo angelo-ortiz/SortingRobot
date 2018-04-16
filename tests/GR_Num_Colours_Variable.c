@@ -38,7 +38,7 @@ int main (int argc, char* *argv)
   Grille G;
   //Solution S = NULL;
   char *res_algo[NB_GRAPHE] = {"../data/colour/g_naif.txt", "../data/colour/g_ameliore.txt", \
-			     "../data/colour/g_general.txt"};
+			       "../data/colour/g_general.txt"};
   FILE *f_algo[NB_GRAPHE];
 
   if (argc != 2) {

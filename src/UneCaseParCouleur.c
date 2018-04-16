@@ -243,7 +243,7 @@ Lcircuit *LC_Initialiser(Grille *G, Graphe *H, void (*Rech_Circuit)(Graphe *, Lc
   
   LCInitialise(LC);
   Graphe_creation(G, H);
-  Rech_Circuit(H, LC);s
+  Rech_Circuit(H, LC);
   return LC;
 }
 
