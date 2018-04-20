@@ -6,15 +6,15 @@
 #include "ListeDC.h"
 
 typedef struct cell_circuit {
-  LDC *L;
-  int jmin, jmax;
-  struct cell_circuit *suiv;
+  LDC *L; // la liste des cases composant le circuit
+  int jmin, jmax; // TODO
+  struct cell_circuit *suiv; // le circuit suivant
 } Cell_circuit;
 
 typedef struct {
-  int nb_circuit;
-  Cell_circuit *premier;
-  Cell_circuit *dernier;
+  int nb_circuit; // le nombre de circuits
+  Cell_circuit *premier; // le premier circuit
+  Cell_circuit *dernier; // le dernier circuit
 } Lcircuit;
 
 /*
@@ -64,7 +64,7 @@ void LCEnleverCelluleSuivante(Lcircuit *lc, Cell_circuit *prec);
 
 /*
  * Procedure qui affiche la liste des coordonnees
- *  sequentiellement
+ * sequentiellement
  */
 void LCAfficher(Lcircuit *lc);
 
@@ -73,11 +73,5 @@ void LCAfficher(Lcircuit *lc);
  * pas vide) a la fin
  */
 void LCDesalloue(Lcircuit *lc);
-
-/*
- * Fonction qui renvoie la cellule correspondant a la premiere
- * case trouvee qui est la plus proche de la case (i, j)
- */
-//Cell_circuit *LCrechercherPlusProcheCase(Lcircuit *lc, LDC *L, int jmin, int jmax);
 
 #endif

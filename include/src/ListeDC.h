@@ -61,8 +61,8 @@ void LDCenleverCellule(LDC *ldc, CelluleLDC *cel);
 void LDCafficher(LDC *ldc);
 
 /*
- * Procedure qui desalloue toute la liste (si elle n'est 
- * pas vide) a la fin
+ * Procedure qui desalloue tous les elements de la liste
+ * (si elle n'est pas vide) a la fin
  */
 void LDCdesalloue(LDC *ldc);
 

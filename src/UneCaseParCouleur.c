@@ -21,10 +21,13 @@ int Graphe_Rech_Circuit_rec(Graphe *H, int ir, int jr, int i, int j)
     k = cour->succ->i;
     l = cour->succ->j;
     
-    /* Si le sommet appartient au parcours courant 
-     * et c'est le premier sommet du circuit
-     * ou s'il est un noeud pas encore visite
-     * mais par lequel passe le circuit cherche
+    /* Si (ir,jr) est un successeur de (i,j)
+     * ou si un successeur de (i,j) n'a pas
+     * encore ete visite mais que le chemin
+     * suivi jusqu'ici et continuant vers
+     * ledit successeur se referme eventuellement
+     * en (ir,jr), on affiche les coordonnees
+     * (i,j) a l'ecran
      */	
     if ((H->Tsom[k][l]->visit == 1 && k == ir && l == jr) ||
 	(H->Tsom[k][l]->visit == -1 && Graphe_Rech_Circuit_rec(H, ir, jr, k, l))) {
@@ -37,6 +40,11 @@ int Graphe_Rech_Circuit_rec(Graphe *H, int ir, int jr, int i, int j)
   return 0;
 }
 
+/*
+ * Procedure initialisant a -2 tous les sommets
+ * correspondant a une case noire dans la grille
+ * du jeu
+ */
 void Graphe_Initialiser_Sommets(Graphe *H)
 {
   int i, j;
@@ -90,10 +98,14 @@ int Graphe_Rech_Circuit_LC_rec(Graphe *H, LDC *ldc, int ir, int jr, int i, int j
     k = cour->succ->i;
     l = cour->succ->j;
     
-    /* Si le sommet appartient au parcours courant 
-     * et c'est le premier sommet du circuit
-     * ou s'il est un noeud pas encore visite
-     * mais par lequel passe le circuit cherche
+    /* Si (ir,jr) est un successeur de (i,j)
+     * ou si un successeur de (i,j) n'a pas
+     * encore ete visite mais que le chemin
+     * suivi jusqu'ici et continuant vers
+     * ledit successeur se referme eventuellement
+     * en (ir,jr), on ajoute le sommet (i,j)
+     * a la liste correspondant au circuit
+     * commencant en (ir,jr)
      */	
     if ((H->Tsom[k][l]->visit == 1 && k == ir && l == jr) ||
 	(H->Tsom[k][l]->visit == -1 && Graphe_Rech_Circuit_LC_rec(H, ldc, ir, jr, k, l, jmin, jmax))) {
@@ -134,7 +146,7 @@ void Graphe_Rech_Circuit_LC(Graphe *H, Lcircuit *LC)
       if (H->Tsom[i][j]->visit != -1) {
 	continue;
       }
-      
+
       ldc = (LDC *) calloc(1, sizeof(LDC));
       if (ldc == NULL) {
 	fprintf(stderr, "Erreur lors de l'allocation d'une LDC\n");
@@ -162,16 +174,13 @@ int Graphe_Rech_Circuit_Opt_rec(Graphe *H, LDC *ldc, int ir, int jr, int i, int 
   while (cour != NULL) {
     k = cour->succ->i;
     l = cour->succ->j;
-    
-    /* Si le sommet appartient au parcours courant 
-     * et c'est le premier sommet du circuit
-     * ou s'il est un noeud pas encore visite
-     * mais par lequel passe le circuit cherche
-     */
+
+    /* Si (ir,jr) est un successeur de (i,j) */
     if (H->Tsom[k][l]->visit == 1 && k == ir && l == jr) {
       fin = 1;
       break;
     }
+    /* On met a jour le sommet le plus proche de (i,j) n'ayant pas encore ete visite*/
     if (H->Tsom[k][l]->visit == -1 && ((dist = abs(i-k) + abs(j-l)) < distMin)) {
       kopt = k;
       lopt = l;
@@ -179,6 +188,16 @@ int Graphe_Rech_Circuit_Opt_rec(Graphe *H, LDC *ldc, int ir, int jr, int i, int 
     }
     cour = cour->suiv;
   }
+  /* Si (ir,jr) est un successeur de (i,j)
+   * ou s'il y a un successeur de (i,j)
+   * etant le plus proche de (i,j) et n'ayant
+   * pas encore ete visite mais que le chemin
+   * suivi jusqu'ici et continuant vers ledit
+   * successeur se referme eventuellement
+   * en (ir,jr), on ajoute le sommet (i,j)
+   * a la liste correspondant au circuit
+   * commencant en (ir,jr)
+   */	
   if (fin || (isMin && Graphe_Rech_Circuit_LC_rec(H, ldc, ir, jr, kopt, lopt, jmin, jmax))) {
     LDCInsererEnTete(ldc, i, j);
     if (j < *jmin) {
@@ -231,6 +250,10 @@ void Graphe_Rech_Circuit_Opt(Graphe *H, Lcircuit *LC)
   }
 }
 
+/*
+ * Fonction qui renvoie une liste chainee des circuits
+ * du graphe H trouves a l'aide de la procedure <Rech_Circuit>
+ */
 Lcircuit *LC_Initialiser(Grille *G, Graphe *H, void (*Rech_Circuit)(Graphe *, Lcircuit *))
 {
   Lcircuit *LC;
@@ -281,7 +304,6 @@ void algorithme_ucpc_naif(Grille *G, Solution *S, int graine)
   }
   
   LCDesalloue(LC);
-  free(LC);
   Graphe_desallocation(H);
   
   if (S != NULL) {
@@ -289,6 +311,11 @@ void algorithme_ucpc_naif(Grille *G, Solution *S, int graine)
   }
 }
 
+/*
+ * Procedure qui cherche le circuit dont le debut
+ * est le sommet le plus proche de (i,j) et qui met
+ * dans <circuit> un pointeur sur le circuit precedent
+ */
 void RecherchePlusProcheCircuit(Lcircuit *LC, int i, int j, Cell_circuit* *circuit)
 {
   Cell_circuit *cour = NULL, *prec = NULL;
@@ -307,6 +334,15 @@ void RecherchePlusProcheCircuit(Lcircuit *LC, int i, int j, Cell_circuit* *circu
   }
 }
 
+
+/*
+ * Procedure resolvant le probleme du robot trieur a l'aide
+ * d'un parcours des circuits dans la grille obtenus par
+ * <Rech_Circuit> : le parcours de la grille suit l'enchainement
+ * de sommets des circuits mais a la fin de chaque circuit
+ * (suppression incluse) on cherche le circuit restant le
+ * plus proche de la position courante du robot trieur
+ */
 void algorithme_circuit_plus_proche(Grille *G, Solution *S, int graine, void (*Rech_Circuit)(Graphe *, Lcircuit *), char *nom_algo)
 {
   Graphe *H = NULL;
@@ -363,7 +399,6 @@ void algorithme_circuit_plus_proche(Grille *G, Solution *S, int graine, void (*R
     LCEnleverCelluleSuivante(LC, precedent);
   }
 
-  //LCDesalloue(LC);
   free(LC);
   Graphe_desallocation(H);
 

@@ -160,8 +160,5 @@ void LCDesalloue(Lcircuit *lc)
     free(tmp->L);
     free(tmp);
   }
-  lc->premier = NULL;
-  lc->dernier = NULL;
+  free(lc);
 }
-
-//Cell_circuit *LCrechercherPlusProcheCase(Lcircuit *lc, LDC *L, int jmin, int jmax);

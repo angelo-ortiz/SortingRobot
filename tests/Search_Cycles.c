@@ -87,11 +87,11 @@ int main(int argc, char* *argv){
   else {
     printf("Sans listes chainees : \n");
     Graphe_Rech_Circuit(H);
+    free(LC);
   }
   
   Solution_desallocation(&S);
   Grille_desallocation(&G);
   Graphe_desallocation(H);
-  free(LC);
   return 0;
 }
