@@ -39,11 +39,42 @@ donn\'ees\par}
   
 \newpage
   
-\section{Introduction}
-Ici, l'intro
-
+\addpart{Introduction}
+\section{Pr\'e sentation}
+Le projet mini projet consiste en la r\'e solution du probl\`e me du robot trieur...
+L’objectif de ce travail est de sensibiliser les étudiants au choix de la structure de données la plus adéquate dans le cadre d’un projet défini, ici, la gestion efficace d’un conteneur de données, au travers des mesures de temps de calcul et de la mémoire utilisée pour une telle mise en place.
+\section{Aper\c{c} u}
+...
 \newpage
-\section{Exercice 1}
+\section{L'organisation du code}
+Le r\'e pertoire correspondant \`a ce projet comporte plusieurs sous-r\'e pertoires que l'on expliquera en détail ci-dessous.
+\paragraph*{bin}
+Ce dossier contient les fichiers ex\'e cutables des test des fonctions impl\'e ment\'e es.
+\paragraph*{data}
+Ce dossier contient les r\'e sultats des diff\'e rents tests de performance des algorithmes impl\'e ment\'e s.
+\paragraph*{img}
+Ce dossier contient les courbes de comparaison obtenues \`a partir des donn\'e es du dossier {\bfseries data}.
+\paragraph*{include}
+Ce dossier contient les fichiers d'en-t\^e te r\'e partis en deux sous-dossiers {\bfseries lib} et {\bfseries src}, chacun contenant les fichiers associ\'e s au fichiers source des r\'e pertoires du m\^e me nom.
+\paragraph*{lib}
+Ce dossier contient les fichiers source fournis \paragraph*{Makefile}
+Ce fichier automatise la compilation des sources
+\paragraph*{obj}
+Ce dossier contient les fichiers objet correspondant aux fichiers sources et aux fichiers ex\'e cutables
+\paragraph*{report}
+Ce dossier contient ce document et les fichiers \LaTex n\'e cessaires pour la bonne mise en forme \paragraph*{scripts}
+Ce dossier contient les commandes \`a transmettre \`a {\bfseries gnuplot} pour obtenir des courbes \`a partir des donn\'e es brutes
+\paragraph*{solutions}
+Ce dossier contient les solutions obtenues, i.e.\ les cha\^ines de caract\`eres d\'efinissant les mouvements du robot trieur, pour les diff\'e rentes fonctions de r\'e solution
+\paragraph*{src}
+Ce dossier contient les fichiers source des fonctions de base et des fonctions de r\'e solution du probl\`e me du robot trieur que l'on a impl\'e ment\'e
+\paragraph*{tests}
+Ce dossier contient les fichiers source des tests de fonctionnement et de performance.
+
+\part{Algorithme au plus proche}
+Dans cette premi\`ere partie, on vous pr\'e sente l'analyse faite pour chacune des versions impl\'e ment\'e es de l'algorithme au plus proche, \`a savoir les versions na\"ive, circulaire, par couleur et par AVL.
+\section{Version na\"i ve}
+\subsection*{Plus court chemin}
 \begin{enumerate}
 \item Soient les deux cases $(i,j)$ et $(k,l)$ dans une grille \`a $m$ 
 lignes et $n$ colonnes. 
@@ -138,7 +169,7 @@ cas o\`u le robot porte une pi\`ece, sa couleur.
 
 \end{enumerate}
 
-\section{Exercice 2}
+\subsection*{Analyse de la complexit\'e}
 \begin{enumerate}
 \setcounter{enumi}{2}
 \item Pour l'analyse de la complexit\'e des quatre impl\'ementations, on 
@@ -177,7 +208,8 @@ r\'esultats pour la deuxi\`eme version alors que la complexit\'e pire-cas est
 la m\^eme pour toutes les deux.
 \end{enumerate}
 
-\section{Exercice 3}
+\section{Versions par couleur}
+\subsection*{Analyse de la complexit\'e}
 \begin{enumerate}
 \setcounter{enumi}{4}
 \item L'analyse de la complexit\'e de l'impl\'ementation par couleur de 
@@ -211,7 +243,10 @@ ci-dessus l'emportent \`a l'\'egard de celle de l'initialisation des listes.
 \end{comment}
 \end{enumerate}
 
-\section{Exercice 4}
+\section{Version par AVL}
+\subsection*{Analyse de la complexit\'e}
+
+\part{Une case par couleur - Graphes}
 \begin{enumerate}
 \setcounter{enumi}{6}
 \item La derni\`ere version de cette algorithme r\'epose sur l'utilisation des 
@@ -243,4 +278,11 @@ la premi\`ere de ces deux versions.
 complexit\'e}
 \end{enumerate}
 
+Dans cette deuxi\`e me partie, on vous d\'e taille le fonctionnement des proc\'e dures de r\'esolution du probl\`eme du robot trieur \`a l'aide des graphes.
+
+\part{Comparaison et performances}
+Dans cette troisi\`e me partie, on vous pre\'e sente les r\'e sultats des diff\'e rents test de performance r\'e alis\'e s.
+
+\addpart{Conclusion}
+...
 \end{document}
