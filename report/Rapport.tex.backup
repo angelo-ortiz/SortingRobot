@@ -1,11 +1,11 @@
-\documentclass[10pt,a4paper]{report}
+\documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
-\usepackage{graphicx}
+\usepackage[pdftex]{graphicx}
 \usepackage{comment}
 \usepackage{siunitx}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
@@ -39,22 +39,71 @@ donn\'ees\par}
   
 \newpage
   
-\section{Introduction}
-Ici, l'intro
+\part*{Introduction}
+\section*{Pr\'esentation}
+Le projet mini projet consiste en la r\'esolution du probl\`eme du robot 
+trieur...
+L’objectif de ce travail est de sensibiliser les étudiants au choix de la structure de données la plus adéquate dans le cadre d’un projet défini, ici, la gestion efficace d’un conteneur de données, au travers des mesures de temps de calcul et de la mémoire utilisée pour une telle mise en place.
+\section*{Aper\c{c}u}
+...
+\section*{L'organisation du code}
+Le r\'epertoire correspondant \`a ce projet comporte plusieurs 
+sous-r\'epertoires que l'on expliquera en d\'etail ci-dessous.
+\paragraph*{bin}
+Ce dossier contient les fichiers ex\'ecutables des test des fonctions 
+impl\'ement\'ees.
+\paragraph*{data}
+Ce dossier contient les r\'esultats des diff\'erents tests de performance des 
+algorithmes impl\'ement\'es.
+\paragraph*{img}
+Ce dossier contient les courbes de comparaison obtenues \`a partir des donn\'ees 
+du dossier {\bfseries data}.
+\paragraph*{include}
+Ce dossier contient les fichiers d'en-t\^ete r\'epartis en deux sous-dossiers 
+{\bfseries lib} et {\bfseries src}, chacun contenant les fichiers associ\'es au 
+fichiers source des r\'epertoires du m\^eme nom.
+\paragraph*{lib}
+Ce dossier contient les fichiers source fournis 
+\paragraph*{Makefile}
+Ce fichier automatise la compilation des sources
+\paragraph*{obj}
+Ce dossier contient les fichiers objet correspondant aux fichiers sources et aux 
+fichiers ex\'ecutables
+\paragraph*{report}
+Ce dossier contient ce document et les fichiers \LaTeX{} n\'ecessaires pour sa 
+bonne mise en forme 
+\paragraph*{scripts}
+Ce dossier contient les commandes \`a transmettre \`a {\bfseries gnuplot} pour 
+obtenir des courbes \`a partir des donn\'ees brutes
+\paragraph*{solutions}
+Ce dossier contient les solutions obtenues, i.e.\ les cha\^ines de caract\`eres 
+d\'efinissant les mouvements du robot trieur, pour les diff\'erentes fonctions 
+de r\'esolution
+\paragraph*{src}
+Ce dossier contient les fichiers source des fonctions de base et des fonctions 
+de r\'esolution du probl\`eme du robot trieur que l'on a impl\'ement\'e
+\paragraph*{tests}
+Ce dossier contient les fichiers source des tests de fonctionnement et de performance.
+\addcontentsline{toc}{part}{Introduction}
 \newpage
 
-\section{Brouillon}
+\part{Algorithme au plus proche}
+Dans cette premi\`ere partie, on vous pr\'esente l'analyse faite pour chacune 
+des versions impl\'ement\'ees de l'algorithme au plus proche, \`a savoir les 
+versions na\"ive, circulaire, par couleur et par AVL.
+\section{Version na\"ive}
+\subsection*{Plus court chemin}
 \begin{enumerate}
-\item Soient les deux cases $(i,j)$ et $(k,l)$ dans une grille \`a $m$ lignes 
-et $n$ colonnes. 
+\item Soient les deux cases $(i,j)$ et $(k,l)$ dans une grille \`a $m$ 
+lignes et $n$ colonnes. 
 Soit la fonction \texttt{dist}$((i,j),(k,l))=|k-i|+|l-j|$. Soit la 
 propri\'et\'e 
 suivante $P(r), r \geq 0$:
 \begin{itemize}
-\item Le $chemin 1$ qui consiste \`a se d\'eplacer de $|k-i|$ cases 
+\item Le chemin $VH$ qui consiste \`a se d\'eplacer de $|k-i|$ cases 
 verticalement vers $(k,j)$, puis de $|l-j|$ cases horizontalement vers $(k,l)$, 
 et
-\item le $chemin 2$ qui consiste \`a se d\'eplacer de $|l-j|$ cases 
+\item le chemin $HV$ qui consiste \`a se d\'eplacer de $|l-j|$ cases 
 horizontalement vers $(i,l)$, puis de $|k-i|$ cases verticalement vers $(k,l)$,
 \end{itemize}
 sont des plus courts chemins, o\`u $r=$ \texttt{dist}$((i,j),(k,l)) \geq 0$.
@@ -117,11 +166,12 @@ vers $(k,l)$ est un plus court chemin
   \end{array} \right \}
   \left .\begin{array}{l}
 	\forall r \in \{0,\dotsc, m+n-2\}, \\
-	\texttt{tailleMaxRec} \text{ se termine} \\
-	\text{et est valide.}
+	\text{les chemins } VH \text{ et } HV\\
+	\text{sont des plus courts chemins.}
   \end{array}\right .
 \end{equation*}
-\item Q1.3
+
+\item 
 \begin{itemize}
   \item La fonction \texttt{estCaseNoire} nous permet de savoir si une case est 
 noire, i.e.\ si elle porte une pi\`ece de m\^eme couleur.
@@ -134,17 +184,21 @@ diff\'erente de $-1$.
 cas o\`u le robot porte une pi\`ece, sa couleur.
 \end{itemize}
 
+\end{enumerate}
 
+\subsection*{Analyse de la complexit\'e}
+\begin{enumerate}
 \item Pour l'analyse de la complexit\'e des quatre impl\'ementations, on 
 commence par les morceaux de code communs aux toutes. Dans le pire cas, 
 il n'y a aucune case noire dans la grille, i.e.\ il y a $n^2$ pi\`eces \`a 
 traiter, ce qui appara\^it sous la forme d'une boucle \texttt{while} dans le 
 code fourni, en l'occurrence la boucle principale des fonctions. De 
 plus, la recherche d'une pi\`ece non noire aux alentours du robot est faite au 
-maximum une fois : cela correspond \`a la situation de d\'epart o\`u le robot 
-porte une pi\`ece et il y a ainsi une case qui n'en a pas. Par cons\'equent, 
-l'analyse de la complexit\'e se r\'eduit \`a la recherche de pi\`eces. Par 
-ailleurs, on a un param\`etre $\alpha = \left \lceil \frac{nm}{c} 
+tout d\'ebut de l'algorithme et \`a chaque fois que l'on ferme un 
+circuit : cela d\'epend fortement du nombre de cycles dans la grille. Par 
+cons\'equent, ceci n'est pas pris en compte pour l'analyse de la complexit\'e et 
+celle-ci se r\'eduit \`a la recherche de pi\`eces. Par ailleurs, on a un 
+param\`etre $\alpha = \left \lceil \frac{nm}{c} 
 \right \rceil$, o\`u $m$, $n$ et $c$ correspondent respectivement au nombre 
 de lignes, de colonnes et de couleurs de la grille. Ici, $\alpha = \left \lceil 
 \frac{n^2}{c} \right \rceil$.\par
@@ -168,7 +222,11 @@ Comme dit pr\'ec\'edemment, ce param\`etre est important pour la dur\'ee
 effective de la recherche circulaire. C'est pourquoi on a obtenu des meilleurs 
 r\'esultats pour la deuxi\`eme version alors que la complexit\'e pire-cas est 
 la m\^eme pour toutes les deux.
+\end{enumerate}
 
+\section{Versions par couleur}
+\subsection*{Analyse de la complexit\'e}
+\begin{enumerate}
 \item L'analyse de la complexit\'e de l'impl\'ementation par couleur de 
 l'algorithme au plus proche se fera en deux parties. Dans un premier temps, 
 on d\'etermine une borne sup\'erieure de la complexit\'e. En effet, le 
@@ -198,7 +256,15 @@ ci-dessus l'emportent \`a l'\'egard de celle de l'initialisation des listes.
   la m\^eme ($mn$ cellules), on a plut\^ot int\'er\^et \`a diminuer $\alpha$, 
   i.e.\ augmenter le nombre de couleurs pr\'esentes dans la grille.
 \end{comment}
+\end{enumerate}
 
+\section{Version par AVL}
+\subsection*{Analyse de la complexit\'e}
+
+\newpage
+
+\part{Une case par couleur - Graphes}
+\begin{enumerate}
 \item La derni\`ere version de cette algorithme r\'epose sur l'utilisation des 
 arbres AVL. On a rang\'e les cases dans une matrice d'arbres : chaque ligne 
 correspond \`a une couleur distincte et chaque colonne correspond \`a une ligne 
@@ -227,5 +293,20 @@ la premi\`ere de ces deux versions.
 \todo{Les r\'esultats empiriques ne collent pas \`a l'analyse de la 
 complexit\'e}
 \end{enumerate}
+
+Dans cette deuxi\`eme partie, on vous d\'etaille le fonctionnement des proc\'e 
+dures de r\'esolution du probl\`eme du robot trieur \`a l'aide des graphes.
+
+\newpage
+
+\part{Comparaison et performances}
+Dans cette troisi\`eme partie, on vous pre\'esente les r\'esultats des 
+diff\'erents test de performance r\'ealis\'es.
+
+\newpage
+
+\part*{Conclusion}
+...
+\addcontentsline{toc}{part}{Conclusion}
 
 \end{document}
