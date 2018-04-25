@@ -59,10 +59,10 @@ void lineariser_donnees(FILE *lecture, FILE *ecriture, p_complexite complexite)
 int main (void) 
 {
   int i;
-  char *res_base[NB_APP] = {"../data/naif.txt", "../data/circulaire.txt", \
-			     "../data/couleur.txt", "../data/avl.txt"};
-  char *res_lin[NB_APP] = {"../data/naif_lin.txt", "../data/circulaire_lin.txt", \
-			    "../data/couleur_lin.txt", "../data/avl_lin.txt"};
+  char *res_base[NB_APP] = {"../data/size/naif.txt", "../data/size/circulaire.txt", \
+			     "../data/size/couleur.txt", "../data/size/avl.txt"};
+  char *res_lin[NB_APP] = {"../data/size/naif_lin.txt", "../data/size/circulaire_lin.txt", \
+			    "../data/size/couleur_lin.txt", "../data/size/avl_lin.txt"};
   FILE *in_files[NB_APP], *out_files[NB_APP];
 
   for (i = 0; i < NB_APP; ++i) {

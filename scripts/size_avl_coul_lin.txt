@@ -1,0 +1,9 @@
+plot "../data/size/avl_lin.txt" using 1:2 with lines title 'AVL'
+replot "../data/size/couleur_lin.txt" using 1:2 with lines title 'Couleur'
+set title "Comparaison linearisee des algorithmes par couleur et par AVL"
+set xlabel "Longueur de la grille"
+set ylabel "Temps (en s)"
+set term postscript eps
+set output "../img/11b_size_avl_coul_lin.ps"
+set size 1.0, 1.0
+replot

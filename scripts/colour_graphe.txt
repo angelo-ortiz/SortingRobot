@@ -1,0 +1,10 @@
+plot "../data/colour/100_g_naif.txt" using 1:2 with lines title 'naif'
+replot "../data/colour/100_g_ameliore.txt" using 1:2 with lines title 'ameliore'
+replot "../data/colour/100_g_general.txt" using 1:2 with lines title 'general'
+set title "Comparaison des algorithmes par graphe pour un grille de longueur 100"
+set xlabel "Nombre de couleurs"
+set ylabel "Temps (en s)"
+set term postscript eps
+set output "../img/24_100_colour_graphe.ps"
+set size 1.0, 1.0
+replot
