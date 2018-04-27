@@ -2,12 +2,17 @@
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
 \usepackage[T1]{fontenc}
-\usepackage{amsmath}
+\usepackage{mathtools}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage[pdftex]{graphicx}
 \usepackage{comment}
 \usepackage{siunitx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{gnuplot-lua-tikz}
+\usepackage{mathpazo}
+\usetikzlibrary{plotmarks}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \author{Angelo Ortiz}
@@ -49,40 +54,40 @@ L’objectif de ce travail est de sensibiliser les étudiants au choix de la str
 \section*{L'organisation du code}
 Le r\'epertoire correspondant \`a ce projet comporte plusieurs 
 sous-r\'epertoires que l'on expliquera en d\'etail ci-dessous.
-\paragraph*{bin}
+\subsubsection*{bin}
 Ce dossier contient les fichiers ex\'ecutables des test des fonctions 
 impl\'ement\'ees.
-\paragraph*{data}
+\subsubsection*{data}
 Ce dossier contient les r\'esultats des diff\'erents tests de performance des 
 algorithmes impl\'ement\'es.
-\paragraph*{img}
+\subsubsection*{img}
 Ce dossier contient les courbes de comparaison obtenues \`a partir des donn\'ees 
 du dossier {\bfseries data}.
-\paragraph*{include}
+\subsubsection*{include}
 Ce dossier contient les fichiers d'en-t\^ete r\'epartis en deux sous-dossiers 
 {\bfseries lib} et {\bfseries src}, chacun contenant les fichiers associ\'es au 
 fichiers source des r\'epertoires du m\^eme nom.
-\paragraph*{lib}
+\subsubsection*{lib}
 Ce dossier contient les fichiers source fournis 
-\paragraph*{Makefile}
+\subsubsection*{Makefile}
 Ce fichier automatise la compilation des sources
-\paragraph*{obj}
+\subsubsection*{obj}
 Ce dossier contient les fichiers objet correspondant aux fichiers sources et aux 
 fichiers ex\'ecutables
-\paragraph*{report}
+\subsubsection*{report}
 Ce dossier contient ce document et les fichiers \LaTeX{} n\'ecessaires pour sa 
 bonne mise en forme 
-\paragraph*{scripts}
-Ce dossier contient les commandes \`a transmettre \`a {\bfseries gnuplot} pour 
+\subsubsection*{scripts}
+Ce dossier contient les commandes \`a transmettre \`a {\itshape gnuplot} pour 
 obtenir des courbes \`a partir des donn\'ees brutes
-\paragraph*{solutions}
+\subsubsection*{solutions}
 Ce dossier contient les solutions obtenues, i.e.\ les cha\^ines de caract\`eres 
 d\'efinissant les mouvements du robot trieur, pour les diff\'erentes fonctions 
 de r\'esolution
-\paragraph*{src}
+\subsubsection*{src}
 Ce dossier contient les fichiers source des fonctions de base et des fonctions 
 de r\'esolution du probl\`eme du robot trieur que l'on a impl\'ement\'e
-\paragraph*{tests}
+\subsubsection*{tests}
 Ce dossier contient les fichiers source des tests de fonctionnement et de performance.
 \addcontentsline{toc}{part}{Introduction}
 \newpage
@@ -91,10 +96,10 @@ Ce dossier contient les fichiers source des tests de fonctionnement et de perfor
 Dans cette premi\`ere partie, on vous pr\'esente l'analyse faite pour chacune 
 des versions impl\'ement\'ees de l'algorithme au plus proche, \`a savoir les 
 versions na\"ive, circulaire, par couleur et par AVL.
+
 \section{Version na\"ive}
 \subsection*{Plus court chemin}
-\begin{enumerate}
-\item Soient les deux cases $(i,j)$ et $(k,l)$ dans une grille \`a $m$ 
+Soient les deux cases $(i,j)$ et $(k,l)$ dans une grille \`a $m$ 
 lignes et $n$ colonnes. 
 Soit la fonction \texttt{dist}$((i,j),(k,l))=|k-i|+|l-j|$. Soit la 
 propri\'et\'e 
@@ -110,6 +115,7 @@ sont des plus courts chemins, o\`u $r=$ \texttt{dist}$((i,j),(k,l)) \geq 0$.
 
 Montrons cette propri\'et\'e par r\'ecurrence faible sur $r \geq 0$.
 
+\subsubsection*{Preuve}
 \underline{Base:} Pour $r=0$, $(k,l)=(i,j)$. On se d\'eplace de $0$ 
 case verticalement et horizontalement. Ainsi, on reste dans la m\^eme case. 
 Donc, la propri\'et\'e est v\'erifi\'ee pour $r=0$.
@@ -171,7 +177,7 @@ vers $(k,l)$ est un plus court chemin
   \end{array}\right .
 \end{equation*}
 
-\item 
+\subsection*{Fonctions auxiliaires}
 \begin{itemize}
   \item La fonction \texttt{estCaseNoire} nous permet de savoir si une case est 
 noire, i.e.\ si elle porte une pi\`ece de m\^eme couleur.
@@ -184,13 +190,10 @@ diff\'erente de $-1$.
 cas o\`u le robot porte une pi\`ece, sa couleur.
 \end{itemize}
 
-\end{enumerate}
-
 \subsection*{Analyse de la complexit\'e}
-\begin{enumerate}
-\item Pour l'analyse de la complexit\'e des quatre impl\'ementations, on 
+Pour l'analyse de la complexit\'e des quatre impl\'ementations, on 
 commence par les morceaux de code communs aux toutes. Dans le pire cas, 
-il n'y a aucune case noire dans la grille, i.e.\ il y a $n^2$ pi\`eces \`a 
+il n'y a aucune case noire dans la grille, i.e.\ il y a $O(n^2)$ pi\`eces \`a 
 traiter, ce qui appara\^it sous la forme d'une boucle \texttt{while} dans le 
 code fourni, en l'occurrence la boucle principale des fonctions. De 
 plus, la recherche d'une pi\`ece non noire aux alentours du robot est faite au 
@@ -222,12 +225,14 @@ Comme dit pr\'ec\'edemment, ce param\`etre est important pour la dur\'ee
 effective de la recherche circulaire. C'est pourquoi on a obtenu des meilleurs 
 r\'esultats pour la deuxi\`eme version alors que la complexit\'e pire-cas est 
 la m\^eme pour toutes les deux.
-\end{enumerate}
 
-\section{Versions par couleur}
+\section{Version circulaire}
 \subsection*{Analyse de la complexit\'e}
-\begin{enumerate}
-\item L'analyse de la complexit\'e de l'impl\'ementation par couleur de 
+...
+
+\section{Version par couleur}
+\subsection*{Analyse de la complexit\'e}
+L'analyse de la complexit\'e de l'impl\'ementation par couleur de 
 l'algorithme au plus proche se fera en deux parties. Dans un premier temps, 
 on d\'etermine une borne sup\'erieure de la complexit\'e. En effet, le 
 robot porte une pi\`ece \`a presque tout moment du jeu et cherche alors la 
@@ -256,16 +261,10 @@ ci-dessus l'emportent \`a l'\'egard de celle de l'initialisation des listes.
   la m\^eme ($mn$ cellules), on a plut\^ot int\'er\^et \`a diminuer $\alpha$, 
   i.e.\ augmenter le nombre de couleurs pr\'esentes dans la grille.
 \end{comment}
-\end{enumerate}
 
 \section{Version par AVL}
 \subsection*{Analyse de la complexit\'e}
-
-\newpage
-
-\part{Une case par couleur - Graphes}
-\begin{enumerate}
-\item La derni\`ere version de cette algorithme r\'epose sur l'utilisation des 
+La derni\`ere version de cette algorithme r\'epose sur l'utilisation des 
 arbres AVL. On a rang\'e les cases dans une matrice d'arbres : chaque ligne 
 correspond \`a une couleur distincte et chaque colonne correspond \`a une ligne 
 de la grille du jeu. Etant donn\'e que l'on travaille avec une matrice, 
@@ -292,16 +291,156 @@ la version par AVL. C'est pourquoi on a obtenu des meilleurs r\'esultats pour
 la premi\`ere de ces deux versions.
 \todo{Les r\'esultats empiriques ne collent pas \`a l'analyse de la 
 complexit\'e}
-\end{enumerate}
 
-Dans cette deuxi\`eme partie, on vous d\'etaille le fonctionnement des proc\'e 
-dures de r\'esolution du probl\`eme du robot trieur \`a l'aide des graphes.
+\newpage
 
+\part{R\'esolution par graphes}
+Dans cette deuxi\`eme partie, on vous d\'etaille le fonctionnement des 
+proc\'edures de r\'esolution du probl\`eme du robot trieur \`a l'aide des 
+graphes.
+
+\section{M\'ethode par circuits}
+\subsection*{Pr\'eliminaires}
+\'Etant donn\'e une instance de grille $G$, on d\'efinit un graphe orient\'e $H = (V,A)$, d\'enot\'e {\bfseries graphe des d\'eplacements} de la grille, de la mani\`ere suivante :
+\begin{itemize}
+\item l'ensemble des sommets $V$ correspond aux cases $(i,j)$ de la grille $G$,
+\item l'ensemble des arcs $A$ correspond \`a des arcs allant du sommet-case $(i,j)$ au sommet-case $(i',j')$ tels que la case $(i,j)$ est non noire et qu'elle contient une pi\`ece ayant la m\^eme couleur que celle du fond de la case $(i',j')$.
+\end{itemize}
+
+Il est \`a noter qu'un arc repr\'esente une succession de d\'eplacements sur la grille. En effet, le robot doit traverser toutes les cases composant le trajet repr\'esent\'e par un arc.
+
+La strucutre de donn\'ees impl\'ementant le graphe $H$ r\'epose sur une matrice de sommets pour avoir un acc\`es en $O(1)$ \`a tous les sommets et des listes d'adjacence pour repr\'esenter les arcs adjacents \`a un sommet donn\'e. 
+
+\subsection*{Principe}
+Cet algorithme de r\'esolution par graphes se base sur la recherche de circuits. En effet, si on compte la liste de tous les circuits pr\'esents dans le graphe $H$ associ\'e \`a la grille $G$, r\'esoudre le probl\`eme du robot trieur se r\'eduit au parcours s\'equentiel de ces circuits. Cependant, le chemin suivi ne correspondra pas en g\'en\'eral au plus court chemin, ce qui \'etait le cas dans la partie pr\'ec\'edente.
+
+\subsection*{Impl\'ementations}
+On a mis en \oe uvre cette m\'ethode \`a l'aide de trois fonctions r\'esolvant le probl\`eme du robot trieur.
+
+\subsubsection*{Version na\"ive}
+Dans un premier temps, on d\'ecid\'e de faire une recherche de circuits simple. Pour chaque sommet dont la case associ\'ee est non noire, on recherche le sommet correspondant \`a la case en haut \`a gauche ayant la m\^eme couleur que celle de sa pi\`ece. Compte tenu du fait que l'ordre des sommets-case dans les listes d'adjacence suit l'ordre de la recherche dans une matrice \`a deux dimensions, \`a savoir un parcours par lignes commen\c{c}ant par la premi\`ere, cette premi\`ere recherche des circuits est tr\`es rapide. Ce gain est nuanc\'e par le nombre de pas utilis\'es par le robot pour rendre noire la grille du jeu dans le cas o\`u il y a plusieurs pi\`eces par couleurs, i.e.\ $\alpha > 1$. En effet, le robot essaie syst\'ematiquement de se d\'eplacer vers le coin sup\'erieur gauche de la grille tant pour refermer un circuit que pour en commencer un nouveau.
+
+\subsubsection*{Version am\'elior\'ee}
+Dans un deuxi\`eme temps, on a modifi\'e l\'eg\`erement la m\'ethode pr\'ec\'edente : la recherche du circuit suivant n'est plus na\"ive. Cela se traduit par la recherche dans la liste de circuits pas encore parcourus du circuit dont le premier sommet-case est le plus proche de la position courante du robot trieur. Ce changement comporte un compromis en lui-m\^eme dans la mesure o\`u le robot r\'ealise des trajets plus courts, mais que le temps d'ex\'ecution pour ce faire augmente.
+
+\subsubsection*{Version g\'en\'erale}
+On a voulu finalement am\'eliorer la recherche des circuits et l'ajouter \`a la version pr\'ec\'edente. Puisque la grille contient autant de cases que des pi\`eces, le graphe $H$ a la particularit\'e que tous les sommets appartiennent \`a exactement un circuit \`a la fin d'une recherche de circuits. On exploite donc ce fait et se permet de faire la modification suivante dans la recherche des circuits : pour chaque sommet, on fera une recherche du successeur le plus proche au lieu de prendre celui en haut \`a gauche. De la m\^eme mani\`ere que pour la version am\'elior\'ee, cette modification entra\^ine un compromis : la recherche de circuits devient alors plus longue, mais le robot finit sont parcours de la grille en moins de pas qu'auparavant.
+
+\section{Vecteur avec une case par couleur}
+\subsection*{Fonctionnement}
+...
 \newpage
 
 \part{Comparaison et performances}
 Dans cette troisi\`eme partie, on vous pre\'esente les r\'esultats des 
 diff\'erents test de performance r\'ealis\'es.
+
+\section{Taille de la grille variable}
+On a compar\'e les performances des toutes les fonctions impl\'ement\'es r\'esolvant le probl\`eme du robot trieur pour des grilles de taille variable.
+
+\begin{tikzpicture}[x=0.04cm,y=0.4cm]
+  \def\xmin{0}
+  \def\xmax{700}
+  \def\ymin{0}
+  \def\ymax{35}
+  
+  % axes
+  \draw[->] (\xmin,\ymin) -- (\xmax,\ymin);
+  \draw[->] (\xmin,\ymin) -- (\xmin,\ymax);
+  \draw (\xmax,\ymin) -- (\xmax,\ymax);
+  \draw (\xmax,\ymax) -- (\xmin,\ymax);
+  
+  % xticks and yticks
+  \foreach \x in {0,50,...,700}
+  {
+	\draw (\x,4pt) -- (\x,0pt)
+	node[anchor=north] {\x};
+	\draw (\x,\ymax) -- (\x,\ymax-0.4);
+  }
+  \foreach \y in {0,2,...,14}
+  {
+	\draw (4pt,\y) -- (0pt,\y) 
+	node[anchor=east] {\y};
+	\draw (\xmax,\y) -- (\xmax-4,\y);
+  }
+  
+  \node[anchor=mid,rotate=90] at (-25,8) {Temps d'ex\'ecution[s] 
+	\tikz[baseline]{\draw[yshift=.5ex,->](0,0)--(20,0);}};
+  \node[anchor=mid] at (170,-2.5) {Longueur de la grille 
+	\tikz[baseline]{\draw[yshift=.5ex,->](0,0)--(20,0);}};
+  \node[anchor=mid] at (150,17) {Comparaison des algorithmes au plus proche 
+et par graphe};
+  
+  %legend
+  \node[anchor=south west,color=blue] at (240,14) {\footnotesize AVL 
+	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(32,0);}};
+  \node[anchor=south west,color=red] at (240,13) {\footnotesize Couleur 
+	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(15,0);}};
+  \node[anchor=south west,color=black] at (240,11.5) {\footnotesize $y=30/\sqrt 
+	x$ 
+	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(15,0);}};
+  
+  %curves
+  \draw[color=blue] plot[smooth] file {../data/colour/300_avl.txt};
+  \draw[color=red] plot[smooth] file {../data/colour/300_couleur.txt};
+  \draw[color=black, samples=200, domain=5:300] plot (\x,{30/(sqrt(\x))}); 
+  
+\end{tikzpicture}
+
+\section{Nombre de couleurs variable}
+On a ensuite analys\'e l'impact du nombre de couleurs dans la grille, i.e.\ du param\`etre $\alpha$, sur le temps d'ex\'excution des algorithmes utilisant des structures de donn\'ees additionnelles.
+
+\begin{tikzpicture}[x=0.04cm,y=0.4cm]
+  \def\xmin{0}
+  \def\xmax{320}
+  \def\ymin{0}
+  \def\ymax{16}
+
+  % axes
+  \draw[->] (\xmin,\ymin) -- (\xmax,\ymin);
+  \draw[->] (\xmin,\ymin) -- (\xmin,\ymax);
+  \draw (\xmax,\ymin) -- (\xmax,\ymax);
+  \draw (\xmax,\ymax) -- (\xmin,\ymax);
+  
+  % xticks and yticks
+  \foreach \x in {0,50,...,300}
+  {
+	\draw (\x,4pt) -- (\x,0pt)
+		node[anchor=north] {\x};
+	\draw (\x,\ymax) -- (\x,\ymax-0.4);
+  }
+  \foreach \y in {0,2,...,14}
+  {
+	\draw (4pt,\y) -- (0pt,\y) 
+     	node[anchor=east] {\y};
+	\draw (\xmax,\y) -- (\xmax-4,\y);
+  }
+
+  \node[anchor=mid,rotate=90] at (-25,8) {Temps d'ex\'ecution[s] 
+	\tikz[baseline]{\draw[yshift=.5ex,->](0,0)--(20,0);}};
+  \node[anchor=mid] at (170,-2.5) {Nombre de couleurs 
+	\tikz[baseline]{\draw[yshift=.5ex,->](0,0)--(20,0);}};
+  \node[anchor=mid] at (150,17) {Comparaison des algorithmes par couleur et 
+par AVL pour une grille de longueur 300};
+  		
+  %legend
+  \node[anchor=south west,color=blue] at (240,14) {\footnotesize AVL 
+	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(32,0);}};
+  \node[anchor=south west,color=red] at (240,13) {\footnotesize Couleur 
+	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(15,0);}};
+  \node[anchor=south west,color=black] at (240,11.5) {\footnotesize $y=30/\sqrt 
+x$ 
+	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(15,0);}};
+  
+  %curves
+  \draw[color=blue] plot[smooth] file {../data/colour/300_avl.txt};
+  \draw[color=red] plot[smooth] file {../data/colour/300_couleur.txt};
+  \draw[color=black, samples=200, domain=5:300] plot (\x,{30/(sqrt(\x))}); 
+
+\end{tikzpicture}
+
+\section{Vecteur avec une case par couleur}
+On a finalement test\'e nos algorithmes pour le cas particulier d'une griller\'eduite \`a un vecteur avec autant de cases que de couleurs.
 
 \newpage
 
