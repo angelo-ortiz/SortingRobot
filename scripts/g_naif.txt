@@ -1,0 +1,8 @@
+plot "../data/size/g_naif.txt" using 1:2 with lines title 'Graphe naif'
+set title "Solution par l'algorithme par graphe naif"
+set xlabel "Longueur de la grille carree"
+set ylabel "Temps (en s)"
+set term postscript eps
+set output "../img/05_g_naif.ps"
+set size 1.0, 1.0
+replot

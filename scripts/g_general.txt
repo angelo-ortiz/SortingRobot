@@ -1,0 +1,8 @@
+plot "../data/size/g_general.txt" using 1:2 with lines title 'Graphe general'
+set title "Solution par l'algorithme par graphe general"
+set xlabel "Longueur de la grille carree"
+set ylabel "Temps (en s)"
+set term postscript eps
+set output "../img/07_g_general.ps"
+set size 1.0, 1.0
+replot

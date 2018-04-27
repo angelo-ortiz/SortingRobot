@@ -5,6 +5,11 @@
 \contentsline {section}{\numberline {2}Version circulaire}{6}
 \contentsline {section}{\numberline {3}Version par couleur}{6}
 \contentsline {section}{\numberline {4}Version par AVL}{6}
-\contentsline {part}{II\hspace {1em}Une case par couleur - Graphes}{7}
-\contentsline {part}{III\hspace {1em}Comparaison et performances}{8}
-\contentsline {part}{Conclusion}{9}
+\contentsline {part}{II\hspace {1em}R\'esolution par graphes}{7}
+\contentsline {section}{\numberline {5}M\'ethode par circuits}{7}
+\contentsline {section}{\numberline {6}Vecteur avec une case par couleur}{8}
+\contentsline {part}{III\hspace {1em}Comparaison et performances}{9}
+\contentsline {section}{\numberline {7}Taille de la grille variable}{9}
+\contentsline {section}{\numberline {8}Nombre de couleurs variable}{9}
+\contentsline {section}{\numberline {9}Vecteur avec une case par couleur}{9}
+\contentsline {part}{Conclusion}{10}
