@@ -61,7 +61,7 @@ int main (int argc, char* *argv)
   do {
     G.n = n;
     G.m = n;
-    G.nbcoul = n/2;
+    G.nbcoul = n;
     Grille_allocation(&G);
     
     for (i = 0; i < NB_APP; ++i) {

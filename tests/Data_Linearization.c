@@ -21,10 +21,10 @@ double complexite_parcouleur(int n)
 {
   double n_double = (double) n;
   /*
-   * Il y a n² cases et le nombre de couleurs est n/2, 
+   * Il y a n² cases et le nombre de couleurs est n, 
    * et on sait que alpha = plafond(nb_cases/nb_couleurs).
    */
-  double alpha = ceil(n_double*n_double/((double) (n/2)));
+  double alpha = n_double;
   return n_double * n_double * alpha;
 }
 
