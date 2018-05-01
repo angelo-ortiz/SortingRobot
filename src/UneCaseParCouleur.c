@@ -4,10 +4,11 @@ sr_algorithme graphe_algorithmes[NB_GRAPHE] = {algorithme_ucpc_naif, \
 					       algorithme_ucpc_ameliore, \
 					       algorithme_general};
 
-sr_algorithme gen_algorithmes[NB_APP+NB_GRAPHE] = {algorithme_naif, algorithme_circulaire, \
-						   algorithme_parcouleur, algorithme_paravl, \
-						   algorithme_ucpc_naif, \
-						   algorithme_ucpc_ameliore, algorithme_general};
+sr_algorithme gen_algorithmes[NB_APP+NB_GRAPHE+1] = {algorithme_naif, algorithme_circulaire, \
+						     algorithme_parcouleur, algorithme_paravl, \
+						     algorithme_circuit_CasLigne1x1, \
+						     algorithme_ucpc_naif, \
+						     algorithme_ucpc_ameliore, algorithme_general};
 
 int Graphe_Rech_Circuit_rec(Graphe *H, int ir, int jr, int i, int j)
 {
@@ -250,6 +251,107 @@ void Graphe_Rech_Circuit_Opt(Graphe *H, Lcircuit *LC)
   }
 }
 
+void CalculJminJmax(Lcircuit *LC)
+{
+  Cell_circuit *cell = NULL;
+  if (LC == NULL) {
+    fprintf(stderr, "La liste de circuits est vide\n");
+    return;
+  }
+  /*
+   * Si la liste est vide ou contient un element,
+   * elle est deja triee
+   */
+  if (LC->premier == LC->dernier) {
+    return;
+  }
+  cell = LC->premier;
+  while (cell->suiv != NULL) {
+    if (cell->jmin > cell->suiv->jmin) {
+      fprintf(stderr, "Erreur : liste non triee\n");
+      return;
+    }
+    cell = cell->suiv;
+  }
+}
+
+Cell_char *Ajout_action_apres_c(Solution *S, Cell_char *c, int j, char a, Cell_char* *Tref)
+{
+  Cell_char *cell = NULL;
+  if (S == NULL) {
+    fprintf(stderr, "La solution n'a pas ete allouee\n");
+    return NULL;
+  }
+  cell = (Cell_char *) calloc(1, sizeof(Cell_char));
+  if (cell == NULL) {
+    fprintf(stderr, "Erreur lors de l'allocation d'une cellule\n");
+    return NULL;
+  }
+  cell->a = a;
+  if (c == NULL) {
+    // Si la liste est vide
+    if (S->prem == S->dern) {
+      S->dern = cell;
+    } // Si la liste contient deja au moins un element
+    else {
+      cell->suiv = S->prem;
+    }
+    S->prem = cell;
+  } else {
+    cell->suiv = c->suiv;
+    c->suiv = cell;
+  }
+  S->cptr_pas ++;
+  Tref[j] = cell;
+  return cell;
+}
+
+Cell_char *PlusCourtChemin_apres_c(Solution *S, Cell_char *c, int j, int l, Cell_char* *Tref)
+{
+  int i, pas;
+  char a;
+  Cell_char *cell = c;
+  if (l > j) {
+    pas = 1;
+    a = 'R';
+  } else {
+    pas = -1;
+    a = 'L';
+  }
+  printf("%d->%d\n", j, l);
+  for (i = j; i != l; i += pas) {
+    cell = Ajout_action_apres_c(S, cell, i+pas, a, Tref);
+  }
+  return cell;
+}
+
+void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char* *Tref, int *Jdroite)
+{
+  int j, l;
+  Cell_char *circ = Tref[C->jmin];
+  CelluleLDC *cell = NULL;
+  if (S == NULL) {
+    fprintf(stderr, "La solution n'a pas ete allouee\n");
+    return;
+  }
+  if (C == NULL) {
+    fprintf(stderr, "Le circuit est nul\n");
+    return;
+  }
+  cell = C->L->premier;
+  while (cell->suiv != NULL) {
+    j = cell->j;
+    l = cell->suiv->j;
+    circ = PlusCourtChemin_apres_c(S, circ, j, l, Tref);
+    circ = Ajout_action_apres_c(S, circ, l, 'S', Tref);
+    cell = cell->suiv;
+    //TODO ajouter le retour a la case initiale du circuit
+  }
+  if (C->jmax > *Jdroite) {
+    *Jdroite = C->jmax;
+  }
+}
+
 /*
  * Fonction qui renvoie une liste chainee des circuits
  * du graphe H trouves a l'aide de la procedure <Rech_Circuit>
@@ -268,6 +370,70 @@ Lcircuit *LC_Initialiser(Grille *G, Graphe *H, void (*Rech_Circuit)(Graphe *, Lc
   Graphe_creation(G, H);
   Rech_Circuit(H, LC);
   return LC;
+}
+
+void algorithme_circuit_CasLigne1x1(Grille *G, Solution *S, int graine)
+{
+  Graphe *H = NULL;
+  Lcircuit *LC = NULL;
+  Cell_char* *Tref = NULL;
+  int Jdroite = 0, JdroiteSav = 0, Drapeau = 0;
+  Cell_circuit *circuit = NULL;
+  Cell_char *cell = NULL;
+  
+  H = (Graphe *) calloc(1, sizeof(Graphe));
+  if (H == NULL) {
+    fprintf(stderr, "Erreur lors de l'allocation du graphe\n");
+    return;
+  }
+
+  Tref = (Cell_char* *) calloc(G->n, sizeof(Cell_char *));
+  if (Tref == NULL) {
+    fprintf(stderr, "Erreur lors de l'allocation du tableau Tref\n");
+    free(H);
+    return;
+  }
+  
+  LC = LC_Initialiser(G, H, Graphe_Rech_Circuit_LC);
+  if (LC == NULL) {
+    free(H);
+    free(Tref);
+    return;
+  }
+
+  CalculJminJmax(LC);
+
+  //TODO pb : S S au debut au lieu de S
+  circuit = LC->premier;
+  while (circuit != NULL) {
+    if (Tref[circuit->jmin] == NULL) {
+      Drapeau = 1;
+      JdroiteSav = Jdroite;
+      cell = PlusCourtChemin_apres_c(S, Tref[Jdroite], Jdroite, circuit->jmin, Tref);
+      Ajout_action_apres_c(S, cell, circuit->jmin, 'S', Tref);
+      if (circuit->jmin > Jdroite) {
+	Jdroite = circuit->jmin;
+      }
+    }
+    
+    Ajout_circuit_dans_solution(S, circuit, Tref, &Jdroite);
+
+    if (Drapeau == 1) {
+      Drapeau = 0;
+      cell = Ajout_action_apres_c(S, Tref[circuit->jmin], circuit->jmin, 'S', Tref);
+      PlusCourtChemin_apres_c(S, cell, circuit->jmin, JdroiteSav, Tref);
+    }
+
+    circuit = circuit->suiv;
+  }
+  
+  LCDesalloue(LC);
+  Graphe_desallocation(H);
+  free(Tref);
+  
+  if (S != NULL) {
+    Ecriture_Disque(G->m, G->n, G->nbcoul, graine, S, "Graphe_Graf");
+  }
 }
 
 void algorithme_ucpc_naif(Grille *G, Solution *S, int graine)

@@ -59,6 +59,16 @@ int Graphe_Rech_Circuit_Opt_rec(Graphe *H, LDC *ldc, int ir, int jr, int i, int 
  */
 void Graphe_Rech_Circuit_Opt(Graphe *H, Lcircuit *LC);
 
+void CalculJminJmax(Lcircuit *LC);
+
+Cell_char *Ajout_action_apres_c(Solution *S, Cell_char *c, int j, char a, Cell_char* *Tref);
+
+Cell_char *PlusCourtChemin_apres_c(Solution *S, Cell_char *c, int j, int l, Cell_char* *Tref);
+
+void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char* *Tref, int *Jdroite);
+
+void algorithme_circuit_CasLigne1x1(Grille *G, Solution *S, int graine);
+
 /*
  * Procedure resolvant le probleme du robot trieur a l'aide
  * d'un parcours sequentiel des circuits dans la grille
