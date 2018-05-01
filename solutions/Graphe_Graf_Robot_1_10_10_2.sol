@@ -1,2 +1,2 @@
 1 10 10 2
-S S R R R R S L S L S R R R R R R S L L S R S L L L L L L S R R R R S 0
+S R R R R S L S L S R R R R R R S L L S R S L L L L L L S R R R R S L L L L L S 0

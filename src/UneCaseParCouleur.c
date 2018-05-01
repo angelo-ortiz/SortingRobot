@@ -318,7 +318,6 @@ Cell_char *PlusCourtChemin_apres_c(Solution *S, Cell_char *c, int j, int l, Cell
     pas = -1;
     a = 'L';
   }
-  printf("%d->%d\n", j, l);
   for (i = j; i != l; i += pas) {
     cell = Ajout_action_apres_c(S, cell, i+pas, a, Tref);
   }
@@ -338,15 +337,22 @@ void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char* *Tref,
     fprintf(stderr, "Le circuit est nul\n");
     return;
   }
+  
   cell = C->L->premier;
+  if (circ == NULL || circ->a != 'S') {
+    circ = Ajout_action_apres_c(S, circ, cell->j, 'S', Tref);
+  }
   while (cell->suiv != NULL) {
     j = cell->j;
     l = cell->suiv->j;
     circ = PlusCourtChemin_apres_c(S, circ, j, l, Tref);
     circ = Ajout_action_apres_c(S, circ, l, 'S', Tref);
     cell = cell->suiv;
-    //TODO ajouter le retour a la case initiale du circuit
   }
+  j = cell->j;
+  l = C->L->premier->j;
+  circ = PlusCourtChemin_apres_c(S, circ, j, l, Tref);
+  circ = Ajout_action_apres_c(S, circ, l, 'S', Tref);
   if (C->jmax > *Jdroite) {
     *Jdroite = C->jmax;
   }
@@ -403,7 +409,6 @@ void algorithme_circuit_CasLigne1x1(Grille *G, Solution *S, int graine)
 
   CalculJminJmax(LC);
 
-  //TODO pb : S S au debut au lieu de S
   circuit = LC->premier;
   while (circuit != NULL) {
     if (Tref[circuit->jmin] == NULL) {
@@ -420,8 +425,7 @@ void algorithme_circuit_CasLigne1x1(Grille *G, Solution *S, int graine)
 
     if (Drapeau == 1) {
       Drapeau = 0;
-      cell = Ajout_action_apres_c(S, Tref[circuit->jmin], circuit->jmin, 'S', Tref);
-      PlusCourtChemin_apres_c(S, cell, circuit->jmin, JdroiteSav, Tref);
+      PlusCourtChemin_apres_c(S, Tref[circuit->jmin], circuit->jmin, JdroiteSav, Tref);
     }
 
     circuit = circuit->suiv;
