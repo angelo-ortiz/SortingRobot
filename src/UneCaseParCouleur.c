@@ -179,9 +179,10 @@ int Graphe_Rech_Circuit_Opt_rec(Graphe *H, LDC *ldc, int ir, int jr, int i, int 
     /* Si (ir,jr) est un successeur de (i,j) */
     if (H->Tsom[k][l]->visit == 1 && k == ir && l == jr) {
       fin = 1;
-      /* break; */
     }
-    /* On met a jour le sommet le plus proche de (i,j) n'ayant pas encore
+    
+    /* 
+     * On met a jour le sommet le plus proche de (i,j) n'ayant pas encore
      * ete visite ou refermant le circuit
      */
     if ((fin || H->Tsom[k][l]->visit == -1) && ((dist = abs(i-k) + abs(j-l)) < distMin)) {
@@ -221,60 +222,6 @@ int Graphe_Rech_Circuit_Opt_rec(Graphe *H, LDC *ldc, int ir, int jr, int i, int 
   H->Tsom[i][j]->visit = -1;
   return 0;
 }
-
-/* int Graphe_Rech_Circuit_Opt_rec(Graphe *H, LDC *ldc, int ir, int jr, int i, int j, int *jmin, int *jmax) */
-/* { */
-/*   int k, l, kopt = -1, lopt = -1, dist, distMin = 9999999; */
-/*   int fin = 0, isMin = 0; */
-/*   Arc *cour = NULL; */
-  
-/*   /\* 1 : recherche courante *\/ */
-/*   H->Tsom[i][j]->visit = 1; */
-/*   cour = H->Tsom[i][j]->Lsucc; */
-/*   while (cour != NULL) { */
-/*     k = cour->succ->i; */
-/*     l = cour->succ->j; */
-
-/*     /\* Si (ir,jr) est un successeur de (i,j) *\/ */
-/*     if (H->Tsom[k][l]->visit == 1 && k == ir && l == jr) { */
-/*       fin = 1; */
-/*       break; */
-/*     } */
-/*     /\* On met a jour le sommet le plus proche de (i,j) n'ayant pas encore */
-/*      * ete visite ou refermant le circuit */
-/*      *\/ */
-/*     if (H->Tsom[k][l]->visit == -1 && ((dist = abs(i-k) + abs(j-l)) < distMin)) { */
-/*       kopt = k; */
-/*       lopt = l; */
-/*       isMin = 1; */
-/*       distMin = dist; */
-/*     } */
-/*     cour = cour->suiv; */
-/*   } */
-/*   /\* Si (ir,jr) est un successeur de (i,j) */
-/*    * ou s'il y a un successeur de (i,j) */
-/*    * etant le plus proche de (i,j) et n'ayant */
-/*    * pas encore ete visite mais que le chemin */
-/*    * suivi jusqu'ici et continuant vers ledit */
-/*    * successeur se referme eventuellement */
-/*    * en (ir,jr), on ajoute le sommet (i,j) */
-/*    * a la liste correspondant au circuit */
-/*    * commencant en (ir,jr) */
-/*    *\/ */
-/*   if (fin || (isMin && Graphe_Rech_Circuit_Opt_rec(H, ldc, ir, jr, kopt, lopt, jmin, jmax))) { */
-/*     LDCInsererEnTete(ldc, i, j); */
-/*     if (j < *jmin) { */
-/*       *jmin = j; */
-/*     } */
-/*     if (j > *jmax) { */
-/* 	*jmax = j; */
-/*     } */
-/*     H->Tsom[i][j]->visit = 0; */
-/*     return 1; */
-/*   } */
-/*   H->Tsom[i][j]->visit = -1; */
-/*   return 0; */
-/* } */
 
 void Graphe_Rech_Circuit_Opt(Graphe *H, Lcircuit *LC)
 {
@@ -652,6 +599,5 @@ void algorithme_general(Grille *G, Solution *S, int graine)
    * commencer un autre.
    * Idee charge TD : parametrer les instants ou l'on doit faire ces coupes
    * et tester differentes valeurs pour ce(s) parametre(s)
-   */
-  
+   */  
 }
