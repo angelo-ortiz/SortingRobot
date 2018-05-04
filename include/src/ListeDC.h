@@ -55,6 +55,11 @@ void LDCInsererEnFin(LDC *ldc, int i, int j);
 void LDCenleverCellule(LDC *ldc, CelluleLDC *cel);
 
 /*
+ * Procedure qui affiche les coordonnees d'une cellule
+ */
+void LDCafficherCellule(CelluleLDC *cell);
+
+/*
  * Procedure qui affiche la liste des coordonnees
  *  sequentiellement
  */

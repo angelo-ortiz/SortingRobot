@@ -601,3 +601,77 @@ void algorithme_general(Grille *G, Solution *S, int graine)
    * et tester differentes valeurs pour ce(s) parametre(s)
    */  
 }
+
+/*
+ * TODO essayer d'utiliser l'idee de Graf : couper les circuits pour en
+ * commencer un autre.
+ * Idee charge TD : parametrer les instants ou l'on doit faire ces coupes
+ * et tester differentes valeurs pour ce(s) parametre(s)
+ */
+void algorithme_general_coupes(Grille *G, Solution *S, int graine)
+{
+  Graphe *H = NULL;
+  Lcircuit *LC = NULL;
+  Cell_circuit *circuit = NULL, *precedent = NULL;
+  Pile pile;
+  CelluleLDC *cell = NULL;
+  int ir, jr;
+  
+  H = (Graphe *) calloc(1, sizeof(Graphe));
+  if (H == NULL) {
+    fprintf(stderr, "Erreur lors de l'allocation du graphe\n");
+    return;
+  }
+  
+  LC = LC_Initialiser(G, H, Graphe_Rech_Circuit_Opt);
+  if (LC == NULL) {
+    free(H);
+    return;
+  }
+
+  /*
+   * Idee : utiliser une pile pour la cellule courante et le circuit courant
+   */
+  circuit = LC->premier;
+  cell = circuit->L->premier;
+  empile(&pile, cell);
+  ir = cell->i;
+  jr = cell->j;
+  while (cell != NULL) {
+    echangerCouleur(G, S, cell->i, cell->j);
+    cell = cell->suiv;
+  }
+  echangerCouleur(G, S, ir, jr);
+  LCEnleverCelluleSuivante(LC, NULL);
+
+  /*
+   * Traitement du reste de circuits :
+   * on recherche le circuit dont le debut
+   * est le plus proche de celui du dernier 
+   * circuit
+   */
+  while (!LCVide(LC)) {
+    RecherchePlusProcheCircuit(LC, ir, jr, &precedent);
+    if (precedent == NULL) {
+      circuit = LC->premier;
+    } else {
+      circuit = precedent->suiv;
+    }
+    cell = circuit->L->premier;
+    ir = cell->i;
+    jr = cell->j;
+    while (cell != NULL) {
+      echangerCouleur(G, S, cell->i, cell->j);
+      cell = cell->suiv;
+    }
+    echangerCouleur(G, S, ir, jr);
+    LCEnleverCelluleSuivante(LC, precedent);
+  }
+
+  free(LC);
+  Graphe_desallocation(H);
+
+  if (S != NULL) {
+    Ecriture_Disque(G->m, G->n, G->nbcoul, graine, S, "Graphe_Coupes");
+  }
+}

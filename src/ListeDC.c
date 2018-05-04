@@ -93,6 +93,15 @@ void LDCenleverCellule(LDC *ldc, CelluleLDC *cel)
   free(cel);
 }
 
+void LDCafficherCellule(CelluleLDC *cell)
+{
+  if (cell == NULL) {
+    fprintf(stderr, "La cellule n'a pas ete allouee\n");
+    return;
+  }
+  printf("(%d, %d)\t", cell->i, cell->j);
+}
+
 void LDCafficher(LDC *ldc)
 {
   CelluleLDC *parcours = NULL;
@@ -103,7 +112,7 @@ void LDCafficher(LDC *ldc)
   }
   parcours = ldc->premier;
   while (parcours != NULL) {
-    printf("(%d, %d)\t", parcours->i, parcours->j);
+    LDCafficherCellule(parcours);
     parcours = parcours->suiv;
   }
   printf("\n");

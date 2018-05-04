@@ -3,6 +3,7 @@
 
 #include "../lib/Graphe.h"
 #include "ListeCircuit.h"
+#include "Pile.h"
 #include "AuPlusProche.h"
 
 /*
