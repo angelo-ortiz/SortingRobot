@@ -611,12 +611,16 @@ CelluleLDC *RecherchePlusProcheCase_coupes(Cell_circuit* *LCtab, int n, CelluleL
 
   i = derniere->i;
   j = derniere->j;
+  /* la distance entre la derniere case traitee
+   * ("reference") et celle qui la suit ("suivante")
+   * dans le circuit */
   distMin = abs(i-suiv_pile->i) + abs(j-suiv_pile->j);
 
   /* traitemet du premier circuit */
   if ((cour = LCtab[z]) != NULL) {
     k = cour->L->premier->i;
     l = cour->L->premier->j;
+    /* si ce circuit est plus proche de "reference" que "suivante" */
     if ((dist = abs(i-k) + abs(j-l)) < distMin) {
       zmin = z;
       distMin = dist;
@@ -630,16 +634,19 @@ CelluleLDC *RecherchePlusProcheCase_coupes(Cell_circuit* *LCtab, int n, CelluleL
     cour = prec->suiv;
     k = cour->L->premier->i;
     l = cour->L->premier->j;
+    /* si ce circuit est plus proche de "reference" que les autres */
     if ((dist = abs(i-k) + abs(j-l)) < distMin) {
       zmin = z;
       distMin = dist;
     }
   }
+  /* s'il faut continuer l'algorithme avec un nouveau circuit */
   if (zmin != -1) {
     tmp = LCtab[zmin]->suiv->L->premier;
     LCtab[zmin] = NULL;
     return tmp;
-  } else {
+  } /* avec "suivante" sinon */
+  else {
     return suiv_pile;
   }
 }
@@ -674,9 +681,6 @@ void algorithme_general_coupes(Grille *G, Solution *S, int graine)
     return;
   }
 
-  /*
-   * Idee : utiliser une pile pour la cellule courante et le circuit courant
-   */
   empile(&p_circuit, NULL);
   empile(&p_cell, LC->premier->L->premier);
   while (1) {
@@ -684,7 +688,7 @@ void algorithme_general_coupes(Grille *G, Solution *S, int graine)
     cell = (CelluleLDC *) depile(&p_cell);
     echangerCouleur(G, S, cell->i, cell->j);
 
-    /* s'il ne reste que refermer le circuit */
+    /* si c'est l'avant-derniere cellule du circuit */
     if (cell->suiv == NULL) {
       precedent = (Cell_circuit *) depile(&p_circuit);
       if (precedent == NULL) {
@@ -692,6 +696,7 @@ void algorithme_general_coupes(Grille *G, Solution *S, int graine)
       } else {
 	circuit = precedent->suiv;
       }
+      /* on le ferme */
       ir = circuit->L->premier->i;
       jr = circuit->L->premier->j;
       echangerCouleur(G, S, ir, jr);
@@ -699,10 +704,11 @@ void algorithme_general_coupes(Grille *G, Solution *S, int graine)
 
       /* si on a referme tous les circuits commences depuis le debut de l'algorithme */
       if (estPileVide(p_circuit)) {
-	/* si on a referme tous les circuits */
+	/* plus precisement, si on a referme tous les circuits */
 	if (LCVide(LC)) {
 	  break;
 	}
+	/* on en commence un nouveau sinon */
 	RecherchePlusProcheCircuit(LC, ir, jr, &precedent);
 	if (precedent == NULL) {
 	  circuit = LC->premier;
@@ -712,7 +718,7 @@ void algorithme_general_coupes(Grille *G, Solution *S, int graine)
 	empile(&p_circuit, precedent);
 	empile(&p_cell, circuit->L->premier);
       }
-    } /* s'il y a encore des cellules a traiter dans le circuit */
+    } /* s'il y a encore des cellules a traiter dans le circuit courant */
     else {
       empile(&p_cell, RecherchePlusProcheCase_coupes(LCtab, n, cell, cell->suiv));
     } 
