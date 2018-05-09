@@ -13,6 +13,14 @@
 #define NB_GRAPHE 4
 
 /*
+ * Le coefficient definissant la susceptibilite de couper le
+ * parcours d'un circuit : 
+ *     coeff < 1. => rupture pour les circuit tres proches uniquement
+ *     coeff > 1. => tendance a les couper facilement
+ */
+#define COEFF_COUPE 1.
+
+/*
  * Fonction qui cherche un circuit commencant en (ir,jr) dans
  * le graphe H : elle renvoie 1 et affiche a l'ecran les coordonnees
  * de la case (i,j) si le chemin suivi nous amenant jusqu'a (i,j)

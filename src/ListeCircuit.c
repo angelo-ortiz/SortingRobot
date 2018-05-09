@@ -136,6 +136,7 @@ void LCAfficher(Lcircuit *lc)
     fprintf(stderr, "La liste est vide\n");
     return;
   }
+  printf("Il y a %d circuits dans le graphe\n", lc->nb_circuit);
   parcours = lc->premier;
   while (parcours != NULL) {
     printf("(%d, %d) : ", parcours->jmin, parcours->jmax);
@@ -161,20 +162,4 @@ void LCDesalloue(Lcircuit *lc)
     free(tmp);
   }
   free(lc);
-}
-
-int LCLongueur(Lcircuit *lc)
-{
-  Cell_circuit *parcours = NULL;
-  int cpt = 0;
-  // Si la liste n'a pas ete allouee
-  if (LCVide(lc) == -1) {
-    return -1;
-  }
-  parcours = lc->premier;
-  while (parcours != NULL) {
-    cpt ++;
-    parcours = parcours->suiv;
-  }
-  return cpt;
 }

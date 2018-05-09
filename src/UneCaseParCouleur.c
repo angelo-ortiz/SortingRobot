@@ -607,21 +607,22 @@ CelluleLDC *RecherchePlusProcheCase_coupes(Cell_circuit* *LCtab, int n, CelluleL
 {
   Cell_circuit *cour = NULL, *prec = NULL;
   CelluleLDC *tmp = NULL;
-  int z = 0, zmin = -1, i, j, k, l, dist, distMin;
+  int z = 0, zmin = -1, i, j, k, l;
+  double dist, distMin;
 
   i = derniere->i;
   j = derniere->j;
   /* la distance entre la derniere case traitee
    * ("reference") et celle qui la suit ("suivante")
    * dans le circuit */
-  distMin = abs(i-suiv_pile->i) + abs(j-suiv_pile->j);
+  distMin = COEFF_COUPE * (double) (abs(i-suiv_pile->i) + abs(j-suiv_pile->j));
 
   /* traitemet du premier circuit */
   if ((cour = LCtab[z]) != NULL) {
     k = cour->L->premier->i;
     l = cour->L->premier->j;
     /* si ce circuit est plus proche de "reference" que "suivante" */
-    if ((dist = abs(i-k) + abs(j-l)) < distMin) {
+    if ((dist = (double) (abs(i-k) + abs(j-l))) < distMin) {
       zmin = z;
       distMin = dist;
     }
@@ -635,7 +636,7 @@ CelluleLDC *RecherchePlusProcheCase_coupes(Cell_circuit* *LCtab, int n, CelluleL
     k = cour->L->premier->i;
     l = cour->L->premier->j;
     /* si ce circuit est plus proche de "reference" que les autres */
-    if ((dist = abs(i-k) + abs(j-l)) < distMin) {
+    if ((dist = (double) (abs(i-k) + abs(j-l))) < distMin) {
       zmin = z;
       distMin = dist;
     }
@@ -673,7 +674,7 @@ void algorithme_general_coupes(Grille *G, Solution *S, int graine)
     return;
   }
 
-  LCtab = (Cell_circuit* *) calloc((n = LCLongueur(LC)), sizeof(Cell_circuit *));
+  LCtab = (Cell_circuit* *) calloc((n = LC->nb_circuit), sizeof(Cell_circuit *));
   if (LCtab == NULL) {
     fprintf(stderr, "Erreur lors de l'allocation du tableau de circuits\n");
     LCDesalloue(LC);
