@@ -10,7 +10,7 @@
  * Le nombre d'algorithmes de resolution par graphe du probleme
  * du robot trieur
  */
-#define NB_GRAPHE 3
+#define NB_GRAPHE 4
 
 /*
  * Fonction qui cherche un circuit commencant en (ir,jr) dans
@@ -96,5 +96,10 @@ void algorithme_ucpc_ameliore(Grille *G, Solution *S, int graine);
  * position courante du robot
  */
 void algorithme_general(Grille *G, Solution *S, int graine);
+
+/*
+ *
+ */
+void algorithme_general_coupes(Grille *G, Solution *S, int graine);
 
 #endif

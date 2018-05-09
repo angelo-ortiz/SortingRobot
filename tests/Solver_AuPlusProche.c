@@ -22,6 +22,7 @@ void menu()
   printf("6.- Par graphe (une case par couleur / naif)\n");
   printf("7.- Par graphe (une case par couleur / ameliore)\n");
   printf("8.- Par graphe (general)\n");
+  printf("9.- Par graphe (par coupes)\n");
   printf("Entrez votre choix [0-%d] : ", NB_APP + NB_GRAPHE + 1);
 }
 
@@ -35,7 +36,7 @@ int main(int argc,char* *argv){
   char *nom_algorithmes[NB_APP + NB_GRAPHE + 1] = {"naif", "circulaire", "par couleur", \
 						   "par avl", "vecteur avec une case par couleur", \
 						   "par graphe naif", "par graphe ameliore", \
-						   "par graphe general"};
+						   "par graphe general", "par graphe par coupes"};
   if(argc!=5){
     printf("usage: %s <nb_lignes nb_colonnes nb_couleur graine>\n",argv[0]);
     return 1;

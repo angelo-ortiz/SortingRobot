@@ -2,13 +2,15 @@
 
 sr_algorithme graphe_algorithmes[NB_GRAPHE] = {algorithme_ucpc_naif, \
 					       algorithme_ucpc_ameliore, \
-					       algorithme_general};
+					       algorithme_general, \
+					       algorithme_general_coupes};
 
 sr_algorithme gen_algorithmes[NB_APP+NB_GRAPHE+1] = {algorithme_naif, algorithme_circulaire, \
 						     algorithme_parcouleur, algorithme_paravl, \
 						     algorithme_circuit_CasLigne1x1, \
 						     algorithme_ucpc_naif, \
-						     algorithme_ucpc_ameliore, algorithme_general};
+						     algorithme_ucpc_ameliore, algorithme_general, \
+						     algorithme_general_coupes};
 
 int Graphe_Rech_Circuit_rec(Graphe *H, int ir, int jr, int i, int j)
 {
@@ -594,28 +596,63 @@ void algorithme_ucpc_ameliore(Grille *G, Solution *S, int graine)
 void algorithme_general(Grille *G, Solution *S, int graine)
 {
   algorithme_circuit_plus_proche(G, S, graine, Graphe_Rech_Circuit_Opt, "Graphe_General");
-  /*
-   * TODO essayer d'utiliser l'idee de Graf : couper les circuits pour en
-   * commencer un autre.
-   * Idee charge TD : parametrer les instants ou l'on doit faire ces coupes
-   * et tester differentes valeurs pour ce(s) parametre(s)
-   */  
 }
 
 /*
- * TODO essayer d'utiliser l'idee de Graf : couper les circuits pour en
- * commencer un autre.
- * Idee charge TD : parametrer les instants ou l'on doit faire ces coupes
- * et tester differentes valeurs pour ce(s) parametre(s)
+ * Procedure qui cherche le circuit dont le debut
+ * est le sommet le plus proche de (i,j) et qui met
+ * dans <circuit> un pointeur sur le circuit precedent
  */
+CelluleLDC *RecherchePlusProcheCase_coupes(Cell_circuit* *LCtab, int n, CelluleLDC *derniere, CelluleLDC *suiv_pile)
+{
+  Cell_circuit *cour = NULL, *prec = NULL;
+  CelluleLDC *tmp = NULL;
+  int z = 0, zmin = -1, i, j, k, l, dist, distMin;
+
+  i = derniere->i;
+  j = derniere->j;
+  distMin = abs(i-suiv_pile->i) + abs(j-suiv_pile->j);
+
+  /* traitemet du premier circuit */
+  if ((cour = LCtab[z]) != NULL) {
+    k = cour->L->premier->i;
+    l = cour->L->premier->j;
+    if ((dist = abs(i-k) + abs(j-l)) < distMin) {
+      zmin = z;
+      distMin = dist;
+    }
+  }
+  /* traitement pour le reste de circuits */
+  for (z = 1; z < n; ++ z) {
+    if ((prec = LCtab[z]) == NULL) {
+      continue;
+    }
+    cour = prec->suiv;
+    k = cour->L->premier->i;
+    l = cour->L->premier->j;
+    if ((dist = abs(i-k) + abs(j-l)) < distMin) {
+      zmin = z;
+      distMin = dist;
+    }
+  }
+  if (zmin != -1) {
+    tmp = LCtab[zmin]->suiv->L->premier;
+    LCtab[zmin] = NULL;
+    return tmp;
+  } else {
+    return suiv_pile;
+  }
+}
+
 void algorithme_general_coupes(Grille *G, Solution *S, int graine)
 {
   Graphe *H = NULL;
   Lcircuit *LC = NULL;
+  Cell_circuit* *LCtab = NULL;
   Cell_circuit *circuit = NULL, *precedent = NULL;
-  Pile pile;
+  Pile p_cell = NULL, p_circuit = NULL;
   CelluleLDC *cell = NULL;
-  int ir, jr;
+  int ir, jr, n;
   
   H = (Graphe *) calloc(1, sizeof(Graphe));
   if (H == NULL) {
@@ -629,47 +666,61 @@ void algorithme_general_coupes(Grille *G, Solution *S, int graine)
     return;
   }
 
+  LCtab = (Cell_circuit* *) calloc((n = LCLongueur(LC)), sizeof(Cell_circuit *));
+  if (LCtab == NULL) {
+    fprintf(stderr, "Erreur lors de l'allocation du tableau de circuits\n");
+    LCDesalloue(LC);
+    Graphe_desallocation(H);
+    return;
+  }
+
   /*
    * Idee : utiliser une pile pour la cellule courante et le circuit courant
    */
-  circuit = LC->premier;
-  cell = circuit->L->premier;
-  empile(&pile, cell);
-  ir = cell->i;
-  jr = cell->j;
-  while (cell != NULL) {
+  empile(&p_circuit, NULL);
+  empile(&p_cell, LC->premier->L->premier);
+  while (1) {
+    /* aller vers la cellule suivante dans la pile */
+    cell = (CelluleLDC *) depile(&p_cell);
     echangerCouleur(G, S, cell->i, cell->j);
-    cell = cell->suiv;
-  }
-  echangerCouleur(G, S, ir, jr);
-  LCEnleverCelluleSuivante(LC, NULL);
 
-  /*
-   * Traitement du reste de circuits :
-   * on recherche le circuit dont le debut
-   * est le plus proche de celui du dernier 
-   * circuit
-   */
-  while (!LCVide(LC)) {
-    RecherchePlusProcheCircuit(LC, ir, jr, &precedent);
-    if (precedent == NULL) {
-      circuit = LC->premier;
-    } else {
-      circuit = precedent->suiv;
-    }
-    cell = circuit->L->premier;
-    ir = cell->i;
-    jr = cell->j;
-    while (cell != NULL) {
-      echangerCouleur(G, S, cell->i, cell->j);
-      cell = cell->suiv;
-    }
-    echangerCouleur(G, S, ir, jr);
-    LCEnleverCelluleSuivante(LC, precedent);
-  }
+    /* s'il ne reste que refermer le circuit */
+    if (cell->suiv == NULL) {
+      precedent = (Cell_circuit *) depile(&p_circuit);
+      if (precedent == NULL) {
+	circuit = LC->premier;
+      } else {
+	circuit = precedent->suiv;
+      }
+      ir = circuit->L->premier->i;
+      jr = circuit->L->premier->j;
+      echangerCouleur(G, S, ir, jr);
+      LCEnleverCelluleSuivante(LC, precedent);
 
+      /* si on a referme tous les circuits commences depuis le debut de l'algorithme */
+      if (estPileVide(p_circuit)) {
+	/* si on a referme tous les circuits */
+	if (LCVide(LC)) {
+	  break;
+	}
+	RecherchePlusProcheCircuit(LC, ir, jr, &precedent);
+	if (precedent == NULL) {
+	  circuit = LC->premier;
+	} else {
+	  circuit = precedent->suiv;
+	}
+	empile(&p_circuit, precedent);
+	empile(&p_cell, circuit->L->premier);
+      }
+    } /* s'il y a encore des cellules a traiter dans le circuit */
+    else {
+      empile(&p_cell, RecherchePlusProcheCase_coupes(LCtab, n, cell, cell->suiv));
+    } 
+  }
+    
   free(LC);
   Graphe_desallocation(H);
+  free(LCtab);
 
   if (S != NULL) {
     Ecriture_Disque(G->m, G->n, G->nbcoul, graine, S, "Graphe_Coupes");

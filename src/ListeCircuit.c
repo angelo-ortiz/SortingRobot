@@ -162,3 +162,19 @@ void LCDesalloue(Lcircuit *lc)
   }
   free(lc);
 }
+
+int LCLongueur(Lcircuit *lc)
+{
+  Cell_circuit *parcours = NULL;
+  int cpt = 0;
+  // Si la liste n'a pas ete allouee
+  if (LCVide(lc) == -1) {
+    return -1;
+  }
+  parcours = lc->premier;
+  while (parcours != NULL) {
+    cpt ++;
+    parcours = parcours->suiv;
+  }
+  return cpt;
+}

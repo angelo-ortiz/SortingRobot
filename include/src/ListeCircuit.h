@@ -74,4 +74,9 @@ void LCAfficher(Lcircuit *lc);
  */
 void LCDesalloue(Lcircuit *lc);
 
+/*
+ * Fonction renvoyant la longueur de la liste
+ */
+int LCLongueur(Lcircuit *lc);
+  
 #endif
