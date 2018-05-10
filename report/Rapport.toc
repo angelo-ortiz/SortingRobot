@@ -1,16 +1,16 @@
 \select@language {french}
-\contentsline {part}{Introduction}{3}
-\contentsline {part}{I\hspace {1em}Algorithme au plus proche}{4}
-\contentsline {section}{\numberline {1}Pr\'eliminaires}{4}
-\contentsline {section}{\numberline {2}Version na\"ive}{5}
-\contentsline {section}{\numberline {3}Version circulaire}{6}
-\contentsline {section}{\numberline {4}Version par couleur}{6}
-\contentsline {section}{\numberline {5}Version par AVL}{6}
-\contentsline {part}{II\hspace {1em}R\'esolution par graphes}{8}
-\contentsline {section}{\numberline {6}M\'ethode par circuits}{8}
-\contentsline {section}{\numberline {7}Vecteur avec une case par couleur}{9}
-\contentsline {part}{III\hspace {1em}Comparaison et performances}{10}
-\contentsline {section}{\numberline {8}Taille de la grille variable}{10}
-\contentsline {section}{\numberline {9}Nombre de couleurs variable}{10}
-\contentsline {section}{\numberline {10}Vecteur avec une case par couleur}{11}
-\contentsline {part}{Conclusion}{12}
+\contentsline {part}{Introduction}{4}
+\contentsline {part}{I\hspace {1em}Algorithme au plus proche}{5}
+\contentsline {section}{\numberline {1}Pr\'eliminaires}{5}
+\contentsline {section}{\numberline {2}Version na\"ive}{6}
+\contentsline {section}{\numberline {3}Version circulaire}{7}
+\contentsline {section}{\numberline {4}Version par couleur}{7}
+\contentsline {section}{\numberline {5}Version par AVL}{7}
+\contentsline {part}{II\hspace {1em}R\'esolution par graphes}{9}
+\contentsline {section}{\numberline {6}M\'ethode par circuits}{9}
+\contentsline {section}{\numberline {7}Vecteur avec une case par couleur}{10}
+\contentsline {part}{III\hspace {1em}Comparaison et performances}{11}
+\contentsline {section}{\numberline {8}Taille de la grille variable}{11}
+\contentsline {section}{\numberline {9}Nombre de couleurs variable}{11}
+\contentsline {section}{\numberline {10}Vecteur avec une case par couleur}{12}
+\contentsline {part}{Conclusion}{13}
