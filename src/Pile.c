@@ -49,17 +49,3 @@ void *tetePile(Pile p)
   }
   return p->cell;
 }
-
-/* void affichePile(Pile p) */
-/* { */
-/*   Pile elem = NULL; */
-/*   if (estPileVide(p)) { */
-/*     fprintf(stderr, "Erreur : la pile est vide\n"); */
-/*     return; */
-/*   } */
-/*   elem = p; */
-/*   while (elem != NULL) { */
-/*     LDCafficherCellule(elem->cell); */
-/*     elem = elem->prec; */
-/*   } */
-/* } */

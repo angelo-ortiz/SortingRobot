@@ -20,10 +20,8 @@ double complexite_circulaire(int n)
 double complexite_parcouleur(int n)
 {
   double n_double = (double) n;
-  /*
-   * Il y a n² cases et le nombre de couleurs est n, 
-   * et on sait que alpha = plafond(nb_cases/nb_couleurs).
-   */
+  /* Il y a n² cases et le nombre de couleurs est n, 
+   * et on sait que alpha = plafond(nb_cases/nb_couleurs). */
   double alpha = n_double;
   return n_double * n_double * alpha;
 }
@@ -36,7 +34,7 @@ double complexite_paravl(int n)
   return n_double * n_double * n_double * log(min);
 }
 
-/*
+/**
  * Pointeur sur fonction, ici la complexite d'une version
  * de l'algorithme au plus proche
  */

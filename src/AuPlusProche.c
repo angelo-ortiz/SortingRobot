@@ -117,7 +117,7 @@ void algorithme_naif(Grille *G, Solution *S, int graine)
   }
 }
 
-/*
+/**
  * Procedure qui fait pointer les trois premiers arguments
  * vers les valeurs des trois derniers
  */
@@ -234,7 +234,7 @@ void algorithme_circulaire(Grille *G, Solution *S, int graine)
   }
 }
 
-/*
+/**
  * Fonction qui initialise un tableau de listes chainees
  * doublement chainees correspondant a une couleur distincte
  * chacune
@@ -307,7 +307,7 @@ void RechercheCaseAVL_c(Grille *G, int c, AVL** *M, int i, int j, int *k, int *l
   }
 }
 
-/*
+/**
  * Fonction qui initialise une matrice d'arbres AVL
  * dont chaque ligne correspond a une couleur distincte
  * et chaque colonnne correspond a une ligne de la

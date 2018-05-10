@@ -2,7 +2,7 @@
 
 void hauteurFils(AVL *avl, int* hg, int* hd)
 {
-  // si les fils sont des arbres vides
+  /* Si les fils sont des arbres vides */
   *hg = -1;
   *hd = -1;
   
@@ -17,7 +17,7 @@ void hauteurFils(AVL *avl, int* hg, int* hd)
 void majHauteur(AVL *avl)
 {
   int hg, hd;
-  // Si l'arbre est vide
+  /* Si l'arbre est vide */
   if (avl == NULL) {
     return;
   }
@@ -69,7 +69,7 @@ AVL *doubleRotDroite(AVL *root)
 AVL *equilibrer(AVL *avl)
 {
   int HG, HD, hg, hd;
-  // Si l'arbre est vide
+  /* Si l'arbre est vide */
   if (avl == NULL) {
     return NULL;
   }
@@ -96,15 +96,15 @@ AVL *insererNoeud(AVL *avl, int val)
   if (avl == NULL) {
     return creerNoeud(val, NULL, NULL);
   }
-  // Si la valeur est deja dans l'arbre, on fait rien
+  /* Si la valeur est deja dans l'arbre, on fait rien */
   if (avl->content == val) {
     return avl;
   }
-  // On ajoute la valeur dans le fils gauche si la
-  // valeur est plus petite que celle de la racine  
+  /* On ajoute la valeur dans le fils gauche si la
+   * valeur est plus petite que celle de la racine */
   if (avl->content > val) {
     avl->fg = insererNoeud(avl->fg, val);
-  } // On l'ajoute dans le fils droit sinon
+  } /* on l'ajoute dans le fils droit sinon */
   else {
     avl->fd = insererNoeud(avl->fd, val);
   }
@@ -119,8 +119,8 @@ AVL *supprimerMax(AVL *avl, int *valMax)
   if (avl == NULL) {
     return avl;
   }
-  // S'il n'y a plus de fils droit,
-  // i.e. c'est le noeud de la valeur maximum
+  /* S'il n'y a plus de fils droit,
+   * i.e. c'est le noeud de la valeur maximum */
   if (avl->fd == NULL) {
     *valMax = avl->content;
     tmp = avl->fg;
@@ -139,16 +139,16 @@ AVL *enleverNoeud(AVL *avl, int val)
   if (avl == NULL) {
     return avl;
   }
-  // Si la valeur est dans le sous-arbre gauche
+  /* Si la valeur est dans le sous-arbre gauche */
   if (avl->content > val) {
     avl->fg = enleverNoeud(avl->fg, val);;
-  } // Si la valeur est dans le sous-arbre droit
+  } /* Si la valeur est dans le sous-arbre droit */
   else if (avl->content < val) {
     avl->fd = enleverNoeud(avl->fd, val);
-  } // Si la valeur est dans la racine
+  } /* Si la valeur est dans la racine */
   else {
-    // S'il n'y a pas de fils gauche,
-    // on ne garde que le fils droit
+    /* S'il n'y a pas de fils gauche,
+     * on ne garde que le fils droit */
     if (avl->fg == NULL) {
       tmp = avl->fd;
       free(avl);
@@ -175,7 +175,7 @@ void AVLafficher(AVL *avl)
 
 void AVLdesalloue(AVL *avl)
 {
-  // Si l'arbre est vide
+  /* Si l'arbre est vide */
   if (avl == NULL) {
     return;
   }
@@ -194,19 +194,19 @@ int AVLrechercherPlusProcheCase(AVL *avl, int l)
     j = avl->content;
     diff = l - j;
     if (diff == 0) {
-      // S'ils sont dans la meme colonne
+      /* S'ils sont dans la meme colonne */
       return j;
     } else if (diff > 0) {
-      // Si (i,j) est a gauche de (k,l)
+      /* Si (i,j) est a gauche de (k,l) */
       if (diff <= distMin) {
-	// On ajoute l'egalite car on cherche
-	// la case la plus a gauche
+	/* On ajoute l'egalite car on cherche
+	 * la case la plus a gauche */
         distMin = diff;
         jpp = j;
       }
       avl = avl->fd;
     }  else {
-      // Si (i,j) est a droite de (k,l)
+      /* Si (i,j) est a droite de (k,l) */
       if (-diff < distMin) {
         distMin = -diff;
         jpp = j;

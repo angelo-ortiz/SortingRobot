@@ -35,15 +35,15 @@ void LDCInsererEnTete(LDC *ldc, int i, int j)
 {
   CelluleLDC *cell = NULL;
   int estVide = 0;
-  // Si la liste n'a pas ete allouee ou il y a une erreur d'allocation
+  /* Si la liste n'a pas ete allouee ou il y a une erreur d'allocation */
   if ((estVide = LDCVide(ldc)) < 0 || (cell = LDCCreerCellule(i, j)) == NULL) {
     fprintf(stderr, "\tLa cellule n'a pas ete ajoutee\n");
     return;
   }
-  // Si la liste est vide
+  /* Si la liste est vide */
   if (estVide == 1) {
     ldc->dernier = cell;
-  } // Si la liste contient deja au moins un element
+  } /* Si la liste contient deja au moins un element */
   else {
     cell->suiv = ldc->premier;
     ldc->premier->prec = cell;
@@ -55,15 +55,15 @@ void LDCInsererEnFin(LDC *ldc, int i, int j)
 {
   CelluleLDC *cell = NULL;
   int estVide = 0;
-  // Si la liste n'a pas ete allouee ou il y a une erreur d'allocation
+  /* Si la liste n'a pas ete allouee ou il y a une erreur d'allocation */
   if ((estVide = LDCVide(ldc)) < 0 || (cell = LDCCreerCellule(i, j)) == NULL) {
     fprintf(stderr, "\tLa cellule n'a pas ete ajoutee\n");
     return;
   }
-  // Si la liste est vide
+  /* Si la liste est vide */
   if (estVide == 1) {
     ldc->premier = cell;
-  } // Si la liste contient deja au moins un element
+  } /* Si la liste contient deja au moins un element */
   else {
     cell->prec = ldc->dernier;
     ldc->dernier->suiv = cell;
@@ -73,18 +73,18 @@ void LDCInsererEnFin(LDC *ldc, int i, int j)
 
 void LDCenleverCellule(LDC *ldc, CelluleLDC *cel)
 {
-  // Si la liste n'a pas ete allouee ou est vide
+  /* Si la liste n'a pas ete allouee ou est vide */
   if (LDCVide(ldc) != 0 || cel == NULL) {
     fprintf(stderr, "\tLa cellule n'a pas ete enlevee\n");
     return;
   }
-  // Si c'est la premiere cellule
+  /* Si c'est la premiere cellule */
   if (cel == ldc->premier) {
     ldc->premier = cel->suiv;
   } else {
     cel->prec->suiv = cel->suiv;
   }
-  // Si c'est la derniere cellule
+  /* Si c'est la derniere cellule */
   if (cel == ldc->dernier) {
     ldc->dernier = cel->prec;
   } else {
@@ -105,7 +105,7 @@ void LDCafficherCellule(CelluleLDC *cell)
 void LDCafficher(LDC *ldc)
 {
   CelluleLDC *parcours = NULL;
-  // Si la liste n'a pas ete allouee ou est vide
+  /* Si la liste n'a pas ete allouee ou est vide */
   if (LDCVide(ldc) != 0) {
     fprintf(stderr, "La liste est vide\n");
     return;
@@ -121,7 +121,7 @@ void LDCafficher(LDC *ldc)
 void LDCdesalloue(LDC *ldc)
 {
   CelluleLDC *parcours = NULL, *tmp = NULL;
-  // Si la liste n'a pas ete allouee ou est vide
+  /* Si la liste n'a pas ete allouee ou est vide */
   if (LDCVide(ldc) != 0) {
     return;
   }
@@ -139,7 +139,7 @@ CelluleLDC *LDCrechercherPlusProcheCase(LDC *ldc, int i, int j)
 {
   CelluleLDC *parcours = NULL, *min = NULL;
   int dist = 0, distMin = RAND_MAX;
-  // Si la liste n'a pas ete allouee ou est vide
+  /* Si la liste n'a pas ete allouee ou est vide */
   if (LDCVide(ldc) != 0) {
     return NULL;
   }

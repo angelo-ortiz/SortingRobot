@@ -71,9 +71,7 @@ int main(int argc, char* *argv){
 
   Graphe_creation(&G, H);
   
-  /*
-   * Recherche et affichage de circuits a l'aide de listes chainees
-   */
+  /* Recherche et affichage de circuits a l'aide de listes chainees */
   if (ch) {
     printf("\n\nAvec listes chainees : \n");
     LCInitialise(LC);
@@ -81,9 +79,7 @@ int main(int argc, char* *argv){
     LCAfficher(LC);
     LCDesalloue(LC);
   }
-  /*
-   * Affichage de circuits
-   */
+  /* Affichage de circuits */
   else {
     printf("Sans listes chainees : \n");
     Graphe_Rech_Circuit(H);

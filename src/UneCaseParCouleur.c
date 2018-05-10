@@ -30,8 +30,7 @@ int Graphe_Rech_Circuit_rec(Graphe *H, int ir, int jr, int i, int j)
      * suivi jusqu'ici et continuant vers
      * ledit successeur se referme eventuellement
      * en (ir,jr), on affiche les coordonnees
-     * (i,j) a l'ecran
-     */	
+     * (i,j) a l'ecran */	
     if ((H->Tsom[k][l]->visit == 1 && k == ir && l == jr) ||
 	(H->Tsom[k][l]->visit == -1 && Graphe_Rech_Circuit_rec(H, ir, jr, k, l))) {
       printf("<-(%d,%d)", i, j);
@@ -43,7 +42,7 @@ int Graphe_Rech_Circuit_rec(Graphe *H, int ir, int jr, int i, int j)
   return 0;
 }
 
-/*
+/**
  * Procedure initialisant a -2 tous les sommets
  * correspondant a une case noire dans la grille
  * du jeu
@@ -108,8 +107,7 @@ int Graphe_Rech_Circuit_LC_rec(Graphe *H, LDC *ldc, int ir, int jr, int i, int j
      * ledit successeur se referme eventuellement
      * en (ir,jr), on ajoute le sommet (i,j)
      * a la liste correspondant au circuit
-     * commencant en (ir,jr)
-     */	
+     * commencant en (ir,jr) */	
     if ((H->Tsom[k][l]->visit == 1 && k == ir && l == jr) ||
 	(H->Tsom[k][l]->visit == -1 && Graphe_Rech_Circuit_LC_rec(H, ldc, ir, jr, k, l, jmin, jmax))) {
       LDCInsererEnTete(ldc, i, j);
@@ -183,10 +181,8 @@ int Graphe_Rech_Circuit_Opt_rec(Graphe *H, LDC *ldc, int ir, int jr, int i, int 
       fin = 1;
     }
     
-    /* 
-     * On met a jour le sommet le plus proche de (i,j) n'ayant pas encore
-     * ete visite ou refermant le circuit
-     */
+    /* On met a jour le sommet le plus proche de (i,j) n'ayant pas encore
+     * ete visite ou refermant le circuit */
     if ((fin || H->Tsom[k][l]->visit == -1) && ((dist = abs(i-k) + abs(j-l)) < distMin)) {
       kopt = k;
       lopt = l;
@@ -208,8 +204,7 @@ int Graphe_Rech_Circuit_Opt_rec(Graphe *H, LDC *ldc, int ir, int jr, int i, int 
    * successeur se referme eventuellement
    * en (ir,jr), on ajoute le sommet (i,j)
    * a la liste correspondant au circuit
-   * commencant en (ir,jr)
-   */
+   * commencant en (ir,jr) */
   if (finSav || (isMin && Graphe_Rech_Circuit_Opt_rec(H, ldc, ir, jr, kopt, lopt, jmin, jmax))) {
     LDCInsererEnTete(ldc, i, j);
     if (j < *jmin) {
@@ -269,10 +264,8 @@ void CalculJminJmax(Lcircuit *LC)
     fprintf(stderr, "La liste de circuits est vide\n");
     return;
   }
-  /*
-   * Si la liste est vide ou contient un element,
-   * elle est deja triee
-   */
+  /* Si la liste est vide ou contient un element,
+   * elle est deja triee */
   if (LC->premier == LC->dernier) {
     return;
   }
@@ -300,10 +293,10 @@ Cell_char *Ajout_action_apres_c(Solution *S, Cell_char *c, int j, char a, Cell_c
   }
   cell->a = a;
   if (c == NULL) {
-    // Si la liste est vide
+    /* Si la liste est vide */
     if (S->prem == S->dern) {
       S->dern = cell;
-    } // Si la liste contient deja au moins un element
+    } /* Si la liste contient deja au moins un element */
     else {
       cell->suiv = S->prem;
     }
@@ -335,6 +328,7 @@ Cell_char *PlusCourtChemin_apres_c(Solution *S, Cell_char *c, int j, int l, Cell
   return cell;
 }
 
+// TODO ajout juste apres c ?? ou utilisation de C ??
 void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char* *Tref, int *Jdroite)
 {
   int j, l;
@@ -350,9 +344,13 @@ void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char* *Tref,
   }
   
   cell = C->L->premier;
+  /* Si c'est le premier circuit ou que la derniere
+   * action realisee menant vers ce circuit n'a pas
+   * fait d'echange de piece */
   if (circ == NULL || circ->a != 'S') {
     circ = Ajout_action_apres_c(S, circ, cell->j, 'S', Tref);
   }
+  /* Traitement generique des arcs du circuit */
   while (cell->suiv != NULL) {
     j = cell->j;
     l = cell->suiv->j;
@@ -360,6 +358,7 @@ void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char* *Tref,
     circ = Ajout_action_apres_c(S, circ, l, 'S', Tref);
     cell = cell->suiv;
   }
+  /* Traitement de l'arc refermant le circuit */
   j = cell->j;
   l = C->L->premier->j;
   circ = PlusCourtChemin_apres_c(S, circ, j, l, Tref);
@@ -369,7 +368,7 @@ void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char* *Tref,
   }
 }
 
-/*
+/**
  * Fonction qui renvoie une liste chainee des circuits
  * du graphe H trouves a l'aide de la procedure <Rech_Circuit>
  */
@@ -492,7 +491,7 @@ void algorithme_ucpc_naif(Grille *G, Solution *S, int graine)
   }
 }
 
-/*
+/**
  * Procedure qui cherche le circuit dont le debut
  * est le sommet le plus proche de (i,j) et qui met
  * dans <circuit> un pointeur sur le circuit precedent
@@ -516,7 +515,7 @@ void RecherchePlusProcheCircuit(Lcircuit *LC, int i, int j, Cell_circuit* *circu
 }
 
 
-/*
+/**
  * Procedure resolvant le probleme du robot trieur a l'aide
  * d'un parcours des circuits dans la grille obtenus par
  * <Rech_Circuit> : le parcours de la grille suit l'enchainement
@@ -556,12 +555,10 @@ void algorithme_circuit_plus_proche(Grille *G, Solution *S, int graine, void (*R
   echangerCouleur(G, S, ir, jr);
   LCEnleverCelluleSuivante(LC, NULL);
 
-  /*
-   * Traitement du reste de circuits :
+  /* Traitement du reste de circuits :
    * on recherche le circuit dont le debut
    * est le plus proche de celui du dernier 
-   * circuit
-   */
+   * circuit */
   while (!LCVide(LC)) {
     RecherchePlusProcheCircuit(LC, ir, jr, &precedent);
     if (precedent == NULL) {
@@ -598,10 +595,12 @@ void algorithme_general(Grille *G, Solution *S, int graine)
   algorithme_circuit_plus_proche(G, S, graine, Graphe_Rech_Circuit_Opt, "Graphe_General");
 }
 
-/*
- * Procedure qui cherche le circuit dont le debut
- * est le sommet le plus proche de (i,j) et qui met
- * dans <circuit> un pointeur sur le circuit precedent
+/**
+ * Procedure qui cherche le circuit dans <LCtab> dont le
+ * debut est "plus proche" de (i,j) que <suiv_pile> et
+ * qui renvoie l'indice dans <LCtab> correspondant
+ * N.B. : la notion de proximite depend du parametre
+ * COEFF_COUPE (cf UneCaseParCouleur.h L16)
  */
 int RecherchePlusProcheCase_coupes(Cell_circuit* *LCtab, int n, int i, int j, CelluleLDC *suiv_pile)
 {
@@ -609,7 +608,7 @@ int RecherchePlusProcheCase_coupes(Cell_circuit* *LCtab, int n, int i, int j, Ce
   int z, zmin = -1, k, l;
   double dist, distMin;
 
-  /* la distance entre la derniere case traitee
+  /* La distance entre la derniere case traitee
    * ("reference") et celle qui la suit ("suivante")
    * dans le circuit */
   if (suiv_pile == NULL) {
@@ -618,14 +617,14 @@ int RecherchePlusProcheCase_coupes(Cell_circuit* *LCtab, int n, int i, int j, Ce
     distMin = COEFF_COUPE * (double) (abs(i-suiv_pile->i) + abs(j-suiv_pile->j));
   }
 
-  /* traitement pour le reste de circuits */
+  /* Traitement pour le reste de circuits */
   for (z = 0; z < n; ++ z) {
     if ((cour = LCtab[z]) == NULL) {
       continue;
     }
     k = cour->L->premier->i;
     l = cour->L->premier->j;
-    /* si ce circuit est plus proche de "reference" que les autres */
+    /* Si ce circuit est plus proche de "reference" que les autres */
     if ((dist = (double) (abs(i-k) + abs(j-l))) < distMin) {
       zmin = z;
       distMin = dist;
@@ -634,6 +633,10 @@ int RecherchePlusProcheCase_coupes(Cell_circuit* *LCtab, int n, int i, int j, Ce
   return zmin;
 }
 
+/**
+ * Procedure allouant et initialisant un tableau
+ * de circuits
+ */
 Cell_circuit* *LCtab_Initialiser(Lcircuit *LC)
 {
   Cell_circuit* *LCtab;
@@ -650,6 +653,10 @@ Cell_circuit* *LCtab_Initialiser(Lcircuit *LC)
   return LCtab;
 }
 
+/**
+ * Fonction verifiant si tous les circuits ont
+ * deja ete traites, i.e. c'est la fin de l'algorithme
+ */
 int estFini(Cell_circuit* *LCtab, int n)
 {
   int i;
@@ -695,11 +702,11 @@ void algorithme_general_coupes(Grille *G, Solution *S, int graine)
   empile(&p_cell, LC->premier->L->premier);
   LCtab[0] = NULL;
   while (1) {
-    /* aller vers la cellule suivante dans la pile */
+    /* Aller vers la cellule suivante dans la pile */
     cell = (CelluleLDC *) depile(&p_cell);
     echangerCouleur(G, S, cell->i, cell->j);
 
-    /* si c'est l'avant-derniere cellule du circuit */
+    /* Si c'est l'avant-derniere cellule du circuit */
     if (cell->suiv == NULL) {
       circuit = (Cell_circuit *) depile(&p_circuit);
       /* on le ferme */
@@ -707,7 +714,7 @@ void algorithme_general_coupes(Grille *G, Solution *S, int graine)
       jr = circuit->L->premier->j;
       echangerCouleur(G, S, ir, jr);
 
-      /* si on a referme tous les circuits commences depuis le debut de l'algorithme */
+      /* Si on a referme tous les circuits commences depuis le debut de l'algorithme */
       if (estPileVide(p_circuit)) {
 	/* plus precisement, si on a referme tous les circuits */
 	if (estFini(LCtab, n)) {
@@ -729,7 +736,7 @@ void algorithme_general_coupes(Grille *G, Solution *S, int graine)
 	  LCtab[z] = NULL;
 	}
       }
-    } /* s'il y a encore des cellules a traiter dans le circuit courant */
+    } /* S'il y a encore des cellules a traiter dans le circuit courant */
     else {
       empile(&p_cell, cell->suiv);
       z = RecherchePlusProcheCase_coupes(LCtab, n, cell->i, cell->j, cell->suiv);

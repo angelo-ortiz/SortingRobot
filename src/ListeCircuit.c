@@ -37,15 +37,15 @@ void LCInsererEnTete(Lcircuit *lc, LDC *L, int jmin, int jmax)
 {
   Cell_circuit *cell = NULL;
   int estVide = 0;
-  // Si la liste n'a pas ete allouee ou il y a une erreur d'allocation
+  /* Si la liste n'a pas ete allouee ou il y a une erreur d'allocation */
   if ((estVide = LCVide(lc)) < 0 || (cell = LCCreerCellule(L, jmin, jmax)) == NULL) {
     fprintf(stderr, "\tLa cellule n'a pas ete ajoutee\n");
     return;
   }
-  // Si la liste est vide
+  /* Si la liste est vide */
   if (estVide == 1) {
     lc->dernier = cell;
-  } // Si la liste contient deja au moins un element
+  } /* Si la liste contient deja au moins un element */
   else {
     cell->suiv = lc->premier;
   }
@@ -57,15 +57,15 @@ void LCInsererEnFin(Lcircuit *lc, LDC *L, int jmin, int jmax)
 {
   Cell_circuit *cell = NULL;
   int estVide = 0;
-  // Si la liste n'a pas ete allouee ou il y a une erreur d'allocation
+  /* Si la liste n'a pas ete allouee ou il y a une erreur d'allocation */
   if ((estVide = LCVide(lc)) < 0 || (cell = LCCreerCellule(L, jmin, jmax)) == NULL) {
     fprintf(stderr, "\tLa cellule n'a pas ete ajoutee\n");
     return;
   }
-  // Si la liste est vide
+  /* Si la liste est vide */
   if (estVide == 1) {
     lc->premier = cell;
-  } // Si la liste contient deja au moins un element
+  } /* Si la liste contient deja au moins un element */
   else {
     lc->dernier->suiv = cell;
   }
@@ -76,41 +76,59 @@ void LCInsererEnFin(Lcircuit *lc, LDC *L, int jmin, int jmax)
 void LCEnleverCellule(Lcircuit *lc, Cell_circuit *cel)
 {
   Cell_circuit *parcours = NULL;
-  // Si la liste n'a pas ete allouee ou est vide
+  int trouve = 0;
+  /* Si la liste n'a pas ete allouee ou est vide */
   if (LCVide(lc) != 0 || cel == NULL) {
     fprintf(stderr, "\tLa cellule n'a pas ete enlevee\n");
     return;
   }
-  // Si c'est la premiere cellule
-  if (cel == lc->premier) {
-    lc->premier = cel->suiv;
-  } //Quid d'une liste reduite a une seule cellule
-  parcours = lc->premier;
-  while (parcours->suiv != NULL) {
-    if (parcours->suiv == cel) {
-      // Si c'est la derniere cellule
-      if (cel == lc->dernier) {
-	lc->dernier = parcours;
-      }
-      parcours->suiv = cel->suiv;
-      LDCdesalloue(cel->L);
-      free(cel);
-      lc->nb_circuit --; //dehors
-      return;
+  /* Si la liste est reduite a une seule cellule */
+  if (lc->premier == lc->dernier) {
+    if (cel == lc->premier) {
+      trouve = 1;
+      lc->premier = NULL;
+      lc->dernier = NULL;
     }
-    parcours = parcours->suiv;
+  } /* Si la liste comporte plusieurs elements */
+  else {
+    /* Si c'est la premiere cellule */
+    if (cel == lc->premier) {
+      lc->premier = cel->suiv;
+    } /* sinon */
+    else {
+      parcours = lc->premier;
+      while (!trouve && parcours->suiv != NULL) {
+	if (parcours->suiv == cel) {
+	  trouve = 1;
+	  /* Si c'est la derniere cellule */
+	  if (cel == lc->dernier) {
+	    lc->dernier = parcours;
+	  }
+	  parcours->suiv = cel->suiv;
+	}
+	parcours = parcours->suiv;
+      }
+    }
+  }
+  if (trouve) {
+    LDCdesalloue(cel->L);
+    free(cel->L);
+    free(cel);
+    lc->nb_circuit --;
+  } else {
+    fprintf(stderr, "La cellule a enlever n'a pas ete trouvee dans liste\n");
   }
 }
 
 void LCEnleverCelluleSuivante(Lcircuit *lc, Cell_circuit *prec)
 {
   Cell_circuit *tmp = NULL;
-  // Si la liste n'a pas ete allouee ou est vide
+  /* Si la liste n'a pas ete allouee ou est vide */
   if (LCVide(lc) != 0) {
     fprintf(stderr, "\tLa cellule n'a pas ete enlevee\n");
     return;
   }
-  // Si c'est la premiere cellule
+  /* Si c'est la premiere cellule */
   if (prec == NULL) {
     tmp = lc->premier;
     lc->premier = tmp->suiv;
@@ -118,7 +136,7 @@ void LCEnleverCelluleSuivante(Lcircuit *lc, Cell_circuit *prec)
     tmp = prec->suiv;
     prec->suiv = tmp->suiv;
   }
-  // Si c'est la derniere cellule
+  /* Si c'est la derniere cellule */
   if (tmp == lc->dernier) {
     lc->dernier = prec;
   }
@@ -131,7 +149,7 @@ void LCEnleverCelluleSuivante(Lcircuit *lc, Cell_circuit *prec)
 void LCAfficher(Lcircuit *lc)
 {
   Cell_circuit *parcours = NULL;
-  // Si la liste n'a pas ete allouee ou est vide
+  /* Si la liste n'a pas ete allouee ou est vide */
   if (LCVide(lc) != 0) {
     fprintf(stderr, "La liste est vide\n");
     return;
@@ -149,7 +167,7 @@ void LCAfficher(Lcircuit *lc)
 void LCDesalloue(Lcircuit *lc)
 {
   Cell_circuit *parcours = NULL, *tmp = NULL;
-  // Si la liste n'a pas ete allouee ou est vide
+  /* Si la liste n'a pas ete allouee ou est vide */
   if (LCVide(lc) != 0) {
     return;
   }
