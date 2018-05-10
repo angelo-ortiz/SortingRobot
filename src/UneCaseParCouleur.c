@@ -216,7 +216,7 @@ int Graphe_Rech_Circuit_Opt_rec(Graphe *H, LDC *ldc, int ir, int jr, int i, int 
       *jmin = j;
     }
     if (j > *jmax) {
-	*jmax = j;
+      *jmax = j;
     }
     H->Tsom[i][j]->visit = 0;
     return 1;
@@ -603,36 +603,26 @@ void algorithme_general(Grille *G, Solution *S, int graine)
  * est le sommet le plus proche de (i,j) et qui met
  * dans <circuit> un pointeur sur le circuit precedent
  */
-CelluleLDC *RecherchePlusProcheCase_coupes(Cell_circuit* *LCtab, int n, CelluleLDC *derniere, CelluleLDC *suiv_pile)
+int RecherchePlusProcheCase_coupes(Cell_circuit* *LCtab, int n, int i, int j, CelluleLDC *suiv_pile)
 {
-  Cell_circuit *cour = NULL, *prec = NULL;
-  CelluleLDC *tmp = NULL;
-  int z = 0, zmin = -1, i, j, k, l;
+  Cell_circuit *cour = NULL;
+  int z, zmin = -1, k, l;
   double dist, distMin;
 
-  i = derniere->i;
-  j = derniere->j;
   /* la distance entre la derniere case traitee
    * ("reference") et celle qui la suit ("suivante")
    * dans le circuit */
-  distMin = COEFF_COUPE * (double) (abs(i-suiv_pile->i) + abs(j-suiv_pile->j));
-
-  /* traitemet du premier circuit */
-  if ((cour = LCtab[z]) != NULL) {
-    k = cour->L->premier->i;
-    l = cour->L->premier->j;
-    /* si ce circuit est plus proche de "reference" que "suivante" */
-    if ((dist = (double) (abs(i-k) + abs(j-l))) < distMin) {
-      zmin = z;
-      distMin = dist;
-    }
+  if (suiv_pile == NULL) {
+    distMin = 9999999.;
+  } else {
+    distMin = COEFF_COUPE * (double) (abs(i-suiv_pile->i) + abs(j-suiv_pile->j));
   }
+
   /* traitement pour le reste de circuits */
-  for (z = 1; z < n; ++ z) {
-    if ((prec = LCtab[z]) == NULL) {
+  for (z = 0; z < n; ++ z) {
+    if ((cour = LCtab[z]) == NULL) {
       continue;
     }
-    cour = prec->suiv;
     k = cour->L->premier->i;
     l = cour->L->premier->j;
     /* si ce circuit est plus proche de "reference" que les autres */
@@ -641,26 +631,45 @@ CelluleLDC *RecherchePlusProcheCase_coupes(Cell_circuit* *LCtab, int n, CelluleL
       distMin = dist;
     }
   }
-  /* s'il faut continuer l'algorithme avec un nouveau circuit */
-  if (zmin != -1) {
-    tmp = LCtab[zmin]->suiv->L->premier;
-    LCtab[zmin] = NULL;
-    return tmp;
-  } /* avec "suivante" sinon */
-  else {
-    return suiv_pile;
-  }
+  return zmin;
 }
 
+Cell_circuit* *LCtab_Initialiser(Lcircuit *LC)
+{
+  Cell_circuit* *LCtab;
+  Cell_circuit *cour;
+  int i;
+  LCtab = (Cell_circuit* *) calloc(LC->nb_circuit, sizeof(Cell_circuit *));
+  if (LCtab == NULL) {
+    fprintf(stderr, "Erreur lors de l'allocation du tableau de circuits\n");
+    return NULL;
+  }
+  for (i = 0, cour = LC->premier; i < LC->nb_circuit; ++ i, cour = cour->suiv) {
+    LCtab[i] = cour;
+  }
+  return LCtab;
+}
+
+int estFini(Cell_circuit* *LCtab, int n)
+{
+  int i;
+  for (i = 0; i < n; ++ i) {
+    if (LCtab[i] != NULL) {
+      return 0;
+    }
+  }
+  return 1;
+}
+ 
 void algorithme_general_coupes(Grille *G, Solution *S, int graine)
 {
   Graphe *H = NULL;
   Lcircuit *LC = NULL;
   Cell_circuit* *LCtab = NULL;
-  Cell_circuit *circuit = NULL, *precedent = NULL;
+  Cell_circuit *circuit = NULL;
   Pile p_cell = NULL, p_circuit = NULL;
   CelluleLDC *cell = NULL;
-  int ir, jr, n;
+  int ir, jr, n, z;
   
   H = (Graphe *) calloc(1, sizeof(Graphe));
   if (H == NULL) {
@@ -674,16 +683,17 @@ void algorithme_general_coupes(Grille *G, Solution *S, int graine)
     return;
   }
 
-  LCtab = (Cell_circuit* *) calloc((n = LC->nb_circuit), sizeof(Cell_circuit *));
+  n = LC->nb_circuit;
+  LCtab = LCtab_Initialiser(LC);
   if (LCtab == NULL) {
-    fprintf(stderr, "Erreur lors de l'allocation du tableau de circuits\n");
     LCDesalloue(LC);
     Graphe_desallocation(H);
     return;
   }
 
-  empile(&p_circuit, NULL);
+  empile(&p_circuit, LC->premier);
   empile(&p_cell, LC->premier->L->premier);
+  LCtab[0] = NULL;
   while (1) {
     /* aller vers la cellule suivante dans la pile */
     cell = (CelluleLDC *) depile(&p_cell);
@@ -691,41 +701,48 @@ void algorithme_general_coupes(Grille *G, Solution *S, int graine)
 
     /* si c'est l'avant-derniere cellule du circuit */
     if (cell->suiv == NULL) {
-      precedent = (Cell_circuit *) depile(&p_circuit);
-      if (precedent == NULL) {
-	circuit = LC->premier;
-      } else {
-	circuit = precedent->suiv;
-      }
+      circuit = (Cell_circuit *) depile(&p_circuit);
       /* on le ferme */
       ir = circuit->L->premier->i;
       jr = circuit->L->premier->j;
       echangerCouleur(G, S, ir, jr);
-      LCEnleverCelluleSuivante(LC, precedent);
 
       /* si on a referme tous les circuits commences depuis le debut de l'algorithme */
       if (estPileVide(p_circuit)) {
 	/* plus precisement, si on a referme tous les circuits */
-	if (LCVide(LC)) {
+	if (estFini(LCtab, n)) {
 	  break;
 	}
 	/* on en commence un nouveau sinon */
-	RecherchePlusProcheCircuit(LC, ir, jr, &precedent);
-	if (precedent == NULL) {
-	  circuit = LC->premier;
-	} else {
-	  circuit = precedent->suiv;
-	}
-	empile(&p_circuit, precedent);
+	z = RecherchePlusProcheCase_coupes(LCtab, n, ir, jr,  NULL);
+	circuit = LCtab[z];
+	empile(&p_circuit, circuit);
 	empile(&p_cell, circuit->L->premier);
+	LCtab[z] = NULL;
+      }
+      else {
+	z = RecherchePlusProcheCase_coupes(LCtab, n, ir, jr, (CelluleLDC *) tetePile(p_cell));
+	if (z >= 0) {
+	  circuit = LCtab[z];
+	  empile(&p_circuit, circuit);
+	  empile(&p_cell, circuit->L->premier);
+	  LCtab[z] = NULL;
+	}
       }
     } /* s'il y a encore des cellules a traiter dans le circuit courant */
     else {
-      empile(&p_cell, RecherchePlusProcheCase_coupes(LCtab, n, cell, cell->suiv));
+      empile(&p_cell, cell->suiv);
+      z = RecherchePlusProcheCase_coupes(LCtab, n, cell->i, cell->j, cell->suiv);
+      if (z >= 0) {
+	circuit = LCtab[z];
+	empile(&p_circuit, circuit);
+	empile(&p_cell, circuit->L->premier);
+	LCtab[z] = NULL;
+      }
     } 
   }
     
-  free(LC);
+  LCDesalloue(LC);
   Graphe_desallocation(H);
   free(LCtab);
 
