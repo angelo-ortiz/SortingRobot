@@ -420,8 +420,8 @@ void algorithme_circuit_CasLigne1x1(Grille *G, Solution *S, int graine)
 
   circuit = LC->premier;
   while (circuit != NULL) {
-    cell = NULL;
-    if (Tref[circuit->jmin] == NULL) {
+    cell = Tref[circuit->jmin];
+    if (cell == NULL) {
       Drapeau = 1;
       JdroiteSav = Jdroite;
       cell = PlusCourtChemin_apres_c(S, Tref[Jdroite], Jdroite, circuit->jmin, Tref);
