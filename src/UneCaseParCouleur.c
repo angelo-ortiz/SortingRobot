@@ -392,7 +392,7 @@ void algorithme_circuit_CasLigne1x1(Grille *G, Solution *S, int graine)
   Graphe *H = NULL;
   Lcircuit *LC = NULL;
   Cell_char* *Tref = NULL;
-  int Jdroite = 0, JdroiteSav = 0, Drapeau = 0;
+  int Jdroite, JdroiteSav, Drapeau = 0;
   Cell_circuit *circuit = NULL;
   Cell_char *cell = NULL;
   
@@ -419,6 +419,10 @@ void algorithme_circuit_CasLigne1x1(Grille *G, Solution *S, int graine)
   CalculJminJmax(LC);
 
   circuit = LC->premier;
+
+  PlusCourtChemin_apres_c(S, NULL, 0, circuit->jmin, Tref);
+  Jdroite = circuit->jmin;
+  
   while (circuit != NULL) {
     if (Tref[circuit->jmin] == NULL) {
       Drapeau = 1;
