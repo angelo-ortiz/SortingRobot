@@ -94,9 +94,10 @@ Cell_char *Ajout_action_apres_c(Solution *S, Cell_char *c, int j, char a, Cell_c
 Cell_char *PlusCourtChemin_apres_c(Solution *S, Cell_char *c, int j, int l, Cell_char* *Tref);
 
 /**
- * TODO Cf fichier .c
+ * Procedure qui ajoute la suite de caracteres correspondant au
+ * parcours du circuit <C>, juste apres la cellule <cellc> dans <S>
  */
-void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char *cell, Cell_char* *Tref, int *Jdroite);
+void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char *cellc, Cell_char* *Tref, int *Jdroite);
 
 /**
  * Procedure resolvant le probleme du robot trieur pour le
