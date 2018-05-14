@@ -328,11 +328,10 @@ Cell_char *PlusCourtChemin_apres_c(Solution *S, Cell_char *c, int j, int l, Cell
   return cell;
 }
 
-// TODO ajout juste apres c ?? ou utilisation de C ??
-void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char* *Tref, int *Jdroite)
+void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char *c, Cell_char* *Tref, int *Jdroite)
 {
   int j, l;
-  Cell_char *circ = Tref[C->jmin];
+  Cell_char *circ = c;
   CelluleLDC *cell = NULL;
   if (S == NULL) {
     fprintf(stderr, "La solution n'a pas ete allouee\n");
@@ -395,7 +394,7 @@ void algorithme_circuit_CasLigne1x1(Grille *G, Solution *S, int graine)
   Cell_char* *Tref = NULL;
   int Jdroite = 0, JdroiteSav = 0, Drapeau = 0;
   Cell_circuit *circuit = NULL;
-  Cell_char *cell = NULL;
+  Cell_char *cell;
   
   H = (Graphe *) calloc(1, sizeof(Graphe));
   if (H == NULL) {
@@ -421,17 +420,18 @@ void algorithme_circuit_CasLigne1x1(Grille *G, Solution *S, int graine)
 
   circuit = LC->premier;
   while (circuit != NULL) {
+    cell = NULL;
     if (Tref[circuit->jmin] == NULL) {
       Drapeau = 1;
       JdroiteSav = Jdroite;
       cell = PlusCourtChemin_apres_c(S, Tref[Jdroite], Jdroite, circuit->jmin, Tref);
-      Ajout_action_apres_c(S, cell, circuit->jmin, 'S', Tref);
+      cell = Ajout_action_apres_c(S, cell, circuit->jmin, 'S', Tref);
       if (circuit->jmin > Jdroite) {
 	Jdroite = circuit->jmin;
       }
     }
     
-    Ajout_circuit_dans_solution(S, circuit, Tref, &Jdroite);
+    Ajout_circuit_dans_solution(S, circuit, cell, Tref, &Jdroite);
 
     if (Drapeau == 1) {
       Drapeau = 0;

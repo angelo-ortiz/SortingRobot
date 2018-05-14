@@ -96,7 +96,7 @@ Cell_char *PlusCourtChemin_apres_c(Solution *S, Cell_char *c, int j, int l, Cell
 /**
  * TODO Cf fichier .c
  */
-void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char* *Tref, int *Jdroite);
+void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char *cell, Cell_char* *Tref, int *Jdroite);
 
 /**
  * Procedure resolvant le probleme du robot trieur pour le
