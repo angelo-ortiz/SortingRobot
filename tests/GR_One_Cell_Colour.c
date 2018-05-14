@@ -9,10 +9,12 @@
 #include "../include/lib/API_AffGrille.h"
 
 #define ITER 10
-#define DEB 5
+#define DEB 10
+#define PAS 10
 
-extern sr_algorithme graphe_algorithmes[NB_GRAPHE];
+extern sr_algorithme ucpc_algorithmes[NB_GRAPHE+2];
 
+//TODO l'objectif est compter le nombre de pas => S != NULL !!!
 double test_algorithme(FILE *f_algo, sr_algorithme algorithme, Grille *G, Solution *S, int n)
 {
   int graine;
@@ -34,24 +36,22 @@ double test_algorithme(FILE *f_algo, sr_algorithme algorithme, Grille *G, Soluti
 
 int main (int argc, char* *argv)
 {
-  int pas, n, i, cpt = 0;
-  int fin_algo[NB_GRAPHE] = {0,0,0}, sortie_prog = 0;
+  int n, i;
   Grille G;
   //Solution S = NULL;
-  char *res_algo[NB_GRAPHE] = {"../data/size/g_naif.txt", "../data/size/g_ameliore.txt", \
-			       "../data/size/g_general.txt"};
-  FILE *f_algo[NB_GRAPHE];
-  double temps_moy = 0., temps_max = 0.;
-
+  char *res_algo[NB_GRAPHE + 2] = {"../data/vector/avl.txt", "../data/vector/ucpc.txt", \
+				   "../data/vector/g_naif.txt",	"../data/vector/g_ameliore.txt", \
+				   "../data/vector/g_general.txt", "../data/vector/g_coupes.txt"};
+  FILE *f_algo[NB_GRAPHE + 2];
+  int taille_max = 0;
+  
   if (argc != 2) {
-    printf("usage: %s <temps_max>\n",argv[0]);
+    printf("usage: %s <taille_grille_max>\n",argv[0]);
     return 1;
   }
-  sscanf(argv[1], " %lf", &temps_max);
+  sscanf(argv[1], " %d", &taille_max);
 
-  pas = 5;
-  
-  for (i = 0; i < NB_GRAPHE; ++i) {
+  for (i = 0; i < NB_GRAPHE + 2; ++i) {
     f_algo[i] = fopen(res_algo[i], "w");
     if (f_algo[i] == NULL) {
       exit(1);
@@ -61,30 +61,18 @@ int main (int argc, char* *argv)
   n = DEB;
   do {
     G.n = n;
-    G.m = n;
+    G.m = 1;
     G.nbcoul = n;
     Grille_allocation(&G);
     
-    for (i = 0; i < NB_GRAPHE; ++i) {
-      if (!fin_algo[i]) {
-	temps_moy = test_algorithme(f_algo[i], graphe_algorithmes[i], &G, NULL, n);
-	if (temps_moy > temps_max) {
-	  fin_algo[i] = 1;
-	  sortie_prog += 1;
-	  fclose(f_algo[i]);
-	}
-      }
+    for (i = 0; i < NB_GRAPHE + 2; ++i) {
+      test_algorithme(f_algo[i], graphe_algorithmes[i], &G, NULL, n);
     }
-    cpt ++;
-    fprintf(stderr, "%d %d\n", n, cpt);
+    printf("%d %d\n", taill_max, n);
 
-    if (cpt >= 30) {
-      pas *= 2;
-      cpt = 0;
-    }
-    n += pas;
+    n += PAS;
     Grille_desallocation(&G);
-  } while (sortie_prog != NB_GRAPHE);
+  } while (n <= taille_max);
   
   return 0;
 }

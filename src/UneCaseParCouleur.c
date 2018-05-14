@@ -5,12 +5,22 @@ sr_algorithme graphe_algorithmes[NB_GRAPHE] = {algorithme_ucpc_naif, \
 					       algorithme_general, \
 					       algorithme_general_coupes};
 
-sr_algorithme gen_algorithmes[NB_APP+NB_GRAPHE+1] = {algorithme_naif, algorithme_circulaire, \
-						     algorithme_parcouleur, algorithme_paravl, \
+sr_algorithme gen_algorithmes[NB_APP+NB_GRAPHE+1] = {algorithme_naif, \
+						     algorithme_circulaire, \
+						     algorithme_parcouleur, \
+						     algorithme_paravl, \
 						     algorithme_circuit_CasLigne1x1, \
 						     algorithme_ucpc_naif, \
-						     algorithme_ucpc_ameliore, algorithme_general, \
+						     algorithme_ucpc_ameliore, \
+						     algorithme_general, \
 						     algorithme_general_coupes};
+
+sr_algorithme ucpc_algorithmes[NB_GRAPHE+2] = {algorithme_paravl, \
+					       algorithme_circuit_CasLigne1x1, \
+					       algorithme_ucpc_naif, \
+					       algorithme_ucpc_ameliore, \
+					       algorithme_general, \
+					       algorithme_general_coupes};
 
 int Graphe_Rech_Circuit_rec(Graphe *H, int ir, int jr, int i, int j)
 {
