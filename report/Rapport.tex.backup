@@ -63,9 +63,9 @@ case de m\^eme couleur, la case devient noire. Le but est donc d'obtenir un
 
 \section*{Objectif}
 Le but de ce travail a \'et\'e de sensibiliser les étudiants sur l'impact des 
-choix d'impl\'ementations, notamment au niveau de la structure de données et 
-ses algorithmes plus adapt\'es, au travers des mesures de temps d'ex\'ecution 
-et de la mémoire n\'ecessaire.
+choix d'impl\'ementations, notamment au niveau des structures de données et 
+leurs algorithmes plus adapt\'es, sur le temps d'ex\'ecution et l'espace 
+m\'emoire r\'equis.
 
 Dans le cadre du projet, on a utilis\'e les listes doublement cha\^in\'ees, les 
 arbres AVL et les graphes orient\'es comme base des algorithmes mis en \oe uvre 
@@ -263,19 +263,26 @@ et am\'eliorent \'enorm\'ement la lisibilit\'e du code.
 cas o\`u le robot porte une pi\`ece, sa couleur.
 \end{itemize}
 
-\subsection*{Analyse de la complexit\'e}
-Pour l'analyse de la complexit\'e des quatre impl\'ementations, on 
-commence par les morceaux de code communs aux toutes. Dans le pire cas, 
-il n'y a aucune case noire dans la grille, i.e.\ il y a $O(n^2)$ pi\`eces \`a 
-traiter, ce qui appara\^it sous la forme d'une boucle \texttt{while} dans le 
-code fourni, en l'occurrence la boucle principale des fonctions. De 
-plus, la recherche d'une pi\`ece non noire aux alentours du robot est faite au 
-tout d\'ebut de l'algorithme et \`a chaque fois que l'on ferme un 
-circuit : cela d\'epend fortement du nombre de cycles dans la grille. Par 
-cons\'equent, ceci n'est pas pris en compte pour l'analyse de la complexit\'e 
-et celle-ci se r\'eduit \`a la recherche des pi\`eces. Ceci consiste pour chaque 
-pi\`ece \`a chercher la case la plus proche dont la couleur du fond co\"incide 
-avec celle de la pi\`ece. 
+\section{Principe}
+Le robot prend la pi\`ece de la case la plus proche s'il en porte pas. Puis il 
+cherche la case de m\^eme couleur la plus proche \'etant plus proche de la 
+bordure sup\'erieure de la grille. S'il y en a plusieurs, il choisit celle qui 
+est la plus \`a gauche. Il se d\'eplace ensuite jusqu'\`a cette case-l\`a et y 
+d\'epose sa pi\`ece. Il r\'ep\`ete ce proc\'ed\'e jusqu'\`a ce que la grille 
+soit compl\`etement noire.
+
+\section{Analyse de la complexit\'e}
+Pour l'analyse de la complexit\'e des quatre impl\'ementations, on commence par 
+les morceaux de code communs aux toutes. Dans le pire cas, il n'y a aucune case 
+noire dans la grille, i.e.\ il y a $O(n^2)$ pi\`eces \`a traiter, ce qui 
+appara\^it sous la forme d'une boucle \texttt{while} dans le code fourni, en 
+l'occurrence la boucle principale des fonctions. De plus, la recherche d'une 
+pi\`ece non noire aux alentours du robot est faite au tout d\'ebut de 
+l'algorithme et \`a chaque fois que l'on ferme un circuit : cela d\'epend 
+fortement du nombre de cycles dans la grille. Par cons\'equent, ceci n'est pas 
+pris en compte pour l'analyse de la complexit\'e et celle-ci se r\'eduit \`a la 
+recherche des pi\`eces. Ceci consiste pour chaque pi\`ece \`a chercher la case 
+la plus proche dont la couleur du fond co\"incide avec celle de la pi\`ece. 
 
 Par ailleurs, on a un param\`etre cach\'e correspondant au nombre maximal de 
 pi\`eces d'une m\^eme couleur dans le grille et ainsi des cases d'une m\^eme 
@@ -386,9 +393,9 @@ mani\`ere suivante :
 \begin{itemize}
 \item l'ensemble des sommets $V$ correspond aux cases $(i,j)$ de la grille $G$,
 \item l'ensemble des arcs $A$ correspond \`a des arcs allant du 
-sommet-case $(i,j)$ au sommet-case $(i',j')$ tels que la case $(i,j)$ est non 
-noire et qu'elle contient une pi\`ece ayant la m\^eme couleur que celle du fond 
-de la case $(i',j')$.
+sommet-case non noir $(i,j)$ au sommet-case non noir $(i',j')$ tels que la case 
+$(i,j)$ contient une pi\`ece ayant la m\^eme couleur que celle du fond de la 
+case $(i',j')$.
 \end{itemize}
 
 Il est \`a noter qu'un arc repr\'esente une succession de d\'eplacements sur la 
@@ -414,17 +421,16 @@ le probl\`eme du robot trieur.
 \subsubsection*{Version na\"ive}
 Dans un premier temps, on a d\'ecid\'e de faire une recherche de circuits 
 simple. 
-Pour chaque sommet dont la case associ\'ee est non noire, on recherche le sommet 
-correspondant \`a la case en haut \`a gauche ayant la m\^eme couleur que celle 
-de sa pi\`ece. Compte tenu du fait que l'ordre des sommets-case dans les listes 
-d'adjacence suit l'ordre de la recherche dans une matrice \`a deux dimensions, 
-\`a savoir un parcours par lignes commen\c{c}ant par la premi\`ere, cette 
-premi\`ere recherche des circuits est tr\`es rapide. Ce gain est nuanc\'e par le 
-nombre de pas utilis\'es par le robot pour rendre noire la grille du jeu dans le 
-cas o\`u il y a plusieurs pi\`eces par couleurs, i.e.\ $\alpha > 1$. En effet, 
-le robot essaie syst\'ematiquement de se d\'eplacer vers le coin sup\'erieur 
-gauche de la grille aussi bien pour refermer un circuit que pour en 
-commencer un nouveau.
+Pour chaque sommet-case non noir, on recherche le sommet correspondant \`a la 
+case en haut \`a gauche ayant la m\^eme couleur que celle de sa pi\`ece. Compte 
+tenu du fait que l'ordre des sommets-case dans les listes d'adjacence suit 
+l'ordre de la recherche dans une matrice \`a deux dimensions, \`a savoir un 
+parcours par lignes commen\c{c}ant par la premi\`ere, cette premi\`ere recherche 
+des circuits est tr\`es rapide. Ce gain est nuanc\'e par le nombre de pas 
+utilis\'es par le robot pour rendre noire la grille du jeu dans le cas o\`u il y 
+a plusieurs pi\`eces par couleurs, i.e.\ $\alpha > 1$. En effet, le robot essaie 
+syst\'ematiquement de se d\'eplacer vers le coin sup\'erieur gauche de la grille 
+aussi bien pour refermer un circuit que pour en commencer un nouveau.
 
 \subsubsection*{Version am\'elior\'ee}
 Dans un deuxi\`eme temps, on a modifi\'e l\'eg\`erement la m\'ethode 
@@ -448,8 +454,48 @@ recherche de circuits devient alors plus longue, mais le robot finit sont
 parcours de la grille en moins de pas qu'auparavant.
 
 \section{Vecteur avec une case par couleur}
+Au contraire du cas g\'en\'eral, il existe bien un algorithme polyn\^omial r\'esolvant
+le probl\`eme du robot trieur dans le cas particulier d'une grille r\'eduite \`a une
+ligne, i.e.\ un vecteur, avec autant de couleurs qu'il y a des cases. Cet
+algorithme a \'et\'e propos\'e par Daniel Graf et sa complexit\'e est en 
+$\Theta(n^2)$.
+
+\subsection*{Pr\'eliminaires}
+L'algorithme r\'epose sur la structure de liste de circuits trouv\'ee \`a l'exercice
+pr\'ec\'edent. Il faut n\'eanmoins ins\'erer l'indice des cases la plus \`a gauche
+{\itshape jmin} et la plus \`a droite {\itshape jmax} pour chaque circuit de la liste.
+De plus, le premier sommet-case de chaque circuit doit correspondre \`a la case la
+plus \`a gauche pour ledit circuit, et la liste doit \^etre rang\'ee dans l'ordre
+croissant des {\itshape jmin}.
+
+Heureusement pour nous, ces trois conditions sont d\'ej\`a toutes remplies par
+notre m\'ethode de recherche de circuits dans le graphe de par l'ordre d\'efini
+sur les arcs lors de la cr\'eation du graphe associ\'e \`a la grille et le parcours
+des arcs dans notre m\'ethode.
+
 \subsection*{Principe}
-TT
+Cet algorithme se base aussi sur le parcours des circuits. Cependant, il les 
+coupe \`a mi-chemin pour en commencer d'autres. Autrement dit, \'etant donn\'e 
+un sommet-case d'un circuit, si le prochain sommet-case par sa droite appartient 
+\`a un autre circuit, il arr\^ete le parcours courant. Puis il se dirige vers ce 
+sommet-case en vue de commencer le parcours du circuit associ\'e et il 
+r\'ep\`ete la d\'emarche pour ce dernier sommet-case. Une fois ce circuit 
+ferm\'e, il revient au sommet-case de coupe et reprend le parcours initial.
+
+L'id\'ee de coupure de circuits r\'eduit le nombre de pas utilis\'es pour se 
+d\'eplacer de la fin d'un circuit au d\'ebut du suivant sans aucune pi\`ece. 
+Ce sont les d\'eplacements que l'on qualifie de non essentiels ou encore 
+optimisables.
+
+\subsection*{Impl\'ementation}
+On a impl\'ement\'e cet algorithme \`a l'aide de diverses fonctions de base 
+pour simplifier le code de la fonction principale. On s'est rendu compte tr\`es 
+rapidement qu'il y a un petit d\'efaut dans l'algorithme. Effectivement, si le 
+premier circuit ne commence pas dans la premi\`ere case, \`a savoir $(0,0)$, on 
+fait des d\'eplacements inutiles \`a la fin de l'algorithme pour revenir \`a 
+cette case. Pour \'eviter ces pas superflus, on d\'ecale la position initiale 
+du robot vers le premier sommet-case non noir avant de commencer le vrai 
+algorithme.
 
 \subsection*{G\'en\'eralisation}
 On a beaucoup appr\'eci\'e l'algorithme de Daniel Graf. C'est pourquoi on s'en 
@@ -485,10 +531,14 @@ soit compatible avec celle des fonctions pr\'ec\'edentes, le coefficient de
 coupure a \'et\'e d\'efini \`a travers une macro et pas comme argument de 
 fonction.
 
+Cet algorithme s'est av\'er\'e au moins aussi efficace que la version 
+g\'en\'erale de base : de mani\`ere g\'en\'erale, les r\'esultats 
+am\'eliorent au fur et \`a mesure que le nombre de circuits augmente.
+
 \newpage
 
 \part{Comparaison et performances}
-Dans cette troisi\`eme partie, on vous pre\'esente les r\'esultats des 
+Dans cette derni\`ere partie, on vous pr\'esente les r\'esultats des 
 diff\'erents test de performance r\'ealis\'es.
 
 \section{Taille de la grille variable}
@@ -514,7 +564,7 @@ d'ex\'ecutions de ces quatre versions. Ceci v\'erifie l'analyse faite
 auparavant.
 
 \begin{center}
-\begin{tikzpicture}[x=0.022cm,y=0.4cm]
+\begin{tikzpicture}[x=0.021cm,y=0.4cm]
   \def\xmin{0}
   \def\xmax{700}
   \def\ymin{0}

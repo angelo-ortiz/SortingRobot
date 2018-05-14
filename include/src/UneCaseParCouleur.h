@@ -94,7 +94,7 @@ Cell_char *Ajout_action_apres_c(Solution *S, Cell_char *c, int j, char a, Cell_c
 Cell_char *PlusCourtChemin_apres_c(Solution *S, Cell_char *c, int j, int l, Cell_char* *Tref);
 
 /**
- * Procedurer qui ajoute la suite de caracteres correspondant au
+ * Procedure qui ajoute la suite de caracteres correspondant au
  * parcours du circuit <C> dans <S>
  */
 void Ajout_circuit_dans_solution(Solution *S, Cell_circuit *C, Cell_char* *Tref, int *Jdroite);

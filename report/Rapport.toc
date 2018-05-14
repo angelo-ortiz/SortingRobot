@@ -2,15 +2,17 @@
 \contentsline {part}{Introduction}{4}
 \contentsline {part}{I\hspace {1em}Algorithme au plus proche}{5}
 \contentsline {section}{\numberline {1}Pr\'eliminaires}{5}
-\contentsline {section}{\numberline {2}Version na\"ive}{6}
-\contentsline {section}{\numberline {3}Version circulaire}{7}
-\contentsline {section}{\numberline {4}Version par couleur}{7}
-\contentsline {section}{\numberline {5}Version par AVL}{7}
+\contentsline {section}{\numberline {2}Principe}{6}
+\contentsline {section}{\numberline {3}Analyse de la complexit\'e}{6}
+\contentsline {section}{\numberline {4}Version na\"ive}{7}
+\contentsline {section}{\numberline {5}Version circulaire}{7}
+\contentsline {section}{\numberline {6}Version par couleur}{7}
+\contentsline {section}{\numberline {7}Version par AVL}{8}
 \contentsline {part}{II\hspace {1em}R\'esolution par graphes}{9}
-\contentsline {section}{\numberline {6}M\'ethode par circuits}{9}
-\contentsline {section}{\numberline {7}Vecteur avec une case par couleur}{10}
-\contentsline {part}{III\hspace {1em}Comparaison et performances}{11}
-\contentsline {section}{\numberline {8}Taille de la grille variable}{11}
-\contentsline {section}{\numberline {9}Nombre de couleurs variable}{11}
-\contentsline {section}{\numberline {10}Vecteur avec une case par couleur}{12}
-\contentsline {part}{Conclusion}{13}
+\contentsline {section}{\numberline {8}M\'ethode par circuits}{9}
+\contentsline {section}{\numberline {9}Vecteur avec une case par couleur}{10}
+\contentsline {part}{III\hspace {1em}Comparaison et performances}{12}
+\contentsline {section}{\numberline {10}Taille de la grille variable}{12}
+\contentsline {section}{\numberline {11}Nombre de couleurs variable}{12}
+\contentsline {section}{\numberline {12}Vecteur avec une case par couleur}{13}
+\contentsline {part}{Conclusion}{14}

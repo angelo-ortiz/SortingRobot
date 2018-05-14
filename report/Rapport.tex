@@ -19,6 +19,7 @@
 \author{Angelo Ortiz}
 \title{Rapport du Projet Sorting Robot}
 \graphicspath{ {../img/report/} }
+% \renewcommand\thefootnote{\fnsymbol{footnote}}
 
 \begin{document}
 \begin{titlepage}
@@ -263,31 +264,39 @@ et am\'eliorent \'enorm\'ement la lisibilit\'e du code.
 cas o\`u le robot porte une pi\`ece, sa couleur.
 \end{itemize}
 
-\subsection*{Analyse de la complexit\'e}
-Pour l'analyse de la complexit\'e des quatre impl\'ementations, on 
-commence par les morceaux de code communs aux toutes. Dans le pire cas, 
-il n'y a aucune case noire dans la grille, i.e.\ il y a $O(n^2)$ pi\`eces \`a 
-traiter, ce qui appara\^it sous la forme d'une boucle \texttt{while} dans le 
-code fourni, en l'occurrence la boucle principale des fonctions. De 
+\section{Principe}
+Le robot prend la pi\`ece de la case la plus proche s'il en porte pas. Puis il 
+cherche la case de m\^eme couleur la plus proche \'etant la plus coll\'ee \`a 
+la bordure sup\'erieure de la grille. S'il y en a plusieurs, il choisit 
+celle qui est la plus \`a gauche. Il se d\'eplace ensuite jusqu'\`a cette 
+case-l\`a et y d\'epose sa pi\`ece. Il r\'ep\`ete ce proc\'ed\'e jusqu'\`a ce 
+que la grille soit compl\`etement noire.
+
+\section{Analyse de la complexit\'e}
+M\^eme si l'analyse de la complexit\'e de l'algorithme d\'epend de son 
+impl\'ementation, on peut commencer par les morceaux de code communs aux toutes. 
+Dans le pire cas, il n'y a aucune case noire dans la grille, i.e.\ il y a 
+$O(n^2)$ pi\`eces \`a traiter, ce qui correspond \`a la boucle \texttt{while} 
+dans le code fourni, en l'occurrence la boucle principale des fonctions. De 
 plus, la recherche d'une pi\`ece non noire aux alentours du robot est faite au 
 tout d\'ebut de l'algorithme et \`a chaque fois que l'on ferme un 
-circuit : cela d\'epend fortement du nombre de cycles dans la grille. Par 
-cons\'equent, ceci n'est pas pris en compte pour l'analyse de la complexit\'e 
-et celle-ci se r\'eduit \`a la recherche des pi\`eces. Ceci consiste pour chaque 
-pi\`ece \`a chercher la case la plus proche dont la couleur du fond co\"incide 
-avec celle de la pi\`ece. 
+circuit\footnote{Un circuit est une suite d'{\itshape arcs} qui se referme 
+(cf. section \ref{methcirc}).} : cela d\'epend fortement du nombre de circuits 
+dans la grille. Par cons\'equent, ceci n'est pas pris en compte pour l'analyse 
+de la complexit\'e et celle-ci se r\'eduit \`a la recherche de la case cible 
+pour le d\'ep\^ot de la pi\`ece du robot. 
 
 Par ailleurs, on a un param\`etre cach\'e correspondant au nombre maximal de 
 pi\`eces d'une m\^eme couleur dans le grille et ainsi des cases d'une m\^eme 
-couleur. Ce param\`etre est $\alpha = \left \lceil \frac{nm}{c} \right \rceil$, 
-o\`u $m$, $n$ et $c$ correspondent respectivement au nombre de lignes, de 
-colonnes et de couleurs de la grille. On a $\alpha = \left \lceil \frac{n^2}{c} 
-\right \rceil$ dans le cadre du projet.
+couleur. Ce param\`etre est $\alpha = \left \lceil \dfrac{nm}{c} \right 
+\rceil$, o\`u $m$, $n$ et $c$ correspondent respectivement au nombre de lignes, 
+de colonnes et de couleurs de la grille. On a $\alpha = \left \lceil 
+\dfrac{n^2}{c} \right \rceil$ dans le cadre du projet.
 
 \section{Version na\"ive}
-Comme mentionn\'e dans le paragraphe pr\'ec\'edent, il suffit de calculer la 
-complexit\'e de la recherche des pi\`eces pour trouver la complexit\'e totale 
-d'une impl\'ementation de l'algorithme au plus proche.
+Comme mentionn\'e dans la section pr\'ec\'edente, il suffit de 
+calculer la complexit\'e de la recherche de la case cible pour trouver la 
+complexit\'e totale d'une impl\'ementation de l'algorithme au plus proche.
 La recheche de l'impl\'ementation na\"ive de l'algorithme consiste en un 
 parcours matriciel de la grille. Puisqu'on traite toutes les cases dans ce 
 parcours, la complexit\'e de cette recherche est de l'ordre de $\Theta(n^2)$. 
@@ -306,35 +315,31 @@ version au complet est en $O(n^4)$.
 
 M\^eme si l'ordre de grandeur de la complexit\'e-temps pire-cas pour ces deux 
 premi\`eres impl\'ementations est le m\^eme, on remarque que la premi\`ere 
-cro\^it plus 
-vite que la deuxi\`eme. Ceci est d\^u \`a la diff\'erence en la recherche d'une 
-case ad\'equate : on a un ordre de grandeur en moyenne pour la version na\"ive, 
-alors qu'il s'agit d'une borne sup\'erieure pour la version 
-circulaire. C'est pourquoi on a obtenu des meilleurs r\'esultats pour la 
-deuxi\`eme version.
-
+cro\^it plus vite que la deuxi\`eme. Ceci est d\^u \`a la diff\'erence en la 
+recherche de la case cible : on a un ordre de grandeur en moyenne 
+pour la version na\"ive, alors qu'il s'agit d'une borne sup\'erieure pour la 
+version circulaire. C'est pourquoi on a obtenu des meilleurs r\'esultats pour 
+la deuxi\`eme version.
 
 \section{Version par couleur}
-Dans un premier temps, on d\'etermine une borne sup\'erieure de la 
-complexit\'e. En effet, le robot porte une pi\`ece \`a presque tout moment du 
-jeu et cherche alors la case de m\^eme couleur la plus proche de lui. On a un 
-acc\`es en $\Theta(1)$ \`a la liste cha\^in\'ee correspondant \`a la couleur de 
-la pi\`ece et on est oblig\'e de parcourir toute la liste car l'ordre suivi lors 
-de l'insertion n'est pas relevant. Soit $l$ la longueur de la liste 
-cha\^in\'ee. On a donc que la complexit\'e de la recherche de ladite case est en 
-$\Theta(l)$. Or on a $l \leq n^2$. On en d\'eduit que le traitement d'une 
-pi\`ece est de l'ordre de $O(n^2)$, ce qui donne une complexit\'e en $O(n^4)$ 
-pour cette version. 
+Dans un premier temps, on d\'etermine un majorant de la complexit\'e. On sait 
+que le robot porte une pi\`ece \`a presque tout moment du jeu et on cherche 
+alors la case de m\^eme couleur la plus proche de lui. On a un acc\`es en 
+$\Theta(1)$ \`a la liste cha\^in\'ee correspondant \`a la couleur de la pi\`ece 
+et on est oblig\'e de parcourir toute la liste car l'ordre suivi lors de 
+l'insertion n'est pas relevant. Soit $l$ la longueur de la liste cha\^in\'ee. On 
+a donc que la complexit\'e de la recherche de ladite case est en $\Theta(l)$. Or 
+on a $l \leq n^2$. On en d\'eduit que le traitement d'une pi\`ece est de l'ordre 
+de $O(n^2)$, ce qui donne une complexit\'e en $O(n^4)$ pour cette version. 
 
-Dans un deuxi\`eme temps, on se rend compte qu'on a n\'eglig\'e un 
-facteur cl\'e dans cette version, \`a savoir le param\`etre $\alpha$ 
-mentionn\'e pr\'ec\'edemment. On en tient compte dans l'analyse et on remarque 
-qu'il est une borne sup\'erieure pour la longueur des listes 
-cha\^in\'ees et il remplace en cons\'equence $n^2$ dans le paragraphe 
-ci-dessus. De ce fait, on obtient que la complexit\'e de la recherche dans la 
-liste cha\^in\'ee est en $O(\alpha)$, ce qui donne finalement une complexit\'e 
-en $O(\alpha n^2)$ pour la 
-version par couleur de l'algorithme.
+Dans un deuxi\`eme temps, on se rend compte qu'on a n\'eglig\'e un facteur cl\'e 
+dans cette version, \`a savoir le param\`etre $\alpha$ mentionn\'e 
+pr\'ec\'edemment. On en tient compte dans l'analyse et on remarque qu'il est une 
+borne sup\'erieure de la longueur des listes cha\^in\'ees et il remplace en 
+cons\'equence $n^2$ dans le paragraphe ci-dessus. De ce fait, on obtient que la 
+complexit\'e de la recherche dans la liste cha\^in\'ee est en $O(\alpha)$, ce 
+qui donne finalement une complexit\'e en $O(\alpha n^2)$ pour la version par 
+couleur de l'algorithme.
 
 {\bfseries N.B.} L'insertion de chacune des $O(n^2)$ cases non noires de la 
 grille dans la liste cha\^in\'ee correspondante est en $\Theta(1)$, ce qui donne 
@@ -351,16 +356,16 @@ l'initialisation des listes.
 La derni\`ere version de cette algorithme r\'epose sur l'utilisation des 
 arbres AVL. On a rang\'e les cases dans une matrice d'arbres : chaque ligne 
 correspond \`a une couleur distincte et chaque colonne correspond \`a une ligne 
-de la grille du jeu. Etant donn\'e que l'on a impl\'ement\'e la 
-matrice sous la forme d'un tableau de tableaux, 
-l'acc\`es \`a un certain arbre est en $\Theta(1)$. Cependant, la recherche de 
-la case la plus proche dans une ligne donn\'ee est en $O(h(T))$, o\`u $h(T)$ 
-est la hauteur de l'arbre $T$ correspondant. On sait d'ailleurs que $h(T) \leq 
-\left \lceil \log_2 n(T) \right \rceil$, o\`u $n(T)$ est le nombre de 
-n\oe uds dans l'arbre $T$. Or on a $n(T) \leq \min(n,\alpha)$. 
-Par transitivit\'e, ceci nous donne une complexit\'e en $O(\log 
-\min(n,\alpha))$. On en d\'eduit 
-que la recherche sur les $n$ lignes de la grille est en $O(n\log 
+de la grille du jeu. Etant donn\'e que l'on a impl\'ement\'e la matrice sous la 
+forme d'un tableau de tableaux, l'acc\`es \`a un arbre quelconque est en 
+$\Theta(1)$. Cependant, la recherche de la case la plus proche dans une ligne 
+donn\'ee est en $O(h(T))$, o\`u $h(T)$ est la hauteur de l'arbre $T$ 
+correspondant. On sait\footnote{En effet, l'une des propri\'et\'es des arbres 
+  AVL est l'\'equilibrage.} d'ailleurs que $h(T) \leq \left \lceil \log_2 n(T) 
+\right \rceil$, o\`u $n(T)$ est le nombre de n\oe uds dans l'arbre $T$. Or on 
+a $n(T) \leq \min(n,\alpha)$. Par transitivit\'e, ceci nous donne une 
+complexit\'e en $O(\log \min(n,\alpha))$. 
+On en d\'eduit que la recherche sur les $n$ lignes de la grille est en $O(n\log 
 \min(n,\alpha))$. On obtient finalement une complexit\'e en $O(n^3\log 
 \min(n,\alpha))$ pour cette derni\`ere impl\'ementation de l'algorithme au plus 
 proche.
@@ -378,7 +383,7 @@ Dans cette deuxi\`eme partie, on vous d\'etaille le fonctionnement des
 proc\'edures de r\'esolution du probl\`eme du robot trieur \`a l'aide des 
 graphes.
 
-\section{M\'ethode par circuits}
+\section{M\'ethode par circuits} \label{methcirc}
 \subsection*{Pr\'eliminaires}
 \'Etant donn\'e une instance de grille $G$, on d\'efinit un graphe orient\'e $H 
 = (V,A)$, nomm\'e {\bfseries graphe des d\'eplacements} de la grille, de la 
@@ -386,9 +391,9 @@ mani\`ere suivante :
 \begin{itemize}
 \item l'ensemble des sommets $V$ correspond aux cases $(i,j)$ de la grille $G$,
 \item l'ensemble des arcs $A$ correspond \`a des arcs allant du 
-sommet-case $(i,j)$ au sommet-case $(i',j')$ tels que la case $(i,j)$ est non 
-noire et qu'elle contient une pi\`ece ayant la m\^eme couleur que celle du fond 
-de la case $(i',j')$.
+sommet-case non noir $(i,j)$ au sommet-case non noir $(i',j')$ tels que la case 
+$(i,j)$ contient une pi\`ece ayant la m\^eme couleur que celle du fond de la 
+case $(i',j')$.
 \end{itemize}
 
 Il est \`a noter qu'un arc repr\'esente une succession de d\'eplacements sur la 
@@ -414,26 +419,26 @@ le probl\`eme du robot trieur.
 \subsubsection*{Version na\"ive}
 Dans un premier temps, on a d\'ecid\'e de faire une recherche de circuits 
 simple. 
-Pour chaque sommet dont la case associ\'ee est non noire, on recherche le sommet 
-correspondant \`a la case en haut \`a gauche ayant la m\^eme couleur que celle 
-de sa pi\`ece. Compte tenu du fait que l'ordre des sommets-case dans les listes 
-d'adjacence suit l'ordre de la recherche dans une matrice \`a deux dimensions, 
-\`a savoir un parcours par lignes commen\c{c}ant par la premi\`ere, cette 
-premi\`ere recherche des circuits est tr\`es rapide. Ce gain est nuanc\'e par le 
-nombre de pas utilis\'es par le robot pour rendre noire la grille du jeu dans le 
-cas o\`u il y a plusieurs pi\`eces par couleurs, i.e.\ $\alpha > 1$. En effet, 
-le robot essaie syst\'ematiquement de se d\'eplacer vers le coin sup\'erieur 
-gauche de la grille aussi bien pour refermer un circuit que pour en 
-commencer un nouveau.
+Pour chaque sommet-case non noir, on recherche le sommet correspondant \`a la 
+case en haut \`a gauche ayant la m\^eme couleur que celle de sa pi\`ece. Compte 
+tenu que l'ordre des sommets-case dans les listes d'adjacence est induit par le 
+parcours matriciel\footnote{Il s'agit d'un parcours s\'equentiel des lignes du 
+haut vers le bas et des cellules \`a l'int\'erieur de gauche \`a droite.} de la 
+grille, cette premi\`ere recherche des circuits est tr\`es rapide. Ce gain est 
+nuanc\'e par le nombre de pas utilis\'es par le robot pour rendre noire la 
+grille du jeu dans le cas o\`u il y a plusieurs pi\`eces par couleurs, i.e.\ 
+$\alpha > 1$. En effet, le robot essaie syst\'ematiquement de se d\'eplacer vers 
+le coin sup\'erieur gauche de la grille aussi bien pour refermer un circuit que 
+pour en commencer un nouveau.
 
 \subsubsection*{Version am\'elior\'ee}
 Dans un deuxi\`eme temps, on a modifi\'e l\'eg\`erement la m\'ethode 
-pr\'ec\'edente : la recherche du circuit suivant n'est plus na\"ive. Cela se 
-traduit par la recherche dans la liste de circuits pas encore parcourus du 
-circuit dont le premier sommet-case est le plus proche de la position courante 
-du robot trieur. Ce changement comporte un compromis en lui-m\^eme dans la 
-mesure o\`u le robot r\'ealise des trajets plus courts, mais que le temps 
-d'ex\'ecution pour ce faire augmente.
+pr\'ec\'edente : la recherche du circuit suivant n'est plus na\"ive. Elle 
+devient ainsi la recherche dans la liste de circuits pas encore 
+parcourus du circuit dont le premier sommet-case est le plus proche de la 
+position courante du robot trieur. Ce changement comporte un compromis en 
+lui-m\^eme dans la mesure o\`u le robot r\'ealise des trajets plus courts, mais 
+que le temps d'ex\'ecution pour ce faire augmente.
 
 \subsubsection*{Version g\'en\'erale}
 On a voulu finalement am\'eliorer la recherche des circuits et l'ajouter \`a la 
@@ -448,8 +453,50 @@ recherche de circuits devient alors plus longue, mais le robot finit sont
 parcours de la grille en moins de pas qu'auparavant.
 
 \section{Vecteur avec une case par couleur}
+\`A la diff\'erence du cas g\'en\'eral, il existe bien un algorithme 
+polyn\^omial r\'esolvant
+le probl\`eme du robot trieur dans le cas particulier d'une grille r\'eduite \`a une
+ligne, i.e.\ un vecteur, avec autant de couleurs qu'il y a des cases. Cet
+algorithme a \'et\'e propos\'e par Daniel Graf et sa complexit\'e est en 
+$\Theta(n^2)$.
+
+\subsection*{Pr\'eliminaires}
+L'algorithme r\'epose sur la structure de liste de circuits trouv\'ee \`a l'exercice
+pr\'ec\'edent. Il faut n\'eanmoins ins\'erer les indices {\itshape jmin} et 
+{\itshape jmax} des cases la plus \`a gauche et la plus \`a droite pour chaque 
+circuit de la liste.
+De plus, le premier sommet-case de chaque circuit doit correspondre \`a sa case 
+la plus \`a gauche, et la liste doit \^etre rang\'ee dans l'ordre croissant des 
+{\itshape jmin}.
+
+Heureusement pour nous, ces trois conditions sont d\'ej\`a toutes remplies par
+notre m\'ethode de recherche des circuits du graphe. En effet, notre fonction 
+parcourt les arcs selon l'ordre d\'efini lors de la cr\'eation du graphe 
+associ\'e \`a la grille, \`a savoir celui du parcours matriciel.
+
 \subsection*{Principe}
-\todo{Algo Graf}
+Cet algorithme se base aussi sur le parcours des circuits. Cependant, il les 
+coupe chemin faisant pour en commencer d'autres. Autrement dit, \'etant donn\'e 
+un sommet-case d'un circuit, si le prochain sommet-case par sa droite appartient 
+\`a un autre circuit, il arr\^ete le parcours courant. Puis il se dirige vers ce 
+sommet-case en vue de commencer le parcours du circuit associ\'e et il 
+r\'ep\`ete la d\'emarche pour ce dernier sommet-case. Une fois ce circuit 
+ferm\'e, il revient au sommet-case de coupe et reprend le parcours initial.
+
+L'id\'ee de coupure de circuits r\'eduit le nombre de pas utilis\'es pour se 
+d\'eplacer de la fin d'un circuit au d\'ebut du suivant sans aucune pi\`ece. 
+Ce sont les d\'eplacements que l'on qualifie de non essentiels ou encore 
+optimisables.
+
+\subsection*{Note d'impl\'ementation}
+On a impl\'ement\'e cet algorithme \`a l'aide de diverses fonctions de base 
+pour simplifier le code de la fonction principale. On s'est rendu compte tr\`es 
+rapidement qu'il y a un petit d\'efaut dans l'algorithme. Effectivement, si le 
+premier circuit ne commence pas dans la premi\`ere case, \`a savoir $(0,0)$, on 
+fait des d\'eplacements inutiles \`a la fin de l'algorithme pour revenir \`a 
+cette case. Pour \'eviter ces pas superflus, on d\'ecale la position initiale 
+du robot vers le premier sommet-case non noir avant de commencer le vrai 
+algorithme.
 
 \subsection*{G\'en\'eralisation}
 On a beaucoup appr\'eci\'e l'algorithme de Daniel Graf. C'est pourquoi on s'en 
@@ -458,10 +505,10 @@ probl\`eme, ou plut\^ot une am\'elioration d'un algorithme pr\'ec\'edent.
 Effectivement, on est partis sur la base de la version g\'en\'erale et on y a 
 ajout\'e la notion de coupure de circuits.
 
-Tout d'abord, on doit remarquer les deux faits suivants : 
+Tout d'abord, on doit faire les remarques suivantes : 
 \begin{itemize}
   \item il s'agit d'une m\'ethode g\'en\'erale, c'est-a-dire que la grille de 
-jeu comporte un nombre quelconque de lignes et colonnes ; un tableau de 
+jeu comporte un nombre quelconque de lignes et de colonnes ; un tableau de 
 pointeurs pour toutes les cases n'est donc pas envisageable ; et
 \item la notion de \enquote{case la plus \`a droite} est difficilement 
 g\'en\'eralisable au cas d'une matrice.
@@ -480,14 +527,13 @@ peut couper un circuit que s'il en trouve un autre tr\`es proche de lui. Une
 valeur grande du param\`etre implique par contre l'\'elargissement de 
 l'\'eventail de circuits \'eligibles.
 
-Pour que la signature de la fonction impl\'ement\'ee 
-soit compatible avec celle des fonctions pr\'ec\'edentes, le coefficient de 
-coupure a \'et\'e d\'efini \`a travers une macro et pas comme argument de 
-fonction.
-
 Cet algorithme s'est av\'er\'e au moins aussi efficace que la version 
 g\'en\'erale de base : de mani\`ere g\'en\'erale, les r\'esultats 
 am\'eliorent au fur et \`a mesure que le nombre de circuits augmente.
+
+{\bfseries N.B.} Pour que la signature de la fonction impl\'ement\'ee soit 
+compatible avec celle des fonctions pr\'ec\'edentes, le coefficient de coupure a 
+\'et\'e d\'efini \`a travers une macro et pas comme argument de fonction.
 
 \newpage
 
@@ -553,13 +599,13 @@ plus proche};
   
   %legend
   \node[anchor=south west,color=blue] at (550,4) {\footnotesize AVL 
-	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(54,0);}};
+	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(54.5,0);}};
   \node[anchor=south west,color=red] at (550,3) {\footnotesize Couleur 
-	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(28,0);}};
+	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(30,0);}};
   \node[anchor=south west,color=cyan] at (550,2) {\footnotesize Circulaire 
 	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(16,0);}};
   \node[anchor=south west,color=black] at (550,1) {\footnotesize Na\"if 
-	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(55,0);}};
+	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(56,0);}};
   
   %curves
   \draw[color=blue] plot[smooth] file {../data/size/avl.txt};
@@ -616,11 +662,11 @@ longueur 300};
   		
   %legend
   \node[anchor=south west,color=blue] at (240,14) {\footnotesize AVL 
-	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(32,0);}};
+	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(27.5,0);}};
   \node[anchor=south west,color=red] at (240,13) {\footnotesize Couleur 
 	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(15,0);}};
-  \node[anchor=south west,color=black] at (240,11.5) {\footnotesize $y=30/\sqrt 
-x$ 
+  \node[anchor=south west,color=black] at (240,10.5) {\footnotesize 
+	$y=\dfrac{30}{\sqrt x}$ 
 	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(15,0);}};
   
   %curves
