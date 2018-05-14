@@ -448,8 +448,26 @@ recherche de circuits devient alors plus longue, mais le robot finit sont
 parcours de la grille en moins de pas qu'auparavant.
 
 \section{Vecteur avec une case par couleur}
+Au contraire du cas g\'en\'eral, il existe bien un algorithme polyn\^omial r\'esolvant
+le probl\`eme du robot trieur dans le cas particulier d'une grille r\'eduite \`a une
+ligne, i.e.\ un vecteur, avec autant de couleurs qu'il y a des cases. En effet, cet
+algorithme a \'et\'e propos\'e par Daniel Graf et sa complexit\'e est en $\Theta(n2)$.
+
+\subsection*{Pr\'eliminaires}
+L'algorithme r\'epose sur la structure de liste de circuits trouv\'ee \`a l'exercice
+pr\'ec\'edent. Il faut n\'eanmoins ins\'erer l'indice des cases la plus \`a gauche
+{\itshape jmin} et la plus \`a droite {\itshape jmax} pour chaque circuit de la liste.
+De plus, le premier sommet-case de chaque circuit doit correspondre \`a la case la
+plus \`a gauche pour ledit circuit, et la liste doit \^etre rang\'ee dans l'ordre
+croissant des {\itshape jmin}.
+
+Heureusement pour nous, ces trois conditions sont d\'ej\`a toutes remplies par
+notre m\'ethode de recherche de circuits dans le graphe de par l'ordre d\'efini
+sur les arcs lors de la cr\'eation du graphe associ\'e \`a la grille et le parcours
+des arcs dans notre m\'ethode.
+
 \subsection*{Principe}
-\todo{Algo Graf}
+\todo{reprendre ici}
 
 \subsection*{G\'en\'eralisation}
 On a beaucoup appr\'eci\'e l'algorithme de Daniel Graf. C'est pourquoi on s'en 
