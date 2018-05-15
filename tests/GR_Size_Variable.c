@@ -37,7 +37,7 @@ int main (int argc, char* *argv)
   int pas, n, i, cpt = 0;
   int fin_algo[NB_GRAPHE] = {0,0,0}, sortie_prog = 0;
   Grille G;
-  //Solution S = NULL;
+  //Solution S;
   char *res_algo[NB_GRAPHE] = {"../data/size/g_naif.txt", "../data/size/g_ameliore.txt", \
 			       "../data/size/g_general.txt"};
   FILE *f_algo[NB_GRAPHE];
@@ -60,8 +60,8 @@ int main (int argc, char* *argv)
   
   n = DEB;
   do {
-    G.n = n;
     G.m = n;
+    G.n = n;
     G.nbcoul = n;
     Grille_allocation(&G);
     

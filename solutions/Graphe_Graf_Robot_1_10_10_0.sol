@@ -1,2 +1,0 @@
-1 10 10 0
-S R R R R R R S L L L L L S R R R S R S R R S R R S L S L L L L L L S R S L L S L S 0

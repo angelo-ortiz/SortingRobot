@@ -5,7 +5,7 @@ sr_algorithme graphe_algorithmes[NB_GRAPHE] = {algorithme_ucpc_naif, \
 					       algorithme_general, \
 					       algorithme_general_coupes};
 
-sr_algorithme gen_algorithmes[NB_APP+NB_GRAPHE+1] = {algorithme_naif, \
+sr_algorithme tous_algorithmes[NB_APP+NB_GRAPHE+1] = {algorithme_naif, \
 						     algorithme_circulaire, \
 						     algorithme_parcouleur, \
 						     algorithme_paravl, \
@@ -21,6 +21,12 @@ sr_algorithme ucpc_algorithmes[NB_GRAPHE+2] = {algorithme_paravl, \
 					       algorithme_ucpc_ameliore, \
 					       algorithme_general, \
 					       algorithme_general_coupes};
+
+sr_algorithme gen_algorithmes[NB_GRAPHE+1] = {algorithme_paravl, \
+					      algorithme_ucpc_naif, \
+					      algorithme_ucpc_ameliore, \
+					      algorithme_general, \
+					      algorithme_general_coupes};
 
 int Graphe_Rech_Circuit_rec(Graphe *H, int ir, int jr, int i, int j)
 {
@@ -315,7 +321,9 @@ Cell_char *Ajout_action_apres_c(Solution *S, Cell_char *c, int j, char a, Cell_c
     cell->suiv = c->suiv;
     c->suiv = cell;
   }
-  S->cptr_pas ++;
+  if (a != 'S') {
+    S->cptr_pas ++;
+  }
   Tref[j] = cell;
   return cell;
 }
@@ -457,7 +465,7 @@ void algorithme_circuit_CasLigne1x1(Grille *G, Solution *S, int graine)
   LCDesalloue(LC);
   Graphe_desallocation(H);
   free(Tref);
-  
+
   if (S != NULL) {
     Ecriture_Disque(G->m, G->n, G->nbcoul, graine, S, "Graphe_Graf");
   }

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.3.31)  14 MAY 2018 21:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.3.31)  16 MAY 2018 00:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1124,18 +1124,49 @@ File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
 zlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
 )))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/dat
+avisualization/tikzlibrarydatavisualization.code.tex
+File: tikzlibrarydatavisualization.code.tex 2015/05/18 v3.0.1a (rcs-revision 1.
+48)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduledatavisualizati
+on.code.tex
+File: pgfmoduledatavisualization.code.tex 2015/05/18  (rcs-revision 1.50)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleoo.code.tex
+\pgfoo@objectcount=\count180
+\pgfoothis@count=\count181
+\pgfoo@toks=\toks37
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryfpu.code.tex
+)
+\pgf@lib@dv@cache@count=\count182
+\pgf@lib@dv@cache@count=\count183
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarybackgrounds.code.tex
+File: tikzlibrarybackgrounds.code.tex 2013/07/18 v3.0.1a (rcs-revision 1.3)
+\pgf@layerbox@background=\box61
+\pgf@layerboxsaved@background=\box62
+)
+\tikzdvvisualizercounter=\count184
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarybabel.code.tex
+File: tikzlibrarybabel.code.tex 2013/06/24 v3.0.1a (rcs-revision 1.1)
+)
 (/usr/share/texlive/texmf-dist/tex/latex/pgfplots/pgfplots.sty
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.revision.tex)
 Package: pgfplots 2016/01/06 v1.13 Data Visualization (1.13)
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplots.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/pgfplotscore.code.tex
-\t@pgfplots@toka=\toks37
-\t@pgfplots@tokb=\toks38
-\t@pgfplots@tokc=\toks39
+\t@pgfplots@toka=\toks38
+\t@pgfplots@tokb=\toks39
+\t@pgfplots@tokc=\toks40
 \pgfplots@tmpa=\dimen280
-\c@pgfplots@coordindex=\count180
-\c@pgfplots@scanlineindex=\count181
+\c@pgfplots@coordindex=\count185
+\c@pgfplots@scanlineindex=\count186
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgfplotssysgeneric.code
 .tex))
@@ -1143,15 +1174,13 @@ Package: pgfplots 2016/01/06 v1.13 Data Visualization (1.13)
 ex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
 gfsupp_loader.code.tex
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryfpu.code.tex
-)
 Package pgfplots: loading complementary arithmetics for your pgf version...
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
 gfsupp_pgflibraryfpu.code.tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldp
 gfsupp_pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count182
+\c@pgfmathroundto@lastzeros=\count187
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotslists
@@ -1160,14 +1189,14 @@ tructure.code.tex)
 tructureext.code.tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsarray
 .code.tex
-\c@pgfplotsarray@tmp=\count183
+\c@pgfplotsarray@tmp=\count188
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsmatri
 x.code.tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/numtable/pgfplotstableshare
 d.code.tex
-\c@pgfplotstable@counta=\count184
-\t@pgfplotstable@a=\toks40
+\c@pgfplotstable@counta=\count189
+\t@pgfplotstable@a=\toks41
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsdeque
 .code.tex)
@@ -1179,7 +1208,7 @@ de.tex))
 .tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/libs/pgflibrarypgfplots.sur
 fshading.code.tex
-\c@pgfplotslibrarysurf@no=\count185
+\c@pgfplotslibrarysurf@no=\count190
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots.surf
 shading.pgfsys-pdftex.def)))
@@ -1211,11 +1240,11 @@ e.tex
 \pgfdecoratedinputsegmentcompleteddistance=\dimen283
 \pgfdecoratedinputsegmentremainingdistance=\dimen284
 \pgf@decorate@distancetomove=\dimen285
-\pgf@decorate@repeatstate=\count186
+\pgf@decorate@repeatstate=\count191
 \pgfdecorationsegmentamplitude=\dimen286
 \pgfdecorationsegmentlength=\dimen287
 )
-\tikz@lib@dec@box=\box61
+\tikz@lib@dec@box=\box63
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarydecorations.pathmorphing.code.tex
@@ -1225,7 +1254,7 @@ decorations.pathmorphing.code.tex))
 zlibrarydecorations.pathreplacing.code.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/decorations/pgflibrary
 decorations.pathreplacing.code.tex))
-\pgfplots@numplots=\count187
+\pgfplots@numplots=\count192
 \pgfplots@xmin@reg=\dimen288
 \pgfplots@xmax@reg=\dimen289
 \pgfplots@ymin@reg=\dimen290
@@ -1252,17 +1281,17 @@ Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
 
 (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
 (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks41
-\XKV@tempa@toks=\toks42
+\XKV@toks=\toks42
+\XKV@tempa@toks=\toks43
 )
-\XKV@depth=\count188
+\XKV@depth=\count193
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2008/10/06 v3.0.1a (rcs-revision 1.7)
 )
-\c@@todonotes@numberoftodonotes=\count189
+\c@@todonotes@numberoftodonotes=\count194
 )
 (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
@@ -1278,9 +1307,9 @@ Package ifvtex Info: VTeX not detected.
 (/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count190
-\Gm@cntv=\count191
-\c@Gm@tempcnt=\count192
+\Gm@cnth=\count195
+\Gm@cntv=\count196
+\c@Gm@tempcnt=\count197
 \Gm@bindingoffset=\dimen294
 \Gm@wd@mp=\dimen295
 \Gm@odd@mp=\dimen296
@@ -1289,7 +1318,7 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutheight=\dimen299
 \Gm@layouthoffset=\dimen300
 \Gm@layoutvoffset=\dimen301
-\Gm@dimlist=\toks43
+\Gm@dimlist=\toks44
 )
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
@@ -1298,34 +1327,34 @@ Package csquotes Info: Redefining alias 'default' -> 'french'.
  (./Rapport.aux)
 \openout1 = `Rapport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Info: Redefining \degres on input line 24.
-LaTeX Info: Redefining \dots on input line 24.
-LaTeX Info: Redefining \up on input line 24.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Info: Redefining \degres on input line 26.
+LaTeX Info: Redefining \dots on input line 26.
+LaTeX Info: Redefining \up on input line 26.
  (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count193
+\scratchcounter=\count198
 \scratchdimen=\dimen302
-\scratchbox=\box62
-\nofMPsegments=\count194
-\nofMParguments=\count195
-\everyMPshowfont=\toks44
-\MPscratchCnt=\count196
+\scratchbox=\box64
+\nofMPsegments=\count199
+\nofMParguments=\count266
+\everyMPshowfont=\toks45
+\MPscratchCnt=\count267
 \MPscratchDim=\dimen303
-\MPnumerator=\count197
-\makeMPintoPDFobject=\count198
-\everyMPtoPDFconversion=\toks45
+\MPnumerator=\count268
+\makeMPintoPDFobject=\count269
+\everyMPtoPDFconversion=\toks46
 ) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -1493,23 +1522,23 @@ s been generated with the most recent feature set (\pgfplotsset{compat=1.13}).
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c__siunitx_mathsf_int=\count199
-LaTeX Font Info:    Try loading font information for U+msa on input line 24.
+\c__siunitx_mathsf_int=\count270
+LaTeX Font Info:    Try loading font information for U+msa on input line 26.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 24.
+LaTeX Font Info:    Try loading font information for U+msb on input line 26.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-\c__siunitx_mathtt_int=\count266
+\c__siunitx_mathtt_int=\count271
 
 <../img/report/logo.jpg, id=4, 1629.08624pt x 654.445pt>
 File: ../img/report/logo.jpg Graphic file (type jpg)
 
 <use ../img/report/logo.jpg>
-Package pdftex.def Info: ../img/report/logo.jpg used on input line 27.
+Package pdftex.def Info: ../img/report/logo.jpg used on input line 29.
 (pdftex.def)             Requested size: 145.11053pt x 58.28836pt.
  [1
 
@@ -1527,23 +1556,23 @@ Package pdftex.def Info: ../img/report/logo.jpg used on input line 27.
 File: ../img/report/gui.png Graphic file (type png)
 
 <use ../img/report/gui.png>
-Package pdftex.def Info: ../img/report/gui.png used on input line 85.
+Package pdftex.def Info: ../img/report/gui.png used on input line 87.
 (pdftex.def)             Requested size: 241.84843pt x 254.30011pt.
  [2 <../img/report/gui.png>]
 <../img/report/console.png, id=30, 899.36pt x 643.40375pt>
 File: ../img/report/console.png Graphic file (type png)
 
 <use ../img/report/console.png>
-Package pdftex.def Info: ../img/report/console.png used on input line 100.
+Package pdftex.def Info: ../img/report/console.png used on input line 102.
 (pdftex.def)             Requested size: 435.32422pt x 311.43193pt.
 
 <../img/report/structure.png, id=31, 729.47531pt x 306.39468pt>
 File: ../img/report/structure.png Graphic file (type png)
 
 <use ../img/report/structure.png>
-Package pdftex.def Info: ../img/report/structure.png used on input line 114.
+Package pdftex.def Info: ../img/report/structure.png used on input line 116.
 (pdftex.def)             Requested size: 435.32422pt x 182.8424pt.
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 116.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 118.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
@@ -1553,41 +1582,61 @@ File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [3 <../img/report/console.png (PNG copy)>] [4 <../img/report/structure.png (PNG
- copy)>] [5] [6] Excluding 'comment' comment. [7] [8] [9] [10] [11] [12]
-[13] [14] (./Rapport.aux) ) 
+ copy)>] [5] [6] Excluding 'comment' comment. [7] [8] [9] [10] [11]
+Excluding 'comment' comment.
+PGFPlots: reading {../data/size/naif.txt}
+PGFPlots: reading {../data/size/circulaire.txt}
+PGFPlots: reading {../data/size/avl.txt}
+PGFPlots: reading {../data/size/couleur.txt}
+ [12] Excluding 'comment' comment.
+PGFPlots: reading {../data/colour/300_avl.txt}
+PGFPlots: reading {../data/colour/300_couleur.txt}
+PGFPlots: reading {../data/vector/ucpc_avl.txt}
+PGFPlots: reading {../data/vector/ucpc_coupes.txt}
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[13]
+PGFPlots: reading {../data/general/avl.txt}
+PGFPlots: reading {../data/general/g_ameliore.txt}
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[14] [15] [16] (./Rapport.aux) ) 
 Here is how much of TeX's memory you used:
- 36330 strings out of 493029
- 852255 string characters out of 6136234
- 970926 words of memory out of 5000000
- 39305 multiletter control sequences out of 15000+600000
- 26294 words of font info for 72 fonts, out of 8000000 for 9000
+ 38216 strings out of 493029
+ 926079 string characters out of 6136234
+ 1073737 words of memory out of 5000000
+ 41165 multiletter control sequences out of 15000+600000
+ 23186 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,9n,84p,10379b,1056s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-
-t1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/s
-fbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/sh
-are/texmf/fonts/type1/public/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/type
-1/public/cm-super/sfbx2488.pfb></usr/share/texmf/fonts/type1/public/cm-super/sf
-cc1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfcc1728.pfb></usr/sha
-re/texmf/fonts/type1/public/cm-super/sfcc2074.pfb></usr/share/texmf/fonts/type1
-/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfr
-m1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/shar
-e/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></usr/share/texmf/fonts/type1/
-public/cm-super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti
-1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1728.pfb></usr/share
-/texmf/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on Rapport.pdf (15 pages, 1601361 bytes).
+ 55i,19n,84p,10379b,2232s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-s
+uper-t1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex1
+0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public
+/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.p
+fb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1728.pfb></usr/share/texmf
+/fonts/type1/public/cm-super/sfbx2488.pfb></usr/share/texmf/fonts/type1/public/
+cm-super/sfcc1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfcc1728.pf
+b></usr/share/texmf/fonts/type1/public/cm-super/sfcc2074.pfb></usr/share/texmf/
+fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/c
+m-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb
+></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></usr/share/texmf/f
+onts/type1/public/cm-super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm
+-super/sfti1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1728.pfb>
+</usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on Rapport.pdf (17 pages, 1602462 bytes).
 PDF statistics:
- 158 PDF objects out of 1000 (max. 8388607)
- 111 compressed objects within 2 object streams
+ 160 PDF objects out of 1000 (max. 8388607)
+ 112 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -11,6 +11,8 @@
 \usepackage{csquotes}
 \usepackage{caption}
 \usepackage{tikz}
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{babel}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.13 }
 \usetikzlibrary{plotmarks}
@@ -321,7 +323,7 @@ pour la version na\"ive, alors qu'il s'agit d'une borne sup\'erieure pour la
 version circulaire. C'est pourquoi on a obtenu des meilleurs r\'esultats pour 
 la deuxi\`eme version.
 
-\section{Version par couleur}
+\section{Version par couleur} \label{par_couleur}
 Dans un premier temps, on d\'etermine un majorant de la complexit\'e. On sait 
 que le robot porte une pi\`ece \`a presque tout moment du jeu et on cherche 
 alors la case de m\^eme couleur la plus proche de lui. On a un acc\`es en 
@@ -541,152 +543,339 @@ compatible avec celle des fonctions pr\'ec\'edentes, le coefficient de coupure a
 Dans cette derni\`ere partie, on vous pr\'esente les r\'esultats des 
 diff\'erents test de performance r\'ealis\'es.
 
-\section{Taille de la grille variable}
+\section{Taille de la grille variable} \label{size_var}
 On a compar\'e les performances des toutes les fonctions 
 impl\'ement\'es r\'esolvant le probl\`eme du robot trieur pour des grilles de 
 taille variable.
 
 Les exp\'erimentations ont \'et\'e faites avec $\alpha = n$,
 %$\alpha \approx 2n$,
-ce qui transforme les complexit\'es donn\'ees 
-pr\'ec\'edemment en $O(n^3)$ pour la version par couleur et $O(n^3\log n)$ pour 
-la version par AVL. On peut donc d\'efinir l'ordre suivant selon la 
-vitesse d'ex\'ecution attendue des diff\'erentes versions de l'algorithme au 
-plus proche:
+ce qui transforme les complexit\'es donn\'ees pr\'ec\'edemment en $O(n^3)$ pour 
+la version par couleur et $O(n^3\log n)$ pour la version par AVL. On peut donc 
+d\'efinir l'ordre suivant selon la vitesse d'ex\'ecution attendue des 
+diff\'erentes versions de l'algorithme au plus proche:
 
 \begin{equation*}
   \texttt{na\"if} \prec \texttt{circulaire} \prec \texttt{AVL} \prec 
   \texttt{couleur}
 \end{equation*}
 
-On a dress\'e dans le graphique ci-dessous les courbes correspondant aux temps 
-d'ex\'ecutions de ces quatre versions. Ceci v\'erifie l'analyse faite 
+On a dress\'e, dans la figure \ref{fig:size_var}, les courbes correspondant aux 
+temps d'ex\'ecutions de ces quatre versions. Ceci v\'erifie l'analyse faite 
 auparavant.
 
-\begin{center}
-\begin{tikzpicture}[x=0.021cm,y=0.4cm]
-  \def\xmin{0}
-  \def\xmax{700}
-  \def\ymin{0}
-  \def\ymax{25}
-  
-  % axes
-  \draw[->] (\xmin,\ymin) -- (\xmax,\ymin);
-  \draw[->] (\xmin,\ymin) -- (\xmin,\ymax);
-  \draw (\xmax,\ymin) -- (\xmax,\ymax);
-  \draw (\xmax,\ymax) -- (\xmin,\ymax);
-  
-  % xticks and yticks
-  \foreach \x in {0,100,...,700}
-  {
-	\draw (\x,4pt) -- (\x,0pt)
-	node[anchor=north] {\x};
-	\draw (\x,\ymax) -- (\x,\ymax-0.4);
-  }
-  \foreach \y in {0,5,...,20}
-  {
-	\draw (4pt,\y) -- (0pt,\y) 
-	node[anchor=east] {\y};
-	\draw (\xmax,\y) -- (\xmax-4,\y);
-  }
-  
-  \node[anchor=mid,rotate=90] at (-45,13) {Temps d'ex\'ecution (en s) 
-	\tikz[baseline]{\draw[yshift=.5ex,->](0,0)--(20,0);}};
-  \node[anchor=mid] at (370,-2.5) {Longueur de la grille carr\'ee
-	\tikz[baseline]{\draw[yshift=.5ex,->](0,0)--(20,0);}};
-  \node[anchor=mid] at (350,26) {Comparaison des versions de l'algorithme au 
-plus proche};
-  
-  %legend
-  \node[anchor=south west,color=blue] at (550,4) {\footnotesize AVL 
-	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(54.5,0);}};
-  \node[anchor=south west,color=red] at (550,3) {\footnotesize Couleur 
-	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(30,0);}};
-  \node[anchor=south west,color=cyan] at (550,2) {\footnotesize Circulaire 
-	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(16,0);}};
-  \node[anchor=south west,color=black] at (550,1) {\footnotesize Na\"if 
-	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(56,0);}};
-  
-  %curves
-  \draw[color=blue] plot[smooth] file {../data/size/avl.txt};
-  \draw[color=red] plot[smooth] file {../data/size/couleur.txt};
-  \draw[color=cyan] plot[smooth] file {../data/size/circulaire.txt};
-  \draw[color=black] plot[smooth] file {../data/size/naif.txt};
-%   \draw[color=black, samples:1000, domain=\xmin:\xmax-10] plot (\x, 
-%   {(\x/100)^3/10});
-%   \draw[color=green, samples:1000, domain=\xmin:\xmax-10] plot (\x, 
-%   {(log2 \x)*(\x/100)^3/100});
-  
-\end{tikzpicture}
-\end{center}
+\begin{comment}
+% \begin{center}
+% \begin{tikzpicture}[x=0.021cm,y=0.4cm]
+%   \def\xmin{0}
+%   \def\xmax{700}
+%   \def\ymin{0}
+%   \def\ymax{25}
+%   
+%   % axes
+%   \draw[->] (\xmin,\ymin) -- (\xmax,\ymin);
+%   \draw[->] (\xmin,\ymin) -- (\xmin,\ymax);
+%   \draw (\xmax,\ymin) -- (\xmax,\ymax);
+%   \draw (\xmax,\ymax) -- (\xmin,\ymax);
+%   
+%   % xticks and yticks
+%   \foreach \x in {0,100,...,700}
+%   {
+% 	\draw (\x,4pt) -- (\x,0pt)
+% 	node[anchor=north] {\x};
+% 	\draw (\x,\ymax) -- (\x,\ymax-0.4);
+%   }
+%   \foreach \y in {0,5,...,20}
+%   {
+% 	\draw (4pt,\y) -- (0pt,\y) 
+% 	node[anchor=east] {\y};
+% 	\draw (\xmax,\y) -- (\xmax-4,\y);
+%   }
+%   
+%   \node[anchor=mid,rotate=90] at (-45,13) {Temps d'ex\'ecution (en s) 
+% 	\tikz[baseline]{\draw[yshift=.5ex,->](0,0)--(20,0);}};
+%   \node[anchor=mid] at (370,-2.5) {Longueur de la grille carr\'ee
+% 	\tikz[baseline]{\draw[yshift=.5ex,->](0,0)--(20,0);}};
+%   \node[anchor=mid] at (350,26) {Comparaison des versions de l'algorithme au 
+% plus proche};
+%   
+%   %legend
+%   \node[anchor=south west,color=blue] at (550,4) {\footnotesize AVL 
+% 	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(54.5,0);}};
+%   \node[anchor=south west,color=red] at (550,3) {\footnotesize Couleur 
+% 	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(30,0);}};
+%   \node[anchor=south west,color=cyan] at (550,2) {\footnotesize Circulaire 
+% 	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(16,0);}};
+%   \node[anchor=south west,color=black] at (550,1) {\footnotesize Na\"if 
+% 	\tikz[baseline]{\draw[yshift=.7ex](0,0)--(56,0);}};
+%   
+%   %curves
+%   \draw[color=blue] plot[smooth] file {../data/size/avl.txt};
+%   \draw[color=red] plot[smooth] file {../data/size/couleur.txt};
+%   \draw[color=cyan] plot[smooth] file {../data/size/circulaire.txt};
+%   \draw[color=black] plot[smooth] file {../data/size/naif.txt};  
+% \end{tikzpicture}
+% \end{center}
+\end{comment}
+
+\begin{figure}[!h]
+  \centering
+  \captionsetup{justification=centering}
+  \begin{tikzpicture}
+	\begin{axis}[%
+	  width=14cm,
+	  grid=major,
+	  grid style={dashed,gray!30},
+	  xmin=0,
+	  xmax=700,
+	  ymin=0,
+	  xlabel={Longueur de la grille carr\'ee},
+	  ylabel={Temps d'ex\'ecution (en s)},
+	  legend entries={Naif, Circulaire, AVL, Couleur},
+	  legend style={nodes=right,at={(0.85,0.25)},anchor=north},
+	  scaled x ticks = true]
+	  \addplot [color=black,solid,line width=1.0pt] table[col sep=space] 
+	  {../data/size/naif.txt};
+	  \addplot [color=cyan,solid,line width=1.0pt] table[col sep=space] 
+	  {../data/size/circulaire.txt};
+	  \addplot [color=blue,solid,line width=1.0pt] table[col sep=space] 
+	  {../data/size/avl.txt};
+	  \addplot [color=red,solid,line width=1.0pt] table[col sep=space] 
+	  {../data/size/couleur.txt};
+	\end{axis}
+  \end{tikzpicture}
+  \caption[Les impl\'ementations de l'algorithme au plus proche]{Comparaison 
+des quatre versions de l'algorithme au plus proche pour des grilles de taille 
+variable}
+  \label{fig:size_var}
+\end{figure}
+
 
 \section{Nombre de couleurs variable}
-On a ensuite analys\'e l'impact du nombre de couleurs dans la grille, i.e.\ du 
-param\`etre $\alpha$, sur le temps d'ex\'ecution des algorithmes utilisant des 
-structures de donn\'ees additionnelles, \`a savoir des listes doublement 
+On a ensuite analys\'e l'impact du nombre de couleurs $c$ de la grille et, en 
+cons\'equence, celui du param\`etre $\alpha$, sur le temps d'ex\'ecution des 
+versions de l'algorithme au plus proche utilisant des structures de donn\'ees 
+additionnelles, \`a savoir des listes doublement 
 cha\^in\'ees et des arbres AVL.
 
-\begin{center}
-\begin{tikzpicture}[x=0.04cm,y=0.4cm]
-  \def\xmin{0}
-  \def\xmax{320}
-  \def\ymin{0}
-  \def\ymax{16}
-
-  % axes
-  \draw[->] (\xmin,\ymin) -- (\xmax,\ymin);
-  \draw[->] (\xmin,\ymin) -- (\xmin,\ymax);
-  \draw (\xmax,\ymin) -- (\xmax,\ymax);
-  \draw (\xmax,\ymax) -- (\xmin,\ymax);
+\begin{comment} 
+% \begin{center}
+% \begin{tikzpicture}[x=0.04cm,y=0.4cm]
+%   \def\xmin{0}
+%   \def\xmax{320}
+%   \def\ymin{0}
+%   \def\ymax{16}
+% 
+%   % axes
+%   \draw[->] (\xmin,\ymin) -- (\xmax,\ymin);
+%   \draw[->] (\xmin,\ymin) -- (\xmin,\ymax);
+%   \draw (\xmax,\ymin) -- (\xmax,\ymax);
+%   \draw (\xmax,\ymax) -- (\xmin,\ymax);
+%   
+%   % xticks and yticks
+%   \foreach \x in {0,50,...,300}
+%   {
+% 	\draw (\x,4pt) -- (\x,0pt)
+% 		node[anchor=north] {\x};
+% 	\draw (\x,\ymax) -- (\x,\ymax-0.4);
+%   }
+%   \foreach \y in {0,2,...,14}
+%   {
+% 	\draw (4pt,\y) -- (0pt,\y) 
+%      	node[anchor=east] {\y};
+% 	\draw (\xmax,\y) -- (\xmax-4,\y);
+%   }
+% 
+%   \node[anchor=mid,rotate=90] at (-25,8) {Temps d'ex\'ecution (en s)
+% 	\tikz[baseline]{\draw[yshift=.5ex,->](0,0)--(20,0);}};
+%   \node[anchor=mid] at (170,-2.5) {Nombre de couleurs 
+% 	\tikz[baseline]{\draw[yshift=.5ex,->](0,0)--(20,0);}};
+%   \node[anchor=mid] at (150,17) {Comparaison pour une grille carr\'ee de 
+% longueur 300};
+%   		
+%   %legend
+%   \node[anchor=south west,color=blue] at (240,14) {\footnotesize AVL 
+% 	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(27.5,0);}};
+%   \node[anchor=south west,color=red] at (240,13) {\footnotesize Couleur 
+% 	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(15,0);}};
+%   \node[anchor=south west,color=black] at (240,10.5) {\footnotesize 
+% 	$y=\dfrac{30}{\sqrt x}$ 
+% 	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(15,0);}};
+%   
+%   %curves
+%   \draw[color=blue] plot[smooth] file {../data/colour/300_avl.txt};
+%   \draw[color=red] plot[smooth] file {../data/colour/300_couleur.txt};
+%   \draw[color=black, samples=200, domain=5:300] plot (\x, 
+%   %{47.0342020747*\x^-0.5855815001});
+%   {30/(sqrt(\x))}); 
+% 
+% \end{tikzpicture}
+% \end{center}
+\end{comment} 
   
-  % xticks and yticks
-  \foreach \x in {0,50,...,300}
-  {
-	\draw (\x,4pt) -- (\x,0pt)
-		node[anchor=north] {\x};
-	\draw (\x,\ymax) -- (\x,\ymax-0.4);
-  }
-  \foreach \y in {0,2,...,14}
-  {
-	\draw (4pt,\y) -- (0pt,\y) 
-     	node[anchor=east] {\y};
-	\draw (\xmax,\y) -- (\xmax-4,\y);
-  }
+\begin{figure}[!h]
+  \centering
+  \captionsetup{justification=centering}
+  \begin{tikzpicture}
+	\begin{axis}[%
+	  width=14cm,
+	  grid=major,
+	  grid style={dashed,gray!30},
+	  xmin=0,
+	  xmax=300,
+	  xlabel={Nombre de couleurs},
+	  ylabel={Temps d'ex\'ecution (en s)},
+	  legend entries={AVL,Couleur,$y=\frac{30}{\sqrt x}$},
+	  legend style={nodes=right},
+	  scaled x ticks = true]
+	  \addplot [color=blue,solid,line width=1.0pt] table[col sep=space] 
+	  {../data/colour/300_avl.txt};
+	  \addplot [color=red,solid,line width=1.0pt] table[col sep=space] 
+	  {../data/colour/300_couleur.txt};
+	  \addplot [color=black,solid,line width=1.0pt,domain=5:300] 
+{30/(sqrt(\x))};
+	\end{axis}
+  \end{tikzpicture}
+  \caption[L'impact du nombre de couleurs]{Comparaison des deux 
+impl\'ementations les plus rapides de l'algorithme au plus proche pour une 
+grille carr\'ee de taille 300 avec le nombre de couleurs variable}
+  \label{fig:col_var}
+\end{figure}
 
-  \node[anchor=mid,rotate=90] at (-25,8) {Temps d'ex\'ecution (en s)
-	\tikz[baseline]{\draw[yshift=.5ex,->](0,0)--(20,0);}};
-  \node[anchor=mid] at (170,-2.5) {Nombre de couleurs 
-	\tikz[baseline]{\draw[yshift=.5ex,->](0,0)--(20,0);}};
-  \node[anchor=mid] at (150,17) {Comparaison pour une grille carr\'ee de 
-longueur 300};
-  		
-  %legend
-  \node[anchor=south west,color=blue] at (240,14) {\footnotesize AVL 
-	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(27.5,0);}};
-  \node[anchor=south west,color=red] at (240,13) {\footnotesize Couleur 
-	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(15,0);}};
-  \node[anchor=south west,color=black] at (240,10.5) {\footnotesize 
-	$y=\dfrac{30}{\sqrt x}$ 
-	\tikz[baseline]{\draw[yshift=.8ex](0,0)--(15,0);}};
-  
-  %curves
-  \draw[color=blue] plot[smooth] file {../data/colour/300_avl.txt};
-  \draw[color=red] plot[smooth] file {../data/colour/300_couleur.txt};
-  \draw[color=black, samples=200, domain=5:300] plot (\x, 
-  %{47.0342020747*\x^-0.5855815001});
-  {30/(sqrt(\x))}); 
+On s'aper\c{c}oit dans la figure \ref{fig:col_var} que le nombre de couleurs a 
+un fort impact sur le temps d'ex\'ecution de la version par couleurs de 
+l'algorithme au plus proche. De plus, la courbe dessin\'ee ressemble beaucoup 
+\`a celle de la fonction $f(x) = \frac{30}{\sqrt x}$.
 
-\end{tikzpicture}
-\end{center}
+Dans cette exp\'erimentation, on a $\alpha = \dfrac{300^2}{c}$. On voit ainsi 
+que les r\'esultats obtenus correspondent \`a l'analyse th\'eorique de la 
+complexit\'e faite dans la section \ref{par_couleur}.
 
 \section{Vecteur avec une case par couleur}
-On a finalement test\'e nos algorithmes pour le cas particulier d'une 
+On a test\'e nos algorithmes pour le cas particulier d'une 
 grille r\'eduite \`a un vecteur avec autant de cases que de couleurs.
+Les fonctions test\'es ont \'et\'e une imp\'ementation de l'algorithme 
+au plus proche, \`a savoir celle par AVL, les fonctions de r\'esolution par 
+graphes, et celle de Daniel Graf.
+
+\begin{figure}[!h]
+\centering
+\captionsetup{justification=centering}
+\begin{tikzpicture}
+  \begin{axis}[%
+	width=14cm,
+	grid=major,
+	grid style={dashed,gray!30},
+	xmin=0,
+	xmax=1000,
+	xlabel={Longueur du vecteur},
+	ylabel={Proportion des nombres de pas},
+	legend entries={Longue,Moyenne},
+	legend style={nodes=right},
+	scaled x ticks = true,
+	y tick label style={/pgf/number format/.cd,precision=3}]
+	\addplot [color=blue,solid,line width=1.0pt] table[col sep=space] 
+{../data/vector/ucpc_avl.txt};
+	\addplot [color=red,solid,line width=1.0pt] table[col sep=space] 
+{../data/vector/ucpc_coupes.txt};
+  \end{axis}
+\end{tikzpicture}
+\caption[Un vecteur avec une case par couleur]{Comparaison des algorithmes 
+pour le cas particulier d'un vecteur avec une case par couleur par rapport au 
+nombre de pas des solutions}
+\label{fig:vect_1cpc}
+\end{figure}
+
+L'exp\'erimentation a consist\'e \`a moyenner les nombres de pas obtenus 
+pour 10 instances distinctes d'un vecteur pour chaque algorithme.
+\`A l'issue celle-ci, on a obtenu trois cat\'egories de algorithmes selon le 
+nombre moyen de pas r\'ealis\'es : longue, moyenne et rapide. La cat\'egorie 
+des algorithmes les plus lents comprend l'algorithme au plus proche et nos 
+trois fonctions de la section \ref{methcirc}. Le seul algorithme moyennement 
+rapide est notre m\'ethode de r\'esolution par graphes avec des coupes. La 
+fonction la plus rapide a \'et\'e celle de Daniel Graf comme pr\'evu.
+
+Bien que distinctes, les valeurs \'etaient si proches les unes des autres qu'un 
+graphique n'aurait pas permis de bien appr\'ecier les diff\'erences. C'est 
+pourquoi on a plut\^ot graphiqu\'e la proportion des r\'esultats des deux 
+cat\'egories plus lentes par rapport \`a celui de la plus rapide. Ceci 
+correspond \`a la figure \ref{fig:vect_1cpc}.
+
+On d\'eduit de cette figure que la notion de coupure des circuits est tr\`es 
+effective, surtout dans le cas des vecteurs de moins de 200 cases.
+
+\section{Cas \enquote{g\'en\'eral}}
+On a finalement d\'ecid\'e de comparer les performances de nos m\'ethodes de 
+r\'esolution par graphes avec l'algorithme au plus proche dans le m\^eme cas 
+que l'exp\'erimentation de la section \ref{size_var}.
+
+\begin{figure}[!h]
+  \centering
+  \captionsetup{justification=centering}
+  \begin{tikzpicture}
+	\begin{axis}[%
+	  width=14cm,
+	  grid=major,
+	  grid style={dashed,gray!30},
+	  xmin=0,
+	  xmax=200,
+	  ymin=0,
+	  xlabel={Longueur de la grille carr\'ee},
+	  ylabel={Nombre moyen de pas},
+	  legend entries={Au plus proche, Par graphe (am\'elior\'e)},
+	  legend style={nodes=right},
+	  scaled x ticks = true
+	  ]
+	  \addplot [color=blue,solid,line width=1.0pt] table[col sep=space] 
+	  {../data/general/avl.txt};
+	  \addplot [color=red,solid,line width=1.0pt] table[col sep=space] 
+	  {../data/general/g_ameliore.txt};
+	\end{axis}
+  \end{tikzpicture}
+  \caption[Le cas \enquote{g\'en\'eral}]{Comparaison des algorithmes 
+	de r\'esolution par graphe (am\'elior\'e) et au plus proche pour le 
+cas d'une grille carr\'ee avec autant de couleurs que sa longueur}
+  \label{fig:gene}
+\end{figure}
+
+L'exp\'erimentation a consist\'e \`a moyenner les nombres de pas obtenus 
+pour 10 instances distinctes d'une grille carr\'ee pour chaque algorithme.
+\`A l'issue celle-ci, on a obtenu la relation d'ordre suivante selon le 
+nombre de pas moyen :
+
+\begin{equation*}
+  \texttt{au plus proche} \prec \texttt{g\_coupes} \prec 
+\texttt{g\_g\'en\'eral}   \prec \texttt{g\_am\'elior\'e} \prec 
+\texttt{g\_na\"if}
+\end{equation*}
+
+Ceci correspond bien \`a l'analyse faite dans les deux parties pr\'ec\'edentes.
+On voit dans la figure \ref{fig:gene} les courbes de deux algorithmes dont les 
+performances sont tr\`es \'eloign\'ees, ce qui nous permet de visualiser les 
+r\'esultats. En effet, les deux algorithmes plus longs comportent des valeurs 
+tr\`es proches. Il en est de m\^eme pour les trois meilleurs.
 
 \newpage
 
 \part*{Conclusion}
-...
+Ce projet a \'et\'e tr\`es enrichissant pour nous car il nous a permis de 
+mettre en pratique les connaissances th\'eoriques vues en cours et des 
+bonnes pratiques de programmation. Plus pr\'ecis\'ement, on a appris les 
+d\'etails d'impl\'ementation de trois structures de donn\'ees, \`a savoir les 
+listes cha\^ines, les arbres AVL et les piles.
+
+M\^eme si il n'\'etait pas demand\'e, on a profit\'e de cette exp\'erience pour 
+utiliser \texttt{git}, un outil de gestion de versions collaboratif, qui 
+nous a permis de travailler sur le m\^eme syst\`eme de fichiers depuis des 
+postes distants. Ceci a signifi\'e une grande aide au travail en \'equipe.
+
+Finalement, ce projet nous a fait prendre conscience qu'il y a des probl\`emes 
+informatiques pour lesquels on n'a toujours pas de solutions optimales. C'est 
+notamment le cas des probl\`emes NP-difficiles dont celui du robot trieur fait 
+partie. On a ainsi appris que l'on peut toujours trouver des solutions 
+approch\'ees en temps polyn\^omiale qui satisfont nos besoins 
+d'impl\'ementation.
+
 \addcontentsline{toc}{part}{Conclusion}
 
 \end{document}

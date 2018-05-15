@@ -8,7 +8,9 @@
 #include "../include/src/UneCaseParCouleur.h"
 #include "../include/lib/API_AffGrille.h"
 
-extern sr_algorithme gen_algorithmes[NB_APP + NB_GRAPHE + 1];
+#define NB_ALGO (NB_APP + NB_GRAPHE + 1)
+
+extern sr_algorithme tous_algorithmes[NB_ALGO];
 
 void menu()
 {
@@ -23,7 +25,7 @@ void menu()
   printf("7.- Par graphe (une case par couleur / ameliore)\n");
   printf("8.- Par graphe (general)\n");
   printf("9.- Par graphe (par coupes)\n");
-  printf("Entrez votre choix [0-%d] : ", NB_APP + NB_GRAPHE + 1);
+  printf("Entrez votre choix [0-%d] : ", NB_ALGO);
 }
 
 int main(int argc,char* *argv){
@@ -33,7 +35,7 @@ int main(int argc,char* *argv){
   int ch;
   clock_t temps_initial, temps_final;
   double temps_exe;
-  char *nom_algorithmes[NB_APP + NB_GRAPHE + 1] = {"naif", "circulaire", "par couleur", \
+  char *nom_algorithmes[NB_ALGO] = {"naif", "circulaire", "par couleur", \
 						   "par avl", "vecteur avec une case par couleur", \
 						   "par graphe naif", "par graphe ameliore", \
 						   "par graphe general", "par graphe par coupes"};
@@ -64,14 +66,14 @@ int main(int argc,char* *argv){
   do {
     menu();
     scanf(" %d", &ch);
-    if (ch < 0 || ch > NB_APP + NB_GRAPHE + 1) {
-      fprintf(stderr, "Erreur : Veuillez saisir un choix valide [0-%d]\n\n", NB_APP + NB_GRAPHE + 1);
+    if (ch < 0 || ch > NB_ALGO) {
+      fprintf(stderr, "Erreur : Veuillez saisir un choix valide [0-%d]\n\n", NB_ALGO);
     } else if (ch != 0) {
       Gene_Grille(&G,graine);
       Solution_init(&S);
 
       temps_initial = clock();
-      (gen_algorithmes[ch-1])(&G, &S, graine);
+      (tous_algorithmes[ch-1])(&G, &S, graine);
       temps_final = clock();
       temps_exe = ((double) (temps_final - temps_initial))/((double) CLOCKS_PER_SEC);
       printf("Le solveur %s a fini en %7.6e secondes\n\n", nom_algorithmes[ch-1], temps_exe);

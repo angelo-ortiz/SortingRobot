@@ -59,8 +59,8 @@ int main (int argc, char* *argv)
   
   n = DEB;
   do {
-    G.n = n;
     G.m = n;
+    G.n = n;
     G.nbcoul = n;
     Grille_allocation(&G);
     

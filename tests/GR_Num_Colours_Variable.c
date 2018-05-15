@@ -59,8 +59,8 @@ int main (int argc, char* *argv)
     }
   }
 
-  G.n = n;
   G.m = n;
+  G.n = n;
   nbcoul = DEB;
   do {
     G.nbcoul = nbcoul;
